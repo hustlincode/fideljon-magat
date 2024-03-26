@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "/FideljonPortfolio/static/css/main.a6c015a7.css",
-    "main.js": "/FideljonPortfolio/static/js/main.21ceff57.js",
+    "main.js": "/FideljonPortfolio/static/js/main.99d5aa16.js",
     "static/js/453.ace21015.chunk.js": "/FideljonPortfolio/static/js/453.ace21015.chunk.js",
     "static/media/avatar.svg": "/FideljonPortfolio/static/media/avatar.8d0a9f1785f5cc9702a39fda52cd6479.svg",
-    "static/media/Fideljon_Magat-BSIT_PSAU.pdf": "/FideljonPortfolio/static/media/Fideljon_Magat-BSIT_PSAU.073c107995406a07f4f5.pdf",
+    "static/media/Fideljon_Magat-BSIT_PSAU.pdf": "/FideljonPortfolio/static/media/Fideljon_Magat-BSIT_PSAU.71056abfbcca162ccd05.pdf",
     "static/media/home-main.svg": "/FideljonPortfolio/static/media/home-main.359935c39288e92d4dba5c9f2445b91d.svg",
     "static/media/about.png": "/FideljonPortfolio/static/media/about.aee0f771fbfc1e7b8fa8.png",
     "static/media/slfreemed.png": "/FideljonPortfolio/static/media/slfreemed.284db7a560ebb80ca592.png",
@@ -13,11 +13,11 @@
     "static/media/pre.svg": "/FideljonPortfolio/static/media/pre.4410c5baaa673cc131da.svg",
     "index.html": "/FideljonPortfolio/index.html",
     "main.a6c015a7.css.map": "/FideljonPortfolio/static/css/main.a6c015a7.css.map",
-    "main.21ceff57.js.map": "/FideljonPortfolio/static/js/main.21ceff57.js.map",
+    "main.99d5aa16.js.map": "/FideljonPortfolio/static/js/main.99d5aa16.js.map",
     "453.ace21015.chunk.js.map": "/FideljonPortfolio/static/js/453.ace21015.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a6c015a7.css",
-    "static/js/main.21ceff57.js"
+    "static/js/main.99d5aa16.js"
   ]
 }
