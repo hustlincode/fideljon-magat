@@ -398,6 +398,14 @@ button:focus {
   color: #700c86 !important;
 }
 
+@media (max-width: 400px) {
+  .home-social-icons  {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: .9em !important;
+  }
+}
+
 /* --------- */
 /* Footer */
 /* --------- */
@@ -472,7 +480,11 @@ button:focus {
   overflow: hidden !important;
   box-shadow: 0 4px 4px 5px rgba(129, 72, 144, 0.561) !important;
 }
-
+@media (max-width: 400px){
+  .project-card-view p{
+    font-size: .9rem;
+  }
+}
 .blog-card {
   padding-top: 50px !important;
   padding-bottom: 50px !important;
@@ -570,6 +582,11 @@ button:focus {
     margin: 10px !important;
   }
 }
+@media (max-width: 375px) {
+  .blockquote {
+    font-size: 1rem!important;
+  }
+}
 
 .tech-icons:hover {
   transform: scale(1.05) !important;
@@ -596,6 +613,11 @@ button:focus {
 @media (max-width: 767px) {
   .about-img {
     padding-top: 0 !important;
+  }
+}
+@media (max-width: 400px){
+  .react-activity-calendar footer{
+    font-size: .5rem!important;
   }
 }
 /* --------- */

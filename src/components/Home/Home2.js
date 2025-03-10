@@ -5,6 +5,7 @@ import Tilt from "react-parallax-tilt";
 import {
   AiFillGithub,
   AiFillInstagram,
+  AiFillFacebook,
 } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedinIn  } from "react-icons/fa";
@@ -19,32 +20,29 @@ function Home2() {
               LET ME <span className="purple"> INTRODUCE </span> MYSELF
             </h1>
             <p className="home-about-body">
-              I fell in love with programming and I have at least earned
-              something, I think… 🤷🤑👌🏻
+              I fell in love with programming and have gained substantial experience in the field.
               <br />
-              <br />I am fluent in classics like
+              <br />I am proficient in
               <i>
-                <b className="purple"> Java, Javascript and Python. </b>
+                <b className="purple"> PHP, JavaScript, and MySQL. </b>
               </i>
               <br />
               <br />
-              My field of Interest's are building new &nbsp;
+              My interests include developing new &nbsp;
               <i>
-                <b className="purple">Web Technologies and Products </b>
+                <b className="purple">Web Technologies and Products. </b>
               </i>
               <br />
               <br />
-              Whenever possible, I also apply my passion for developing products
-              with <b className="purple">Node.js</b> and
+              I am passionate about building products using <b className="purple">Node.js</b> and
               <i>
                 <b className="purple">
-                  {" "}
-                  Modern Javascript Library and Frameworks
+                  {" "}modern JavaScript libraries and frameworks
                 </b>
               </i>
-              &nbsp; like
+              &nbsp; such as
               <i>
-                <b className="purple"> React.js and Next.js</b>
+                <b className="purple"> React.js and Next.js.</b>
               </i>
             </p>
           </Col>
@@ -73,6 +71,16 @@ function Home2() {
               </li>
               <li className="social-icons">
                 <a
+                  href="https://www.linkedin.com/in/fidel-jon-magat"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="icon-colour  home-social-icons"
+                >
+                  <FaLinkedinIn />
+                </a>
+              </li>
+              <li className="social-icons">
+                <a
                   href="https://twitter.com/fideljon_"
                   target="_blank"
                   rel="noreferrer"
@@ -83,22 +91,22 @@ function Home2() {
               </li>
               <li className="social-icons">
                 <a
-                  href="https://www.linkedin.com/in/fidel-jon-magat-558ba3285/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="icon-colour  home-social-icons"
-                >
-                  <FaLinkedinIn />
-                </a>
-              </li>
-              <li className="social-icons">
-                <a
                   href="https://www.instagram.com/fideljon"
                   target="_blank"
                   rel="noreferrer"
                   className="icon-colour home-social-icons"
                 >
                   <AiFillInstagram />
+                </a>
+              </li>
+              <li className="social-icons">
+                <a
+                  href="https://www.facebook.com/maginoo21"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="icon-colour home-social-icons"
+                >
+                  <AiFillFacebook />
                 </a>
               </li>
             </ul>

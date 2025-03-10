@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { ImPointRight } from "react-icons/im";
 
 function AboutCard() {
   return (
@@ -8,29 +7,21 @@ function AboutCard() {
       <Card.Body>
         <blockquote className="blockquote mb-0">
           <p style={{ textAlign: "justify" }}>
-            Hi Everyone, I am <span className="purple">Fidel Jon Magat </span>
-            from <span className="purple"> Angeles City, Pampanga.</span>
-            <br /> I am a final year student pursuing an Bachelor of Science in Information Technology (BSIT)
+            Hello, I am <span className="purple">Fidel Jon Magat</span> from <span className="purple">Angeles City, Pampanga</span>.
+            <br />
+            <br /> I have a Bachelor's degree in Information Technology from Pampanga State Agriculture University.
+            <br />
+            <br /> I have a strong foundation in software engineering principles and full-stack development, with a focus on delivering high-quality software solutions in a timely manner.
+            <br />
+            <br />With a strong foundation in software engineering principles, I specialize in full-stack development, database management, and cloud computing.
             <br />
             <br />
-            Apart from coding, some other activities that I love to do!
+            <br />
           </p>
-          <ul>
-            <li className="about-activity">
-              <ImPointRight /> Playing Games
-            </li>
-            <li className="about-activity">
-              <ImPointRight /> Watching Kdramas
-            </li>
-            <li className="about-activity">
-              <ImPointRight /> Basketball games
-            </li>
-          </ul>
-
           <p style={{ color: "rgb(155 126 172)" }}>
-            "DON'T STOP when you're tired, STOP when you're DONE"{" "}
+            "Quality is never an accident; it is always the result of consistency, sincere effort, intelligent direction and skillful execution."{" "}
           </p>
-          <footer className="blockquote-footer">Fideljon</footer>
+          <footer className="blockquote-footer">Fideljon Magat</footer>
         </blockquote>
       </Card.Body>
     </Card>

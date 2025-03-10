@@ -4,6 +4,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import {
   AiFillGithub,
   AiFillInstagram,
+  AiFillFacebook,
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 
@@ -59,6 +60,16 @@ function Footer() {
                 rel="noopener noreferrer"
               >
                 <AiFillInstagram />
+              </a>
+            </li>
+            <li className="social-icons">
+              <a
+                href="https://www.facebook.com/maginoo21"
+                style={{ color: "white" }}
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <AiFillFacebook />
               </a>
             </li>
           </ul>
