@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.6b78dfcc.css",
-    "main.js": "/static/js/main.f2dbe84d.js",
-    "static/js/453.ace21015.chunk.js": "/static/js/453.ace21015.chunk.js",
-    "static/media/FJM.png": "/static/media/FJM.e1ed39b77004b58cbbdb.png",
-    "static/media/avatar.svg": "/static/media/avatar.8d0a9f1785f5cc9702a39fda52cd6479.svg",
-    "static/media/Fideljon_Magat-BSIT_PSAU.pdf": "/static/media/Fideljon_Magat-BSIT_PSAU.4ff52f6344597390f6e6.pdf",
-    "static/media/home-main.svg": "/static/media/home-main.359935c39288e92d4dba5c9f2445b91d.svg",
-    "static/media/about.png": "/static/media/about.aee0f771fbfc1e7b8fa8.png",
-    "static/media/slfreemed.png": "/static/media/slfreemed.c0e06fc63a5333478e8f.png",
-    "static/media/home-bg.jpg": "/static/media/home-bg.dc52d5d40a40b13154b0.jpg",
-    "static/media/logo.png": "/static/media/logo.97870dc45606920e9330.png",
-    "static/media/pre.svg": "/static/media/pre.4410c5baaa673cc131da.svg",
-    "index.html": "/index.html",
-    "main.6b78dfcc.css.map": "/static/css/main.6b78dfcc.css.map",
-    "main.f2dbe84d.js.map": "/static/js/main.f2dbe84d.js.map",
-    "453.ace21015.chunk.js.map": "/static/js/453.ace21015.chunk.js.map"
+    "main.css": "/FideljonPortfolio/static/css/main.2eea332d.css",
+    "main.js": "/FideljonPortfolio/static/js/main.bbc693f5.js",
+    "static/js/453.ace21015.chunk.js": "/FideljonPortfolio/static/js/453.ace21015.chunk.js",
+    "static/media/FJM.png": "/FideljonPortfolio/static/media/FJM.e1ed39b77004b58cbbdb.png",
+    "static/media/avatar.svg": "/FideljonPortfolio/static/media/avatar.8d0a9f1785f5cc9702a39fda52cd6479.svg",
+    "static/media/Fideljon_Magat-BSIT_PSAU.pdf": "/FideljonPortfolio/static/media/Fideljon_Magat-BSIT_PSAU.4ff52f6344597390f6e6.pdf",
+    "static/media/home-main.svg": "/FideljonPortfolio/static/media/home-main.359935c39288e92d4dba5c9f2445b91d.svg",
+    "static/media/about.png": "/FideljonPortfolio/static/media/about.aee0f771fbfc1e7b8fa8.png",
+    "static/media/slfreemed.png": "/FideljonPortfolio/static/media/slfreemed.c0e06fc63a5333478e8f.png",
+    "static/media/home-bg.jpg": "/FideljonPortfolio/static/media/home-bg.dc52d5d40a40b13154b0.jpg",
+    "static/media/logo.png": "/FideljonPortfolio/static/media/logo.97870dc45606920e9330.png",
+    "static/media/pre.svg": "/FideljonPortfolio/static/media/pre.4410c5baaa673cc131da.svg",
+    "index.html": "/FideljonPortfolio/index.html",
+    "main.2eea332d.css.map": "/FideljonPortfolio/static/css/main.2eea332d.css.map",
+    "main.bbc693f5.js.map": "/FideljonPortfolio/static/js/main.bbc693f5.js.map",
+    "453.ace21015.chunk.js.map": "/FideljonPortfolio/static/js/453.ace21015.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6b78dfcc.css",
-    "static/js/main.f2dbe84d.js"
+    "static/css/main.2eea332d.css",
+    "static/js/main.bbc693f5.js"
   ]
 }
