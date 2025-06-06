@@ -1,15 +1,13 @@
-# Ignore everything except what's needed for build
+# Only ignore source files, keep build dependencies
 src/
-public/
 .vscode/
-.git/
-node_modules/
-*.md
+README.md
 .env*
+*.md
 .gitignore
-yarn.lock
 package-lock.json
 
-# Only keep these files
-!package.json
-!vercel.json
+# DON'T ignore these - they're needed for build:
+# public/ - contains index.html template
+# package.json - needed for dependencies
+# node_modules/ - will be ignored by default
