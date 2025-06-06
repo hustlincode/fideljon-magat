@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import ContactForm from "./ContactForm";
 import myImg from "../../Assets/avatar.svg";
 import Tilt from "react-parallax-tilt";
 import {
@@ -8,7 +9,81 @@ import {
   AiFillFacebook,
 } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";
-import { FaLinkedinIn  } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
+import { 
+  FaBriefcase, 
+  FaGraduationCap, 
+  FaCode, 
+  FaUsers, 
+  FaBuilding, 
+  FaAward,
+  FaRocket,
+  FaPaperPlane,
+  FaUser,
+  FaEnvelope,
+  FaComment
+} from "react-icons/fa";
+
+// Timeline Component
+const CareerTimeline = () => {
+  const experiences = [
+    {
+      title: "Junior Software Developer",
+      company: "Servo IT Solutions OPC",
+      year: "2025",
+      icon: <FaBuilding />,
+      type: "work"
+    },
+    {
+      title: "Associate Software Developer",
+      company: "Servo IT Solutions OPC",
+      year: "2024",
+      icon: <FaBuilding />,
+      type: "work"
+    },
+    {
+      title: "BS Information Technology",
+      company: "Pampanga State Agricultural University",
+      year: "2024",
+      icon: <FaGraduationCap />,
+      type: "education"
+    },
+    {
+      title: "Hello World! 👋",
+      company: "Wrote my first line of code",
+      year: "2015",
+      icon: <FaCode />,
+      type: "milestone"
+    },
+  ];
+
+  return (
+    <div className="career-timeline-container">
+      <h1 style={{ fontSize: "2.6em", color: "#fff", textAlign: "center", marginBottom: "50px" }}>
+        MY <span className="purple">CAREER</span> JOURNEY
+      </h1>
+      
+      <div className="timeline-wrapper">
+        <div className="timeline-line"></div>
+        
+        {experiences.map((exp, index) => (
+          <div key={index} className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}>
+            <div className="timeline-content">
+              <div className="timeline-icon">
+                {exp.icon}
+              </div>
+              <div className="timeline-card">
+                <div className="timeline-year">{exp.year}</div>
+                <h3 className="timeline-title">{exp.title}</h3>
+                <p className="timeline-company">{exp.company}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 function Home2() {
   return (
@@ -50,6 +125,17 @@ function Home2() {
             <Tilt>
               <img src={myImg} className="img-fluid" alt="avatar" />
             </Tilt>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} className="home-career-timeline">
+            <CareerTimeline />
+          </Col>
+        </Row>
+        {/* NEW CONTACT FORM SECTION */}
+        <Row>
+          <Col md={12} className="home-contact-form">
+            <ContactForm />
           </Col>
         </Row>
         <Row>
@@ -116,4 +202,5 @@ function Home2() {
     </Container>
   );
 }
+
 export default Home2;

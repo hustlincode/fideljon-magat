@@ -398,6 +398,339 @@ button:focus {
   color: #700c86 !important;
 }
 
+.career-timeline-container {
+  padding: 50px 0;
+  position: relative;
+}
+
+.timeline-wrapper {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #c770f0, #623686);
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  margin: 40px 0;
+  width: 50%;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+  padding-right: 40px;
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+  padding-left: 40px;
+}
+
+.timeline-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-item.left .timeline-content {
+  flex-direction: row-reverse;
+}
+
+.timeline-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #c770f0, #623686);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  z-index: 10;
+}
+
+.timeline-item.left .timeline-icon {
+  right: -75px;
+  left: auto;
+}
+
+.timeline-item.right .timeline-icon {
+  left: -40px;
+}
+
+.timeline-card {
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(199, 112, 240, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+  margin: 0 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+}
+
+.timeline-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(199, 112, 240, 0.2);
+  border-color: rgba(199, 112, 240, 0.4);
+}
+
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+}
+
+.timeline-item.left .timeline-card::before {
+  right: -20px;
+  border-left-color: rgba(199, 112, 240, 0.2);
+  transform: translateY(-50%);
+}
+
+.timeline-item.right .timeline-card::before {
+  left: -20px;
+  border-right-color: rgba(199, 112, 240, 0.2);
+  transform: translateY(-50%);
+}
+
+.timeline-year {
+  background: linear-gradient(135deg, #c770f0, #623686);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.timeline-title {
+  color: white;
+  font-size: 1.4em;
+  margin: 10px 0;
+}
+
+.timeline-company {
+  color: #c770f0;
+  font-size: 1.1em;
+  margin: 0;
+}
+
+.contact-form-container {
+  padding: 80px 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-form-wrapper {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(199, 112, 240, 0.2);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #c770f0;
+  font-size: 16px;
+  z-index: 2;
+}
+
+.textarea-icon {
+  top: 15px;
+  align-self: flex-start;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 15px 45px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(199, 112, 240, 0.3);
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #c770f0;
+  box-shadow: 0 0 20px rgba(199, 112, 240, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #c770f0, #623686);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(199, 112, 240, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.status-message {
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.status-message.success {
+  background: rgba(40, 167, 69, 0.2);
+  border: 1px solid rgba(40, 167, 69, 0.5);
+  color: #28a745;
+}
+
+.status-message.error {
+  background: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  color: #dc3545;
+}
+
+@media (max-width: 768px) {
+  .timeline-line {
+    left: 30px;
+  }
+
+  .timeline-item {
+    width: 100%;
+    left: 0 !important;
+    text-align: left !important;
+    padding-left: 80px !important;
+    padding-right: 0 !important;
+  }
+
+  .timeline-content {
+    flex-direction: row !important;
+  }
+
+  .timeline-icon {
+    left: -70px !important;
+    right: auto !important;
+  }
+
+  .timeline-card {
+    margin: 0 !important;
+  }
+
+  .timeline-card::before {
+    left: -20px !important;
+    right: auto !important;
+    border-right-color: rgba(199, 112, 240, 0.2) !important;
+    border-left-color: transparent !important;
+  }
+   .contact-form-container {
+    padding: 40px 20px;
+  }
+  
+  .contact-form-wrapper {
+    padding: 30px 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 12px 40px;
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 400px) {
   .home-social-icons  {
     width: 30px !important;
