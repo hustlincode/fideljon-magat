@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ContactForm from "./ContactForm";
 import myImg from "../../Assets/avatar.svg";
@@ -11,17 +10,9 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { 
-  FaBriefcase, 
   FaGraduationCap, 
   FaCode, 
-  FaUsers, 
   FaBuilding, 
-  FaAward,
-  FaRocket,
-  FaPaperPlane,
-  FaUser,
-  FaEnvelope,
-  FaComment
 } from "react-icons/fa";
 
 // Timeline Component
@@ -51,7 +42,7 @@ const CareerTimeline = () => {
     {
       title: "Hello World! 👋",
       company: "Wrote my first line of code",
-      year: "2015",
+      year: "2021",
       icon: <FaCode />,
       type: "milestone"
     },

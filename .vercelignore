@@ -1,0 +1,9 @@
+src/
+.vscode/
+README.md
+package-lock.json
+*.md
+.env.local
+.env.development
+.git/
+node_modules/
