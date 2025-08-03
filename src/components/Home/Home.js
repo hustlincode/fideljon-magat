@@ -4,6 +4,9 @@ import homeLogo from "../../Assets/home-main.svg";
 import Particle from "../Particle";
 import Home2 from "./Home2";
 import Type from "./Type";
+import Skillset from "../About/Skillset";
+import ContactForm from "./ContactForm";
+import Projects from "../Projects/Projects";
 
 function Home() {
   return (
@@ -42,6 +45,14 @@ function Home() {
         </Container>
       </Container>
       <Home2 />
+      <Projects />
+      <Skillset />
+        {/* NEW CONTACT FORM SECTION */}
+        <Row>
+          <Col md={12} className="home-contact-form">
+            <ContactForm />
+          </Col>
+        </Row>
     </section>
   );
 }
