@@ -71,9 +71,11 @@
 }
 
 .message {
-  padding: 8px 12px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 5px 12px;
   border-radius: 8px;
-  margin-bottom: 8px;
   max-width: 80%;
 }
 
@@ -220,13 +222,6 @@
   width: 100%;
 }
 
-.message {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  flex-direction: column;
-}
-
 .message-avatar {
   width: 30px;
   height: 30px;
@@ -246,8 +241,33 @@
   padding: 8px 12px;
   border-radius: 10px;
   font-size: 13px;
-  /* max-width: 85%; */
   text-align: left;
+  /* max-width: 85%; */
+  position: relative;
+}
+
+/* Arrow for left-side (bot) messages */
+.message-text.left::after {
+  content: "";
+  position: absolute;
+  left: -11px; /* how far out from the bubble */
+  top: 12px; /* vertical position */
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-right-color: #3a3a3a; /* match bubble background */
+}
+
+/* Arrow for right-side (user) messages */
+.message-text.right::after {
+  content: "";
+  position: absolute;
+  right: -11px;
+  top: 6px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-left-color: #6c63ff;
 }
 
 .message.user .message-text {

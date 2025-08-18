@@ -5,7 +5,7 @@ import Particle from "../Particle";
 import slfreemed from "../../Assets/Projects/slfreemed.png";
 import salesportal from "../../Assets/Projects/Salesportal.png";
 import onlinecheckin from "../../Assets/Projects/XOLF.png";
-import fjmPortfolio from "../../Assets/Projects/FJM.png";
+// import fjmPortfolio from "../../Assets/Projects/FJM.png";
 
 function Projects() {
   return (
