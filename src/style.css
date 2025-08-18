@@ -250,6 +250,10 @@ button:focus {
   height: 100%;
 }
 
+section{
+  overflow-y: hidden;
+}
+
 .home-header {
   padding-top: 80px !important;
 }
