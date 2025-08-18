@@ -125,7 +125,7 @@ const ChatBot = () => {
               <div className="chat-header-info">
                 <h5>Chat with {BOT_NAME}</h5>
                 <span className="status">
-                  <span className="online-dot"></span> Online · Portfolio Bot
+                  <span className="online-dot"></span> Online · Powered by Google Gemini
                 </span>
               </div>
             </div>
