@@ -251,7 +251,7 @@ button:focus {
 }
 
 section{
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .home-header {
@@ -264,6 +264,7 @@ section{
   background-image: var(--image-gradient), url(./Assets/home-bg.jpg);
   background-position: top center;
   background-repeat: no-repeat;
+  height: 100vh;
   padding-bottom: 30px !important;
   padding-top: 30px !important;
 }

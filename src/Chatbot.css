@@ -25,6 +25,7 @@
   display: none;
   flex-direction: column;
   overflow: auto;
+  z-index: 9999;
 }
 
 .chatbot-container.open {
@@ -134,6 +135,7 @@
   font-size: 16px;
   color: white;
   cursor: pointer;
+  z-index: 9999;
 }
 
 .chat-window {
@@ -149,6 +151,7 @@
   box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
   max-height: 560px;
   height: 560px;
+  z-index: 9999;
 }
 
 .fade-in {
