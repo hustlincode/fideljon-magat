@@ -20,6 +20,10 @@
   --shadow: rgba(0, 0, 0, 0.55);
   --overlay: rgba(10, 10, 10, 0.82);
   --backdrop: rgba(5, 5, 5, 0.82);
+  --aurora-a: rgba(255, 143, 58, 0.16);
+  --aurora-b: rgba(139, 92, 246, 0.1);
+  --aurora-c: rgba(63, 191, 111, 0.08);
+  --grain-opacity: 0.05;
 }
 
 :root[data-theme="light"] {
@@ -35,4 +39,8 @@
   --shadow: rgba(15, 15, 15, 0.14);
   --overlay: rgba(250, 250, 248, 0.86);
   --backdrop: rgba(18, 18, 17, 0.6);
+  --aurora-a: rgba(244, 141, 44, 0.12);
+  --aurora-b: rgba(139, 92, 246, 0.07);
+  --aurora-c: rgba(63, 191, 111, 0.05);
+  --grain-opacity: 0.04;
 }

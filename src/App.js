@@ -8,6 +8,7 @@ import Resume from "./components/Resume/ResumeNew";
 import Chatbot from "./components/Chatbot";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import Particle from "./components/Particle";
 import { ThemeProvider } from "./theme/ThemeContext";
 import "./style.css";
 
@@ -16,6 +17,7 @@ function App() {
     <ThemeProvider>
       <Router basename="">
         <Navbar />
+        <Particle />
         <ScrollToTop />
         <Routes>
           <Route exact path="/" element={<Home />} />

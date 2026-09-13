@@ -14,7 +14,6 @@ function Github() {
     <div className="github-cal" style={{ marginTop: "clamp(40px, 6vh, 64px)" }}>
       <p className="eyebrow">Days I code</p>
       <GitHubCalendar
-        key={theme}
         username="hustlincode"
         blockSize={13}
         blockMargin={4}
