@@ -87,7 +87,7 @@ const isRateLimitError = (error) =>
 let aiClient = null;
 const getAiClient = () => {
   if (!aiClient) {
-    aiClient = new GoogleGenAI({ apiKey: process.env.REACT_APP_GEMINI_API_KEY });
+    aiClient = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
   }
   return aiClient;
 };
