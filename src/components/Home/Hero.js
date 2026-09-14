@@ -23,11 +23,9 @@ function Hero() {
           <span className="text-secondary">&mdash;</span>
           <Type />
         </div>
-
-        <p className="hero-desc body-copy rise rise-d5">
-          Full-stack web developer from Angeles City, Pampanga — building clean,
-          scalable web apps for the hospitality industry, from banquet sales
-          portals to serverless check-in systems.
+          
+         <p className="hero-desc body-copy rise rise-d5">
+          Experienced in developing systems for hospitality industry, focusing on solving complex real-world challenges through continuous innovation and impactful technology.
         </p>
 
         <div className="hero-meta rise rise-d5">

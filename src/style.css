@@ -1325,20 +1325,108 @@ textarea.form-input {
   color: var(--text-secondary);
 }
 
-.resume-panel {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: clamp(20px, 4vw, 44px);
+/* Scripture pull-quote closing the resume page. */
+.resume-quote {
+  max-width: 820px;
+  margin: clamp(40px, 7vh, 72px) auto 0;
+}
+
+.resume-head {
+  padding-top: calc(var(--nav-height) + clamp(24px, 4vh, 44px));
+  margin-bottom: clamp(16px, 2.5vh, 24px);
+}
+
+.resume-head-row {
   display: flex;
-  justify-content: center;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 32px);
+}
+
+.resume-title {
+  font-size: clamp(2rem, 4.2vw, 3rem);
+  margin: 6px 0 0;
+}
+
+.resume-note {
+  margin: 12px 0 0;
+  color: var(--text-secondary);
+  font-size: 13.5px;
 }
 
 .resume-actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+.resume-actions .btn-primary,
+.resume-actions .btn-outline {
+  align-self: auto;
+  margin-top: 0;
+  padding: 12px 22px;
+  font-size: 14px;
+}
+
+.resume-panel {
+  position: relative;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: clamp(10px, 1.4vw, 16px);
+  width: 100%;
+  /* Medium-large sheet. Width-first so it stays large on any desktop:
+     ~1080px at 1080p, scaling down with shorter windows, floored at 900px
+     and never wider than the container. */
+  max-width: min(100%, clamp(900px, 100vh, 1180px));
+  margin-inline: auto;
+  display: flex;
   justify-content: center;
-  margin-top: 36px;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+/* Keep the page locked to the measured panel width so nothing the PDF
+   renders can feed back into the panel's own size. */
+.resume-panel .react-pdf__Document,
+.resume-panel .react-pdf__Page {
+  width: 100%;
+  max-width: 100%;
+}
+
+.resume-panel .react-pdf__Page canvas {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
+}
+
+.resume-status {
+  margin: 0;
+  padding: clamp(28px, 6vh, 48px) 12px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.resume-status-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.resume-hint {
+  margin: 12px 0 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 900px) {
@@ -1451,8 +1539,30 @@ textarea.form-input {
     gap: 8px 20px;
   }
 
+}
+
+@media (max-width: 700px) {
+  .resume-head-row {
+    display: block;
+  }
+
+  .resume-actions {
+    margin-top: 22px;
+  }
+
+  .resume-actions .btn-primary,
+  .resume-actions .btn-outline {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .resume-title {
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+  }
+
   .resume-panel {
-    padding: 14px;
+    padding: 10px;
+    max-width: 100%;
   }
 }
 
