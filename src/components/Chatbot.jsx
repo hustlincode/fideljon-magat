@@ -1,22 +1,14 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-import { FaArrowRight, FaTimes, FaMicrophone, FaStop, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import { FaArrowRight, FaTimes, FaMicrophone, FaStop } from "react-icons/fa";
 import aetherAvatar from "../Assets/aether-avatar.svg";
 import chatbotData from "../config/chatbotConfig.json";
 import "../Chatbot.css";
 import useSpeechRecognition from "../hooks/useSpeechRecognition";
-import useSpeechSynthesis from "../hooks/useSpeechSynthesis";
-
-import {
-  GoogleGenAI,
-  HarmBlockThreshold,
-  HarmCategory,
-} from "@google/genai";
 
 const BOT_NAME = "Aether";
-const OWNER_NAME = "Fildejon";
-const MODEL = "gemini-3.6-flash";
+const OWNER_NAME = "Fideljon";
 
 const LIMITS = {
   PER_MINUTE: 2,
@@ -84,13 +76,10 @@ const isRateLimitError = (error) =>
   String(error?.message || "").includes("RESOURCE_EXHAUSTED") ||
   String(error?.message || "").toLowerCase().includes("quota");
 
-let aiClient = null;
-const getAiClient = () => {
-  if (!aiClient) {
-    aiClient = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
-  }
-  return aiClient;
-};
+// 502/503 mean the model is momentarily overloaded or unreachable, which is
+// worth a retry rather than showing the visitor an error.
+const isTransientError = (error) =>
+  error?.status === 502 || error?.status === 503 || isRateLimitError(error);
 
 const ChatBot = () => {
   const navigate = useNavigate();
@@ -123,15 +112,6 @@ const ChatBot = () => {
     stopListening,
     resetTranscript,
   } = useSpeechRecognition({ lang: "en-US" });
-
-  const {
-    isSupported: isTTSSupported,
-    isSpeaking,
-    isMuted,
-    speak,
-    cancel: cancelSpeech,
-    toggleMute,
-  } = useSpeechSynthesis();
 
   const greetingText = useMemo(
     () =>
@@ -189,12 +169,9 @@ const ChatBot = () => {
   // Cleanup auto-send on unmount
   useEffect(() => () => {
     if (autoSendTimeoutRef.current) clearTimeout(autoSendTimeoutRef.current);
-    try { cancelSpeech(); } catch {}
-  }, [cancelSpeech]);
+  }, []);
 
   const toggleClose = () => {
-    // barge-in: stop voice immediately
-    try { cancelSpeech(); } catch {}
     if (isListening) {
       try { stopListening(); } catch {}
     }
@@ -226,56 +203,6 @@ const ChatBot = () => {
   };
 
   const exchangeCount = messages.filter((m) => m.sender === "user").length;
-
-  const buildSystemInstruction = () => {
-    const known = [];
-    if (visitorTypeRef.current) known.push(`Visitor type: ${visitorTypeRef.current} (do not ask their type again — adapt to it instead)`);
-    if (coveredRef.current.includes("design")) known.push("Already explained the system design & architecture approach — don't repeat unless asked");
-    if (coveredRef.current.includes("ai")) known.push("Already explained AI usage in daily work — don't repeat unless asked");
-    if (coveredRef.current.includes("about")) known.push("Already introduced Fildejon's background — don't repeat unless asked");
-
-    return `
-${chatbotData.system_instruction_template}
-
---- SYSTEM DESIGN & ARCHITECTURE APPROACH (explain when asked, in Aether's own voice about Fildejon) ---
-${chatbotData.system_design_approach.map((point) => `- ${point}`).join("\n")}
-
---- HOW FILDEJON USES AI IN DAILY ENGINEERING WORK ---
-- ${chatbotData.ai_usage_philosophy.summary}
-- ${chatbotData.ai_usage_philosophy.development_maintenance}
-- ${chatbotData.ai_usage_philosophy.integrations}
-- ${chatbotData.ai_usage_philosophy.stance}
-
---- QUALIFYING QUESTIONS BY VISITOR TYPE (use naturally, one at a time) ---
-Recruiter: ${chatbotData.qualifying_questions.recruiter.join(" | ")}
-Client: ${chatbotData.qualifying_questions.client.join(" | ")}
-Developer: ${chatbotData.qualifying_questions.developer.join(" | ")}
-Browsing: ${chatbotData.qualifying_questions.browsing.join(" | ")}
-
---- KNOWN CONTEXT ABOUT THIS VISITOR ---
-${known.length > 0 ? known.join("\n") : "Nothing yet — learn naturally through conversation."}
-
---- FACTUAL DATA (your single source of truth; never contradict or invent beyond this) ---
-Summary: ${chatbotData.professional_summary}
-Info: ${JSON.stringify(chatbotData.personal_info)}
-Skillset: ${JSON.stringify(chatbotData.skillset)}
-Career: ${JSON.stringify(chatbotData.career_journey)}
-Projects: ${JSON.stringify(chatbotData.projects)}
-Contributions: ${JSON.stringify(chatbotData.contributions)}
-Traits: ${JSON.stringify(chatbotData.personal_traits)}
-`.trim();
-  };
-
-  const config = {
-    topP: 1,
-    safetySettings: [
-      { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-      { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-      { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-      { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-    ],
-    systemInstruction: buildSystemInstruction(),
-  };
 
   const addMessage = (sender, text, link) => {
     setMessages((prev) => [...prev, link ? { sender, text, link } : { sender, text }]);
@@ -339,9 +266,74 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
     );
   };
 
-  const speakIfEnabled = (text) => {
-    if (!isTTSSupported || isMuted || !text) return;
-    try { speak(text); } catch {}
+  // Streams a reply from our own /api/chat endpoint. The Gemini key lives only
+  // on the server, so nothing sensitive is reachable from the browser.
+  const streamReply = async (contents, visitor, onText) => {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents, visitor }),
+    });
+
+    if (!response.ok) {
+      let detail = "";
+      try {
+        detail = (await response.json())?.error || "";
+      } catch {
+        // Non-JSON body; the status alone is enough to classify the failure.
+      }
+      const error = new Error(detail || `Request failed (${response.status})`);
+      error.status = response.status;
+      if (response.status === 429) error.rateLimited = true;
+      throw error;
+    }
+
+    if (!response.body) throw new Error("Streaming is not supported in this browser.");
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    const consume = (frames) => {
+      for (const frame of frames) {
+        // Reassemble multi-line "data:" payloads before parsing.
+        const payload = frame
+          .split("\n")
+          .filter((line) => line.startsWith("data:"))
+          .map((line) => line.slice(5).replace(/^ /, ""))
+          .join("");
+
+        if (!payload || payload === "[DONE]") continue;
+
+        let parsed;
+        try {
+          parsed = JSON.parse(payload);
+        } catch {
+          continue;
+        }
+
+        if (typeof parsed?.t === "string") onText(parsed.t);
+        if (typeof parsed?.error === "string") throw new Error(parsed.error);
+      }
+    };
+
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // SSE frames may be separated by CRLF, so normalise before splitting on
+      // the blank line. Without this, no boundary is found and every event is
+      // dropped, producing an empty reply.
+      buffer = buffer.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      const frames = buffer.split("\n\n");
+      buffer = frames.pop() ?? "";
+      consume(frames);
+    }
+
+    if (buffer) consume([buffer]);
   };
 
   const sendToGemini = async (userInput) => {
@@ -365,50 +357,48 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
     while (true) {
       try {
         const contents = historyRef.current.slice(-16);
-        const stream = await getAiClient().models.generateContentStream({
-          model: MODEL,
-          config,
-          contents,
-        });
+        const visitor = {
+          type: visitorTypeRef.current,
+          covered: coveredRef.current,
+        };
 
-        for await (const chunk of stream) {
-          if (!chunk.text) continue;
+        await streamReply(contents, visitor, (chunkText) => {
           if (!started) {
             started = true;
             setIsTyping(false);
             addMessage("bot", "");
           }
-          appendChunk(chunk.text);
-        }
+          appendChunk(chunkText);
+        });
 
         if (!started) {
           setIsTyping(false);
-          const fallback = `I'm best at answering questions about ${OWNER_NAME}'s background, engineering approach, and AI experience — want to ask about one of those?`;
-          addMessage("bot", fallback);
-          speakIfEnabled(fallback);
+          addMessage(
+            "bot",
+            `I'm best at answering questions about ${OWNER_NAME}'s background, engineering approach, and AI experience — want to ask about one of those?`
+          );
         } else {
           historyRef.current.push({ role: "model", parts: [{ text: reply }] });
           maybeNudgeContact();
-          speakIfEnabled(reply);
         }
         setIsTyping(false);
         return;
       } catch (error) {
-        if (isRateLimitError(error) && attempt < 3) {
+        if (isTransientError(error) && attempt < 3) {
           attempt += 1;
           await sleep(1000 * 2 ** (attempt - 1));
           continue;
         }
-        console.error("Error talking to Gemini:", error);
+        console.error("Error talking to the assistant:", error);
         setIsTyping(false);
         if (isRateLimitError(error)) {
-          const msg = "Aether's hit today's message limit — thanks for understanding! Feel free to come back later, or leave your details and Fildejon will follow up directly.";
-          addMessage("bot", msg, { href: "#contact", label: "Leave your details" });
-          speakIfEnabled(msg);
+          addMessage(
+            "bot",
+            "Aether's hit today's message limit — thanks for understanding! Feel free to come back later, or leave your details and Fideljon will follow up directly.",
+            { href: "#contact", label: "Leave your details" }
+          );
         } else {
-          const msg = "Oops! Something went wrong on my end. Mind trying that again?";
-          addMessage("bot", msg);
-          speakIfEnabled(msg);
+          addMessage("bot", "Oops! Something went wrong on my end. Mind trying that again?");
         }
         return;
       }
@@ -428,10 +418,7 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
       clearTimeout(autoSendTimeoutRef.current);
       autoSendTimeoutRef.current = null;
     }
-    // barge-in: stop speaking before listening
-    if (isSpeaking) {
-      try { cancelSpeech(); } catch {}
-    }
+    // stop listening before starting a fresh capture
     if (isListening) {
       stopListening();
     } else {
@@ -445,10 +432,6 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
     if (!text || isTyping) return;
     if (text.length > LIMITS.MAX_CHARS) return;
     if (!isOpen) return;
-    // barge-in: interrupt TTS
-    if (isSpeaking) {
-      try { cancelSpeech(); } catch {}
-    }
     if (isListening) {
       try { stopListening(); } catch {}
     }
@@ -462,13 +445,13 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
     if (!gate.ok) {
       if (gate.reason === "cooldown") {
         const mins = Math.ceil((gate.until - Date.now()) / 60000);
-        addMessage("bot", `You've reached the message limit for now — try again in ~${mins} more minute${mins === 1 ? "" : "s"}, or reach Fildejon via the contact form and he'll follow up directly.`);
+        addMessage("bot", `You've reached the message limit for now — try again in ~${mins} more minute${mins === 1 ? "" : "s"}, or reach Fideljon via the contact form and he'll follow up directly.`);
       } else if (gate.reason === "minute") {
-        addMessage("bot", "You're sending those fast! Give me about 5 minutes to catch up — or use the contact form below and Fildejon will get back to you directly.");
+        addMessage("bot", "You're sending those fast! Give me about 5 minutes to catch up — or use the contact form below and Fideljon will get back to you directly.");
       } else {
         addMessage(
           "bot",
-          "You've reached today's message limit — I really appreciate the great conversation though! Leave your contact info below and Fildejon will be happy to continue this personally.",
+          "You've reached today's message limit — I really appreciate the great conversation though! Leave your contact info below and Fideljon will be happy to continue this personally.",
           { href: "#contact", label: "Leave your details" }
         );
       }
@@ -505,11 +488,10 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
     if (autoSendTimeoutRef.current) clearTimeout(autoSendTimeoutRef.current);
     autoSendTimeoutRef.current = setTimeout(() => {
       autoSendTimeoutRef.current = null;
-      try { cancelSpeech(); } catch {}
       if (sendMessageRef.current) sendMessageRef.current(clipped);
       try { resetTranscript(); } catch {}
     }, 800);
-  }, [transcript, interimTranscript, isListening, cancelSpeech, resetTranscript]);
+  }, [transcript, interimTranscript, isListening, resetTranscript]);
 
   const getSuggestions = () => {
     if (!isOpen || isTyping) return [];
@@ -564,22 +546,10 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
                 <span className="status">
                   <span className="online-dot"></span> Online · AI Assistant · Powered by Gemini
                   {isSTTSupported && isListening && <span className="voice-status"> · Listening...</span>}
-                  {isTTSSupported && isSpeaking && !isMuted && <span className="voice-status"> · Speaking...</span>}
                 </span>
               </div>
             </div>
             <div className="chat-header-actions">
-              {isTTSSupported && (
-                <button
-                  className={`tts-toggle ${isMuted ? "muted" : ""} ${isSpeaking && !isMuted ? "speaking" : ""}`}
-                  onClick={toggleMute}
-                  aria-label={isMuted ? "Unmute voice" : "Mute voice"}
-                  title={isMuted ? "Unmute voice" : "Mute voice"}
-                  type="button"
-                >
-                  {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-                </button>
-              )}
               <button className="close-btn" onClick={toggleClose} aria-label="Close chat">
                 <FaTimes />
               </button>

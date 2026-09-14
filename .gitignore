@@ -26,5 +26,9 @@ yarn-error.log*
 
 .eslintcache
 
+# Transient Node ESM loader output (see server.watch in vite.config.js)
+.*.tmpdir/
+*.tmp
+
 Server/node_modules
 Server/config.js

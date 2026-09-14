@@ -1,17 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0A0A0A"/>
-  <g stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.55">
-    <path d="M17 17 L32 25 M17 17 L32 41"/>
-    <path d="M17 33 L32 25 M17 33 L32 41"/>
-    <path d="M17 49 L32 25 M17 49 L32 41"/>
-    <path d="M32 25 L47 33 M32 41 L47 33"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Background Container -->
+  <rect width="512" height="512" rx="112" fill="#0A0A0C" />
+
+  <defs>
+    <!-- Sharp Futuristic Accent Gradient -->
+    <linearGradient id="orangeGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5500" />
+      <stop offset="100%" stop-color="#FF8800" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(0, 0)">
+    <!-- Main Minimalist Geometric 'Portal / Chevron' (White) -->
+    <path 
+      d="M 140 372 L 256 140 L 372 372 L 304 372 L 256 272 L 208 372 Z" 
+      fill="#FFFFFF" 
+    />
+
+    <!-- Accent Node (Future Orange) -->
+    <!-- Positioned precisely at the apex gap to create dynamic tension and high visibility at 16x16 -->
+    <polygon 
+      points="256,80 292,128 220,128" 
+      fill="url(#orangeGlow)" 
+    />
+    
+    <!-- Horizon Line Accent Dot -->
+    <circle 
+      cx="256" 
+      cy="340" 
+      r="18" 
+      fill="url(#orangeGlow)" 
+    />
   </g>
-  <g fill="#FFFFFF">
-    <circle cx="17" cy="17" r="4"/>
-    <circle cx="17" cy="33" r="4"/>
-    <circle cx="17" cy="49" r="4"/>
-    <circle cx="32" cy="25" r="4.6"/>
-    <circle cx="32" cy="41" r="4.6"/>
-  </g>
-  <circle cx="47" cy="33" r="5.4" fill="#C770F0"/>
 </svg>
