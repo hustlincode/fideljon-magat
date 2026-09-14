@@ -28,7 +28,8 @@
   },
   "scripts": {
     "start": "vite --host",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
+    "build:spa": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

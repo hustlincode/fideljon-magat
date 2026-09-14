@@ -28,35 +28,6 @@
       }
     })();
   </script>
-  <script type="text/javascript">
-    (function(l) {
-      // Counterpart to the GitHub Pages rewrite in public/404.html.
-      //
-      // Guarded so it can only undo a rewrite once. Without these guards the
-      // decode leaves a trailing "/?/" in place, which the encoder then
-      // re-encodes on the next load, appending another segment forever -- the
-      // "/~and~/~and~/..." loop.
-      if (l.pathname.charAt(l.pathname.length - 1) !== '/') return;
-      if (l.search.charAt(1) !== '/') return;
-
-      var decoded = l.search.slice(1).split('&').map(function(s) {
-        return s.replace(/~and~/g, '&')
-      }).join('?');
-
-      // A legitimate rewrite always decodes to a path starting with "/", and a
-      // real pathname never contains "&". A URL corrupted by the old loop
-      // decodes to "&"-laden noise, so restore nothing rather than inventing a
-      // path from it.
-      if (decoded.charAt(0) !== '/') return;
-      if (decoded.indexOf('&') !== -1) return;
-      if (l.search.slice(1) === decoded) return;
-
-      var rewritten = l.pathname.slice(0, -1) + decoded + l.hash;
-      if (rewritten.charAt(0) !== '/') return;
-
-      window.history.replaceState(null, null, rewritten);
-    }(window.location))
-  </script>
 
   <meta name="theme-color" content="#0a0a0a" />
 
