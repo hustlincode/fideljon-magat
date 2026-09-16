@@ -26,8 +26,12 @@ const ssrDir = join(root, "node_modules", ".prerender");
 // can be written as dist/index.html.
 const ROUTES = ["/", "/about", "/resume", "/project"];
 
-const { ROUTES: routeMeta } = await import(
+const { ROUTES: routeMeta, SITE_URL, SITE_NAME } = await import(
   new URL("../src/config/routeMeta.js", import.meta.url).href
+);
+
+const { buildStructuredData } = await import(
+  new URL("../src/config/structuredData.js", import.meta.url).href
 );
 
 const escapeAttr = (value) =>
@@ -46,8 +50,8 @@ const replaceTag = (html, pattern, replacement) => {
 };
 
 const applyMeta = (html, pathname) => {
-  const meta = routeMeta[pathname] ?? routeMeta["/"];
-  const url = `https://fideljon.vercel.app${pathname === "/" ? "" : pathname}`;
+  const meta = { ...(routeMeta[pathname] ?? routeMeta["/"]), path: pathname };
+  const url = `${SITE_URL}${pathname === "/" ? "/" : pathname}`;
   let out = html;
 
   out = replaceTag(out, /<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(meta.title)}</title>`);
@@ -91,6 +95,23 @@ const applyMeta = (html, pathname) => {
     /<meta name="twitter:description" content="[^"]*">/,
     `<meta name="twitter:description" content="${escapeAttr(meta.description)}">`
   );
+
+  // Every page gets its own canonical URL. Vercel serves this project on more
+  // than one hostname, so without a canonical each page is reachable at
+  // duplicate URLs and ranking signals split between them.
+  const canonical = `<link rel="canonical" href="${escapeAttr(url)}" />`;
+  if (/<link rel="canonical"[^>]*>/.test(out)) {
+    out = out.replace(/<link rel="canonical"[^>]*>/, canonical);
+  } else {
+    out = out.replace("</head>", `  ${canonical}\n</head>`);
+  }
+
+  // Structured data, injected as raw HTML so crawlers that never execute
+  // JavaScript still see the Person entity.
+  const jsonLd = `<script type="application/ld+json">${JSON.stringify(
+    buildStructuredData({ ...meta, SITE_URL, SITE_NAME })
+  )}</script>`;
+  out = out.replace("</head>", `  ${jsonLd}\n</head>`);
 
   return out;
 };
@@ -184,6 +205,34 @@ const main = async () => {
   }
 
   rmSync(ssrDir, { recursive: true, force: true });
+
+  // Sitemap. Without one, discovery depends entirely on external links, which
+  // for a personal portfolio may be very few.
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const urls = ROUTES.map((pathname) => {
+    const loc = `${SITE_URL}${pathname === "/" ? "/" : pathname}`;
+    const priority = pathname === "/" ? "1.0" : "0.8";
+    return [
+      "  <url>",
+      `    <loc>${loc}</loc>`,
+      `    <lastmod>${lastmod}</lastmod>`,
+      "    <changefreq>monthly</changefreq>",
+      `    <priority>${priority}</priority>`,
+      "  </url>"
+    ].join("\n");
+  }).join("\n");
+
+  const sitemap = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    urls,
+    "</urlset>",
+    ""
+  ].join("\n");
+
+  writeFileSync(join(distDir, "sitemap.xml"), sitemap);
+  console.log(`[prerender] sitemap.xml written with ${ROUTES.length} urls`);
+
   console.log(`[prerender] done: ${ok}/${ROUTES.length} routes`);
 };
 

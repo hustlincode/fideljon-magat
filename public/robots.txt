@@ -1,3 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Everything here is meant to be indexed. Only the chat proxy is excluded,
+# since it is an API endpoint with nothing to crawl.
+Disallow: /api/
+
+Sitemap: https://fideljon-magat.vercel.app/sitemap.xml

@@ -8,7 +8,14 @@
 //   - at runtime by RouteMeta, so the metadata stays correct when a visitor
 //     navigates client-side.
 
-export const SITE_URL = "https://fideljon.vercel.app";
+// Canonical site origin.
+//
+// This MUST be the domain the site is primarily reachable on. Vercel serves
+// the project on more than one hostname (both fideljon.vercel.app and
+// fideljon-magat.vercel.app returned the site), which makes every page
+// reachable at duplicate URLs. Canonical tags and the sitemap both point here
+// so search engines consolidate on one host instead of splitting signals.
+export const SITE_URL = "https://fideljon-magat.vercel.app";
 export const SITE_NAME = "Fidel Jon Magat";
 
 export const ROUTES = {
