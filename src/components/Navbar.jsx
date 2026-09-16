@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/ThemeContext";
 
@@ -22,6 +22,8 @@ function NavBar() {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
+  const burgerRef = useRef(null);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -47,6 +49,35 @@ function NavBar() {
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
+
+  // Move focus out of the menu whenever it closes.
+  //
+  // `inert` stops the subtree from *receiving* focus, but it does not blur an
+  // element that is already focused. Following a menu link leaves focus on that
+  // link, so the container ends up aria-hidden while holding the focused
+  // element -- which the browser reports as "Blocked aria-hidden on an element
+  // because its descendant retained focus", and which also leaves assistive
+  // technology users focused on something invisible.
+  //
+  // Returning focus to the toggle is the standard disclosure pattern and keeps
+  // keyboard users in a sensible place instead of dropping them to the body.
+  useEffect(() => {
+    if (menuOpen) return;
+
+    const active = document.activeElement;
+    const menu = menuRef.current;
+
+    if (!active || !menu || !menu.contains(active)) return;
+
+    // Blur first so focus never lingers inside a subtree as it goes inert.
+    if (typeof active.blur === "function") active.blur();
+
+    // Then return focus to the toggle. This effect only runs after the menu was
+    // actually open, which means the toggle was reachable, so no extra
+    // visibility check is needed -- focusing a hidden element is a no-op.
+    const burger = burgerRef.current;
+    if (burger && typeof burger.focus === "function") burger.focus();
+  }, [menuOpen]);
 
   const goToSection = (id) => (event) => {
     event.preventDefault();
@@ -119,6 +150,7 @@ function NavBar() {
 
             <button
               type="button"
+              ref={burgerRef}
               className={`nav-burger${menuOpen ? " is-open" : ""}`}
               onClick={() => setMenuOpen((open) => !open)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -135,6 +167,18 @@ function NavBar() {
       <div
         className={`mobile-menu${menuOpen ? " is-open" : ""}`}
         id="mobile-menu"
+        ref={menuRef}
+        // The closed menu is only visually hidden (opacity/visibility), so its
+        // links stay in the tab order. That is what triggers "Blocked
+        // aria-hidden on an element because its descendant retained focus":
+        // focusing a link inside an aria-hidden tree is a contradiction.
+        //
+        // `inert` is the correct fix rather than dropping aria-hidden: it makes
+        // the whole subtree unfocusable and removes it from the accessibility
+        // tree, which also stops keyboard users from tabbing into an invisible
+        // menu. It mirrors menuOpen, so no state changes are needed. Browsers
+        // without support ignore it and fall back to today's behaviour.
+        inert={menuOpen ? undefined : ""}
         aria-hidden={!menuOpen}
         onClick={(event) => {
           if (event.target === event.currentTarget) setMenuOpen(false);

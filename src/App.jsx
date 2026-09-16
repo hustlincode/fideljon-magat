@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Projects from "./components/Projects/Projects";
+import ProjectDetail from "./components/Projects/ProjectDetail";
 import Footer from "./components/Footer";
 import Resume from "./components/Resume/ResumeNew";
 import Chatbot from "./components/Chatbot";
@@ -57,7 +58,8 @@ export function AppShell({ RouterComponent = BrowserRouter }) {
         <ScrollToTop />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/project" element={<Projects />} />
+          <Route exact path="/project" element={<Projects asPage />} />
+          <Route exact path="/project/:slug" element={<ProjectDetail />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/resume" element={<Resume />} />
           <Route path="*" element={<Navigate to="/" replace />} />

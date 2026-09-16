@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Instrument+Serif&amp;display=swap');
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0a0a0c" />
+  <rect x="0" y="0" width="7" height="630" fill="#ff7b1c" />
+
+  <line x1="80" y1="76" x2="1120" y2="76" stroke="#26262c" stroke-width="1" />
+  <line x1="80" y1="560" x2="1120" y2="560" stroke="#26262c" stroke-width="1" />
+
+  <!-- Name. Explicit font-size floats as a fallback so the layout does not
+       shift if the webfont fails to load in the rasterizer. -->
+  <text x="112" y="272" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="88" font-weight="600" letter-spacing="-2" fill="#f5f5f3">FIDEL JON</text>
+  <text x="112" y="372" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="88" font-weight="600" letter-spacing="-2" fill="#f5f5f3">MAGAT</text>
+
+  <!-- Accent full stop, sitting on the same baseline as MAGAT. -->
+  <circle cx="418" cy="356" r="11" fill="#ff7b1c" />
+
+  <text x="114" y="458" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="500" letter-spacing="3.5" fill="#ff7b1c">FULL-STACK WEB DEVELOPER</text>
+
+  <text x="114" y="508" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="18" font-weight="400" letter-spacing="2.5" fill="#96969e">ANGELES CITY &#183; PAMPANGA &#183; PHILIPPINES</text>
+
+  <text x="1120" y="508" text-anchor="end" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="18" font-weight="400" letter-spacing="1" fill="#66666e">fideljon-magat.vercel.app</text>
+</svg>

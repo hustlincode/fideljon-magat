@@ -1,44 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Reveal from "../Reveal";
-import Lightbox from "../Lightbox";
-import salesportal from "../../Assets/Projects/Salesportal.png";
-import onlinecheckin from "../../Assets/Projects/XOLF.png";
-import slfreemed from "../../Assets/Projects/slfreemed.png";
+import { PROJECTS, projectPath } from "../../config/projectsData";
 
-const PROJECTS = [
-  {
-    img: salesportal,
-    title: "Salesportal",
-    context: "Banquet Sales Management",
-    description:
-      "A sales portal for Banquuet, a company that provides food and catering services. Built with Bootstrap, HTML, and JQuery, PHP, and MySQL. Features include user authentication, product management, order processing, and real-time updates.",
-    tags: ["PHP", "jQuery", "Bootstrap", "MySQL"],
-    year: "Web App"
-  },
-  {
-    img: onlinecheckin,
-    title: "XOLF",
-    context: "Online Check-in System",
-    description:
-      "An online check-in system for XOLF, a company that provides online check-in services. Built with React, Node.js, AWS Lambda, and DynamoDB. Features include user authentication, booking management, and real-time updates.",
-    tags: ["React", "Node.js", "AWS Lambda", "DynamoDB"],
-    year: "Serverless"
-  },
-  {
-    img: slfreemed,
-    title: "SLFreemed",
-    context: "Medicine Inventory",
-    description:
-      "A school capstone project: an inventory system to manage the stocks of medicines. Built with HTML, CSS, JavaScript, PHP, and MySQL (XAMPP). Features include stock management, record management, QR prescriptions, report generation.",
-    tags: ["HTML/CSS/JS", "PHP", "MySQL", "QR Prescriptions"],
-    year: "Capstone"
-  }
-];
+// `asPage` distinguishes the two places this renders:
+//   - /project   -> this list IS the page, so its title is the h1
+//   - / (home)   -> this list is one section, so the hero owns the h1 and this
+//                   title must stay an h2 to keep one h1 per document
+function Projects({ asPage = false }) {
+  const Heading = asPage ? "h1" : "h2";
 
-function Projects() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [lightboxIndex, setLightboxIndex] = useState(null);
   const canHover =
     typeof window !== "undefined" &&
     window.matchMedia &&
@@ -69,9 +42,9 @@ function Projects() {
           <div className="work-head">
             <div>
               <p className="eyebrow">02 &mdash; Selected work</p>
-              <h2 className="display-1">
+              <Heading className="display-1">
                 Recent <span className="serif-accent">works</span>
-              </h2>
+              </Heading>
             </div>
             <span className="work-count">({String(PROJECTS.length).padStart(2, "0")})</span>
           </div>
@@ -97,7 +70,7 @@ function Projects() {
                     <span>{project.context}</span>
                     <span>{project.year}</span>
                   </p>
-                  <h3 className="work-title">{project.title}</h3>
+                  <h2 className="work-title">{project.title}</h2>
                   <p className="work-desc">{project.description}</p>
                   <p className="work-tags">
                     {project.tags.map((tag) => (
@@ -106,30 +79,20 @@ function Projects() {
                   </p>
                 </div>
 
-                <button
-                  type="button"
+                <Link
+                  to={projectPath(project.slug)}
                   className="work-arrow"
-                  aria-label={`Open ${project.title} screenshot`}
-                  onClick={() => setLightboxIndex(index)}
+                  aria-label={`View details for ${project.title}`}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                     <path d="M7 17 17 7M8 7h9v9" />
                   </svg>
-                </button>
+                </Link>
               </article>
             </Reveal>
           ))}
         </div>
       </div>
-
-      {lightboxIndex !== null && (
-        <Lightbox
-          src={PROJECTS[lightboxIndex].img}
-          title={PROJECTS[lightboxIndex].title}
-          context={PROJECTS[lightboxIndex].context}
-          onClose={() => setLightboxIndex(null)}
-        />
-      )}
 
       {canHover && (
         <div

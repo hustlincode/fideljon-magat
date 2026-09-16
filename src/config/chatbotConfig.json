@@ -76,7 +76,7 @@
     "university": "Pampanga State Agricultural University",
     "graduation_year": 2024,
     "website": "fideljon-magat.vercel.app",
-    "linkedin": "linkedin.com/in/fidel-jon-magat",
+    "linkedin": "https://www.linkedin.com/in/fidel-jon-magat",
     "github": "github.com/hustlincode"
   },
   "professional_summary": "Full-stack Junior Software Developer (PHP, .NET, React/TypeScript) shipping production systems for the hospitality and hotel industry. He uses AI coding assistants (Claude, Codex, ChatGPT) daily as a force multiplier for fast, production-ready — while keeping architecture and logic self-directed. Key deliverables: a BIR-compliant accounting integration (CAS) used live across the client base, the Halo Protocol NSSM-based service that automates tech-support triage across client deployments, and the Xenia Online microservice syncing on-premise and cloud data via REST/HTTP APIs, DynamoDB, and S3.",

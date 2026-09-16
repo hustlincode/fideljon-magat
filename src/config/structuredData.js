@@ -13,10 +13,15 @@
 // directly by Node during prerendering, which does not resolve extensionless
 // specifiers the way Vite does.
 
+// Profiles that verify the same identity. These are the entity signals a search
+// engine uses to confirm the site and the person are the same individual, so
+// every URL here must resolve to a real profile. Kept in sync with the footer.
 const socialProfiles = [
   "https://github.com/hustlincode",
+  "https://www.linkedin.com/in/fidel-jon-magat",
   "https://twitter.com/fideljon_",
-  "https://www.instagram.com/fideljon"
+  "https://www.instagram.com/fideljon",
+  "https://www.facebook.com/maginoo21"
 ];
 
 export const buildStructuredData = (routeMeta) => {

@@ -22,17 +22,20 @@ const root = join(here, "..");
 const distDir = join(root, "dist");
 const ssrDir = join(root, "node_modules", ".prerender");
 
-// Keep in sync with src/config/routeMeta.js. "/" must be written last-ish so it
-// can be written as dist/index.html.
-const ROUTES = ["/", "/about", "/resume", "/project"];
-
-const { ROUTES: routeMeta, SITE_URL, SITE_NAME } = await import(
+const { ROUTES: routeMeta, SITE_URL, SITE_NAME, getPrerenderPaths } = await import(
   new URL("../src/config/routeMeta.js", import.meta.url).href
 );
 
 const { buildStructuredData } = await import(
   new URL("../src/config/structuredData.js", import.meta.url).href
 );
+
+// Resolved here rather than at module scope: a module-level binding that reads
+// a dynamic-import binding can be evaluated inside this module's temporal dead
+// zone, which throws "Cannot access before initialization". Every key in ROUTES
+// becomes a prerendered file and a sitemap entry, so adding a project page
+// needs no change in this script.
+const ROUTES = getPrerenderPaths();
 
 const escapeAttr = (value) =>
   String(value)
@@ -112,6 +115,34 @@ const applyMeta = (html, pathname) => {
     buildStructuredData({ ...meta, SITE_URL, SITE_NAME })
   )}</script>`;
   out = out.replace("</head>", `  ${jsonLd}\n</head>`);
+
+  // Social share card plus the remaining Open Graph and Twitter tags. Without
+  // an og:image every shared link renders as a blank card, which costs
+  // click-through on the links that would otherwise earn the site attention.
+  const imageUrl = `${SITE_URL}/og.png`;
+  const ogTags = [
+    ["og:site_name", SITE_NAME],
+    ["og:type", "website"],
+    ["og:image", imageUrl],
+    ["og:image:width", "1200"],
+    ["og:image:height", "630"],
+    ["og:image:alt", `${SITE_NAME} — Full-stack Web Developer`],
+    ["twitter:image", imageUrl]
+  ];
+
+  for (const [key, value] of ogTags) {
+    // og:* are properties, twitter:* are names.
+    const attr = key.startsWith("og:") ? "property" : "name";
+    const tag = `<meta ${attr}="${key}" content="${escapeAttr(value)}">`;
+    const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const existing = new RegExp(`<meta (?:property|name)="${escapedKey}"[^>]*>`);
+
+    if (existing.test(out)) {
+      out = out.replace(existing, tag);
+    } else {
+      out = out.replace("</head>", `  ${tag}\n</head>`);
+    }
+  }
 
   return out;
 };

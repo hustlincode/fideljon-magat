@@ -19,38 +19,49 @@ function About() {
         <div className="container-x">
           <div className="about-body">
             <Reveal delay={80}>
+              <h2>Who I am</h2>
               <p>
-                Hello, I am <span className="hl">Fidel Jon Magat</span> from{" "}
-                <span className="hl">Angeles City, Pampanga</span>. I hold a
-                Bachelor&rsquo;s degree in Information Technology from the
+                I am <span className="hl">Fidel Jon Magat</span>, a full-stack web
+                developer based in{" "}
+                <span className="hl">Angeles City, Pampanga, Philippines</span>. I
+                hold a Bachelor&rsquo;s degree in Information Technology from
                 Pampanga State Agricultural University.
               </p>
               <p>
-                Currently, I am a junior developer at a mid-level company
-                specializing in Property Management System (PMS) solutions for
-                the hospitality industry. I work collaboratively with my team,
-                contributing to various projects, particularly in the{" "}
+                I build and maintain web applications end to end — from database
+                design and PHP or Node.js services through to the React interface
+                on top.
+              </p>
+
+              <h2>What I work on</h2>
+              <p>
+                I currently work as a{" "}
+                <span className="hl">software developer at Servo IT Solutions OPC</span>,
+                building Property Management System (PMS) solutions for the
+                hospitality industry. I work collaboratively with my team across
+                several projects, particularly the{" "}
                 <span className="hl">banquet system</span>.
               </p>
               <p>
-                My core tech stack includes <span className="hl">HTML, CSS,
-                JavaScript, PHP, jQuery, AJAX, and Bootstrap</span>. I&rsquo;ve
-                also contributed to an online check-in project using a
-                serverless architecture — leveraging{" "}
-                <span className="hl">AWS Lambda, DynamoDB, Node.js, and React</span>.
+                My core stack is{" "}
+                <span className="hl">HTML, CSS, JavaScript, PHP, jQuery, AJAX and Bootstrap</span>.
+                I have also contributed to an online check-in platform built on a
+                serverless architecture —{" "}
+                <span className="hl">AWS Lambda, DynamoDB, Node.js and React</span>.
               </p>
+
+              <h2>How I work</h2>
               <p>
-                I am passionate about delivering clean, maintainable, and
-                scalable code. I bring a strong foundation in software
-                engineering, full-stack development, database design, and cloud
-                computing.
+                I care about delivering clean, maintainable and scalable code, and
+                I bring a grounding in software engineering, full-stack
+                development, database design and cloud computing.
               </p>
               <p>
                 Beyond my career, personal growth has been shaped by real-life
                 responsibilities. As the primary support for my mother,
                 I&rsquo;ve learned to manage pressure and stay accountable.
-                These experiences have instilled in me a sense of resilience and
-                drive that I bring into my professional life.
+                These experiences have instilled a sense of resilience and drive
+                that I bring into my professional life.
               </p>
               <p>
                 Outside of work, I enjoy playing basketball, gaming, watching
