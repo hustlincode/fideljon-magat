@@ -144,6 +144,15 @@ const applyMeta = (html, pathname) => {
     }
   }
 
+  // Fill the empty itemprop image tag so rich results have an image.
+  // The template splits itemprop image across two lines, so match
+  // with optional whitespace/newline between attributes.
+  out = replaceTag(
+    out,
+    /<meta itemprop="image"\s+content="[^"]*">/,
+    `<meta itemprop="image" content="${escapeAttr(imageUrl)}">`
+  );
+
   return out;
 };
 
@@ -205,7 +214,7 @@ const main = async () => {
     let markup = "";
 
     try {
-      markup = render(pathname);
+      markup = await render(pathname);
     } catch (err) {
       console.warn(
         `[prerender] ${pathname} failed to render, leaving the SPA shell in place: ${err.message}`
@@ -240,7 +249,7 @@ const main = async () => {
   // Sitemap. Without one, discovery depends entirely on external links, which
   // for a personal portfolio may be very few.
   const lastmod = new Date().toISOString().slice(0, 10);
-  const urls = ROUTES.map((pathname) => {
+  const urls = ROUTES.filter((p) => p !== "/404").map((pathname) => {
     const loc = `${SITE_URL}${pathname === "/" ? "/" : pathname}`;
     const priority = pathname === "/" ? "1.0" : "0.8";
     return [

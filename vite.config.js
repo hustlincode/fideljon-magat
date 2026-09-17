@@ -105,6 +105,16 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./src/test/setup.js",
-    css: false
+    css: false,
+    optimizeDeps: {
+      include: [
+        "src/components/Home/Home",
+        "src/components/About/About",
+        "src/components/Projects/Projects",
+        "src/components/Projects/ProjectDetail",
+        "src/components/Resume/ResumeNew",
+        "src/components/NotFound"
+      ]
+    }
   }
 });

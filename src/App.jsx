@@ -1,20 +1,30 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, Suspense, lazy } from "react";
 import { useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import Home from "./components/Home/Home";
-import About from "./components/About/About";
-import Projects from "./components/Projects/Projects";
-import ProjectDetail from "./components/Projects/ProjectDetail";
-import Footer from "./components/Footer";
-import Resume from "./components/Resume/ResumeNew";
 import Chatbot from "./components/Chatbot";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Particle from "./components/Particle";
 import { ThemeProvider } from "./theme/ThemeContext";
 import { getMetaForPath, SITE_URL } from "./config/routeMeta";
 import "./style.css";
+
+const Home = lazy(() => import("./components/Home/Home"));
+const About = lazy(() => import("./components/About/About"));
+const Projects = lazy(() => import("./components/Projects/Projects"));
+const ProjectDetail = lazy(() => import("./components/Projects/ProjectDetail"));
+const Resume = lazy(() => import("./components/Resume/ResumeNew"));
+const NotFound = lazy(() => import("./components/NotFound"));
+
+function Loading() {
+  return (
+    <main style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <p>Loading...</p>
+    </main>
+  );
+}
 
 // Keeps <title> and the meta tags correct during client-side navigation.
 // Prerendered HTML already carries the right values on first load, so this
@@ -46,9 +56,6 @@ function RouteMeta() {
 // BrowserRouter while the build-time prerender uses StaticRouter, without
 // duplicating the route table.
 export function AppShell({ RouterComponent = BrowserRouter }) {
-  // Memoised on the router component only. Building the tree inline on every
-  // render would hand React a new element identity each time; a module-scope
-  // constant would instead cache elements across mounts and hold stale state.
   const tree = useMemo(
     () => (
       <RouterComponent basename="">
@@ -56,14 +63,16 @@ export function AppShell({ RouterComponent = BrowserRouter }) {
         <Navbar />
         <Particle />
         <ScrollToTop />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/project" element={<Projects asPage />} />
-          <Route exact path="/project/:slug" element={<ProjectDetail />} />
-          <Route exact path="/about" element={<About />} />
-          <Route exact path="/resume" element={<Resume />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/project" element={<Projects asPage />} />
+            <Route exact path="/project/:slug" element={<ProjectDetail />} />
+            <Route exact path="/about" element={<About />} />
+            <Route exact path="/resume" element={<Resume />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
         <Chatbot />
         <Footer />
       </RouterComponent>

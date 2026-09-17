@@ -100,8 +100,19 @@ export const buildStructuredData = (routeMeta) => {
     mainEntity: { "@id": personId }
   };
 
+  const project = (routeMeta.path !== "/" && routeMeta.path !== "/about" && routeMeta.path !== "/resume" && routeMeta.path !== "/project")
+    ? {
+        "@type": "ItemPage",
+        "@id": `${pageUrl}#itempage`,
+        url: pageUrl,
+        name: routeMeta.title,
+        description: routeMeta.description,
+        isPartOf: { "@id": websiteId }
+      }
+    : null;
+
   return {
     "@context": "https://schema.org",
-    "@graph": [person, website, webPage, profilePage]
+    "@graph": project ? [person, website, webPage, profilePage, project] : [person, website, webPage, profilePage]
   };
 };

@@ -58,7 +58,7 @@ function Projects({ asPage = false }) {
             <Reveal key={project.title} delay={index * 60}>
               <article className="work-row has-thumb" {...rowProps(index)}>
                 <div className="work-thumb" aria-hidden="true">
-                  <img src={project.img} alt="" loading="lazy" />
+                  <img src={project.img} alt={project.title} loading="lazy" />
                 </div>
 
                 <span className="work-num">

@@ -44,6 +44,11 @@ export const ROUTES = {
     title: "Projects — Fidel Jon Magat",
     description:
       "Selected work by Fidel Jon Magat, including a banquet sales portal, a serverless online check-in system, and a medicine inventory capstone project."
+  },
+  "/404": {
+    title: "404 — Page Not Found | Fidel Jon Magat",
+    description:
+      "The page you are looking for could not be found on Fidel Jon Magat's portfolio."
   }
 };
 

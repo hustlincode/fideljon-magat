@@ -4,13 +4,13 @@ import { render, screen } from "@testing-library/react";
 import App from "./App";
 
 describe("App", () => {
-  test("renders the hero with the owner name", () => {
+  test("renders the hero with the owner name", async () => {
     render(<App />);
 
-    // The name appears in more than one element (hero heading and footer),
-    // so assert on the heading specifically.
-    const heading = screen.getByRole("heading", { level: 1, name: /FIDEL JON/i });
+    // Suspense wraps routes; wait for lazy-loaded content to appear.
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    const heading = screen.getByRole("heading", { level: 1, name: /FIDEL JON/i });
     expect(heading).toBeInTheDocument();
   });
 });
