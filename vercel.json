@@ -6,8 +6,7 @@
   "rewrites": [
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/resume", "destination": "/resume/index.html" },
-    { "source": "/project", "destination": "/project/index.html" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/project", "destination": "/project/index.html" }
   ],
   "functions": {
     "api/chat.js": {
