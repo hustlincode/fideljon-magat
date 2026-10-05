@@ -1,14 +1,18 @@
 import React from "react";
 import Type from "./Type";
+import VisitorCount from "./VisitorCount";
 
 function Hero() {
   return (
     <section className="hero" id="home">
       <div className="container-x">
-        <span className="status-chip rise rise-d1">
-          <span className="status-dot" aria-hidden="true"></span>
-          Available for opportunities
-        </span>
+        <div className="hero-chips">
+          <span className="status-chip rise rise-d1">
+            <span className="status-dot" aria-hidden="true"></span>
+            Available for opportunities
+          </span>
+          <VisitorCount />
+        </div>
 
         <h1 className="display-hero hero-title">
           <span className="rise rise-d2" style={{ display: "block" }}>

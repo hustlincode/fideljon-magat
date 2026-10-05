@@ -159,6 +159,45 @@ const applyMeta = (html, pathname) => {
 const outputPathFor = (pathname) =>
   pathname === "/" ? join(distDir, "index.html") : join(distDir, pathname.slice(1), "index.html");
 
+// Plain-text marker that must appear in each route's rendered markup.
+//
+// The prerender previously captured React's Suspense fallback instead of the
+// resolved lazy route, so every page shipped "Loading..." as its body and the
+// real content never reached a crawler. Titles and meta tags looked correct,
+// which made the failure easy to miss. These markers make an empty render fail
+// the build instead of shipping quietly.
+const ROUTE_MARKERS = {
+  "/": "FIDEL JON",
+  "/about": "Who I am",
+  "/resume": "Curriculum",
+  "/project": "Recent",
+  "/project/salesportal": "Salesportal",
+  "/project/xolf": "XOLF",
+  "/project/slfreemed": "SLFreemed",
+  "/404": "Page not found"
+};
+
+const validateMarkup = (pathname, markup) => {
+  const problems = [];
+
+  // Orphaned Suspense boundary: React emitted the fallback and no completion
+  // segment, because bootstrapScripts is empty.
+  if (markup.includes("<!--$?-->") || /<template id="B:/.test(markup)) {
+    problems.push("contains an unresolved Suspense boundary marker");
+  }
+
+  if (markup.includes(">Loading...<")) {
+    problems.push("contains the Suspense fallback instead of route content");
+  }
+
+  const marker = ROUTE_MARKERS[pathname];
+  if (marker && !markup.includes(marker)) {
+    problems.push(`missing expected content marker ${JSON.stringify(marker)}`);
+  }
+
+  return problems;
+};
+
 const main = async () => {
   if (!existsSync(distDir)) {
     console.error("[prerender] dist/ not found - run vite build first.");
@@ -209,6 +248,7 @@ const main = async () => {
   const { render } = await import(new URL(`file://${join(ssrDir, "entry-server.js")}`).href);
 
   let ok = 0;
+  const failures = [];
 
   for (const pathname of ROUTES) {
     let markup = "";
@@ -216,9 +256,16 @@ const main = async () => {
     try {
       markup = await render(pathname);
     } catch (err) {
-      console.warn(
-        `[prerender] ${pathname} failed to render, leaving the SPA shell in place: ${err.message}`
-      );
+      failures.push(`${pathname}: render threw - ${err.message}`);
+      console.error(`[prerender] ${pathname} failed to render: ${err.message}`);
+      continue;
+    }
+
+    const problems = validateMarkup(pathname, markup);
+    if (problems.length > 0) {
+      for (const problem of problems) failures.push(`${pathname}: ${problem}`);
+      console.error(`[prerender] ${pathname} -> ${problems.join("; ")}`);
+      continue;
     }
 
     let html = applyMeta(template, pathname);
@@ -229,7 +276,9 @@ const main = async () => {
         `<div id="root">${markup}</div>`
       );
       if (!html.includes(markup.slice(0, 40))) {
-        console.warn(`[prerender] ${pathname}: could not inject markup into the root div`);
+        failures.push(`${pathname}: could not inject markup into the root div`);
+        console.error(`[prerender] ${pathname}: could not inject markup into the root div`);
+        continue;
       }
     }
 
@@ -238,18 +287,33 @@ const main = async () => {
     writeFileSync(target, html);
 
     console.log(
-      `[prerender] ${pathname.padEnd(9)} -> ${target.replace(root + "\\", "").replace(root + "/", "")}` +
-        ` (${markup ? `${markup.length} chars of markup` : "shell only"})`
+      `[prerender] ${pathname.padEnd(22)} -> ${target.replace(root + "\\", "").replace(root + "/", "")}` +
+        ` (${markup.length} chars of markup)`
     );
     ok += 1;
+  }
+
+  if (failures.length > 0) {
+    console.error(`\n[prerender] ${failures.length} route(s) failed validation:`);
+    for (const failure of failures) console.error(`  - ${failure}`);
+    console.error(
+      "\nA prerendered page that renders an empty shell is worse than no prerender at all:\n" +
+        "crawlers index the fallback text. Failing the build instead of shipping it."
+    );
+    process.exit(1);
   }
 
   rmSync(ssrDir, { recursive: true, force: true });
 
   // Sitemap. Without one, discovery depends entirely on external links, which
   // for a personal portfolio may be very few.
+  //
+  // /404 is a prerendered page but not a sitemap entry: it is a fallback, not
+  // content to be indexed.
   const lastmod = new Date().toISOString().slice(0, 10);
-  const urls = ROUTES.filter((p) => p !== "/404").map((pathname) => {
+  const sitemapRoutes = ROUTES.filter((pathname) => pathname !== "/404");
+
+  const urls = sitemapRoutes.map((pathname) => {
     const loc = `${SITE_URL}${pathname === "/" ? "/" : pathname}`;
     const priority = pathname === "/" ? "1.0" : "0.8";
     return [
@@ -271,7 +335,10 @@ const main = async () => {
   ].join("\n");
 
   writeFileSync(join(distDir, "sitemap.xml"), sitemap);
-  console.log(`[prerender] sitemap.xml written with ${ROUTES.length} urls`);
+  console.log(
+    `[prerender] sitemap.xml written with ${sitemapRoutes.length} urls ` +
+      `(excluding /404 from ${ROUTES.length} prerendered routes)`
+  );
 
   console.log(`[prerender] done: ${ok}/${ROUTES.length} routes`);
 };

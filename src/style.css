@@ -570,6 +570,39 @@ textarea {
   background: var(--bg-secondary);
 }
 
+/* Wraps the availability chip and the visitor badge. `width: fit-content` on
+   the children would fight a flex row, so they are reset to auto here. */
+.hero-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-chips .status-chip {
+  width: auto;
+}
+
+.visitor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+}
+
+.visitor-chip-number {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .status-dot {
   width: 7px;
   height: 7px;

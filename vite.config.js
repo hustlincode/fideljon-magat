@@ -5,73 +5,93 @@ import react from "@vitejs/plugin-react";
 // needed --openssl-legacy-provider on Node 17+ for MD4 hashing; esbuild/Rollup
 // do not, so that flag is gone.
 //
-// The dev server also has to serve the Gemini proxy that Vercel provides in
-// production as a serverless function (api/chat.js). Mounting that same handler
-// here keeps `npm start` and production on one code path, so the API key stays
-// server-side in both.
-const geminiProxy = () => ({
-  name: "gemini-proxy",
+// Serves the serverless functions in api/ during local development, so
+// `npm start` and production share one code path. Vercel provides these in
+// production; here they are mounted as Vite middleware.
+//
+// Each handler is written against Vercel's express-flavoured req/res, which is
+// shimmed below.
+const apiFunctions = (routes) => ({
+  name: "api-functions",
   configureServer(server) {
-    server.middlewares.use("/api/chat", async (req, res, next) => {
-      if (req.method !== "POST" && req.method !== "OPTIONS") return next();
+    const loadHandler = (file) =>
+      server
+        .ssrLoadModule(file)
+        .then((mod) => mod.default)
+        .catch(async () => null);
 
-      try {
-        const { default: handler } = await server.ssrLoadModule("/api/chat.js");
-
-        // Mirror Vercel's express-flavoured req/res that the handler expects.
-        if (typeof res.status !== "function") {
-          res.status = (code) => {
-            res.statusCode = code;
-            return res;
-          };
-        }
-        if (typeof res.json !== "function") {
-          res.json = (body) => {
-            if (!res.getHeader("Content-Type")) {
-              res.setHeader("Content-Type", "application/json; charset=utf-8");
-            }
-            res.end(JSON.stringify(body));
-            return res;
-          };
-        }
-
-        if (!req.body) {
-          req.body = await new Promise((resolve, reject) => {
-            const chunks = [];
-            let size = 0;
-
-            req.on("data", (chunk) => {
-              size += chunk.length;
-              if (size > 64 * 1024) {
-                reject(new Error("Request body too large"));
-                req.destroy();
-                return;
-              }
-              chunks.push(chunk);
-            });
-            req.on("end", () => {
-              const raw = Buffer.concat(chunks).toString("utf8");
-              if (!raw) return resolve({});
-              try {
-                resolve(JSON.parse(raw));
-              } catch (err) {
-                reject(err);
-              }
-            });
-            req.on("error", reject);
-          });
-        }
-
-        await handler(req, res);
-      } catch (err) {
-        server.config.logger.error(`[gemini-proxy] ${err?.message || err}`);
-        if (!res.writableEnded) {
-          res.statusCode = 400;
-          res.setHeader("Content-Type", "application/json; charset=utf-8");
-          res.end(JSON.stringify({ error: "Malformed request body." }));
-        }
+    const shimResponse = (res) => {
+      if (typeof res.status !== "function") {
+        res.status = (code) => {
+          res.statusCode = code;
+          return res;
+        };
       }
-    });
+      if (typeof res.json !== "function") {
+        res.json = (body) => {
+          if (!res.getHeader("Content-Type")) {
+            res.setHeader("Content-Type", "application/json; charset=utf-8");
+          }
+          res.end(JSON.stringify(body));
+          return res;
+        };
+      }
+    };
+
+    const readBody = (req) =>
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        let size = 0;
+
+        req.on("data", (chunk) => {
+          size += chunk.length;
+          if (size > 64 * 1024) {
+            reject(new Error("Request body too large"));
+            req.destroy();
+            return;
+          }
+          chunks.push(chunk);
+        });
+        req.on("end", () => {
+          const raw = Buffer.concat(chunks).toString("utf8");
+          if (!raw) return resolve({});
+          try {
+            resolve(JSON.parse(raw));
+          } catch (err) {
+            reject(err);
+          }
+        });
+        req.on("error", reject);
+      });
+
+    // The API routes only ever handle these verbs, so anything else is passed
+    // through to the rest of the Vite middleware chain.
+    const ALLOWED = ["GET", "POST", "OPTIONS"];
+
+    for (const route of routes) {
+      const file = `${route}.js`;
+
+      server.middlewares.use(route, async (req, res, next) => {
+        if (!ALLOWED.includes(req.method)) return next();
+
+        try {
+          const handler = await loadHandler(file);
+          if (!handler) return next();
+
+          shimResponse(res);
+          if (!req.body && req.method === "POST") req.body = await readBody(req);
+
+          await handler(req, res);
+        } catch (err) {
+          server.config.logger.error(`[${route}] ${err?.message || err}`);
+          if (!res.writableEnded) {
+            res.statusCode = 400;
+            res.setHeader("Content-Type", "application/json; charset=utf-8");
+            res.end(JSON.stringify({ error: "Malformed request body." }));
+          }
+        }
+      });
+    }
   }
 });
 
@@ -82,7 +102,7 @@ export default defineConfig({
       // and the explicit `import React` statements already in every component.
       jsxRuntime: "classic"
     }),
-    geminiProxy()
+    apiFunctions(["/api/chat", "/api/visits"])
   ],
   // Keeps the app working on Vercel and any host serving from the domain root.
   base: "/",
