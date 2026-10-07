@@ -544,7 +544,7 @@ const ChatBot = () => {
               <div className="chat-header-info">
                 <h5>Chat with {BOT_NAME}</h5>
                 <span className="status">
-                  <span className="online-dot"></span> Online · AI Assistant · Powered by Gemini
+                  <span className="online-dot"></span> Online · AI Assistant · Powered by Deepseek
                   {isSTTSupported && isListening && <span className="voice-status"> · Listening...</span>}
                 </span>
               </div>

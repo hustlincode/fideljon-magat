@@ -5,21 +5,30 @@ import { dirname, join } from "node:path";
 import chatbotData from "./config/chatbotConfig.json" with { type: "json" };
 
 // ---------------------------------------------------------------------------
-// Server-side Gemini proxy.
+// Server-side DeepSeek proxy.
 //
 // The API key used to be inlined into the client bundle by Vite, which meant
 // anyone could read it out of the network tab and spend the owner's quota. The
-// key now lives only here, in the GEMINI_API_KEY environment variable.
+// key now lives only here, in the DEEPSEEK_API_KEY environment variable.
 //
 // Because this endpoint is public, it is deliberately NOT a generic relay:
 //   - the model is fixed here, so callers cannot reach other/expensive models
 //   - conversation size, turn count and per-message length are capped
 //   - the system instruction is built here, so callers cannot inject one
 //   - per-IP rate limiting and a concurrency cap limit brute-force abuse
+//
+// DeepSeek speaks the OpenAI chat-completions format, so the request and the
+// stream shape differ from the previous Gemini implementation. The response we
+// send to the browser is unchanged: "data: {\"t\":\"...\"}" frames.
 // ---------------------------------------------------------------------------
 
-const MODEL = "gemini-3.6-flash";
-const API_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+const MODEL = "deepseek-flash";
+const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
+
+// DeepSeek enables thinking mode by default, which adds latency and cost. This
+// is a portfolio Q&A bot, so thinking is switched off; set to "enabled" (or use
+// reasoning_effort) if replies ever feel shallow.
+const THINKING = { type: "disabled" };
 
 const MAX_MESSAGES = 16;
 const MAX_CHARS_PER_MESSAGE = 500;
@@ -54,7 +63,7 @@ loadLocalEnv();
 
 // Per-instance only. Serverless instances are recycled and not shared, so this
 // is a speed bump rather than a hard quota. The real ceiling is the quota on
-// the Gemini key itself; keep that low and rotate it if it leaks.
+// the DeepSeek key itself; keep that low and rotate it if it leaks.
 const buckets = new Map();
 const inFlightByIp = new Map();
 
@@ -140,7 +149,12 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
 `.trim();
 };
 
-// Returns either { contents } or { error, status }.
+// Validates the conversation and converts it to OpenAI/DeepSeek message shape.
+// Returns either { messages } or { error, status }.
+//
+// The client still sends Gemini-style { role, parts:[{text}] } entries. That
+// shape is accepted and normalised here rather than changed in the browser, so
+// the wire contract with the client stays put. Validation rules are unchanged.
 const normalizeContents = (input) => {
   if (!Array.isArray(input) || input.length === 0) {
     return { error: "No conversation supplied.", status: 400 };
@@ -163,7 +177,8 @@ const normalizeContents = (input) => {
       return { error: "Message is too long.", status: 413 };
     }
 
-    cleaned.push({ role: entry.role, parts: [{ text }] });
+    // DeepSeek uses assistant where Gemini used model.
+    cleaned.push({ role: entry.role === "model" ? "assistant" : "user", content: text });
   }
 
   if (cleaned.length === 0) {
@@ -176,7 +191,7 @@ const normalizeContents = (input) => {
     return { error: "Conversation must end with a user message.", status: 400 };
   }
 
-  return { contents: trimmed };
+  return { messages: trimmed };
 };
 
 export default async function handler(req, res) {
@@ -190,9 +205,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed." });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.DEEPSEEK_API_KEY;
   if (!apiKey) {
-    console.error("GEMINI_API_KEY is not configured on the server.");
+    console.error("DEEPSEEK_API_KEY is not configured on the server.");
     return res.status(500).json({ error: "Chat is not configured." });
   }
 
@@ -214,7 +229,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Malformed request body." });
   }
 
-  const { contents, error, status } = normalizeContents(payload.contents);
+  const { messages, error, status } = normalizeContents(payload.contents);
   if (error) return res.status(status).json({ error });
 
   const ip = clientIp(req);
@@ -240,26 +255,28 @@ export default async function handler(req, res) {
     else inFlightByIp.set(ip, remaining);
   };
 
+  // DeepSeek takes the system prompt as the first message rather than as a
+  // separate field, and it has no equivalent of Gemini's HARM_* safety
+  // settings, so moderation falls back to DeepSeek's server-side defaults.
   const upstreamBody = {
-    contents,
-    systemInstruction: { parts: [{ text: buildSystemInstruction(payload.visitor) }] },
-    safetySettings: [
-      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
-      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
-      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
-      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" },
+    model: MODEL,
+    messages: [
+      { role: "system", content: buildSystemInstruction(payload.visitor) },
+      ...messages
     ],
-    generationConfig: { topP: 1 }
+    stream: true,
+    thinking: THINKING
   };
-
-  const upstreamUrl = `${API_BASE}/${MODEL}:streamGenerateContent?alt=sse`;
 
   let upstream;
 
   try {
-    upstream = await fetch(upstreamUrl, {
+    upstream = await fetch(DEEPSEEK_API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`
+      },
       body: JSON.stringify(upstreamBody)
     });
   } catch (err) {
@@ -278,7 +295,7 @@ export default async function handler(req, res) {
       // Ignore - the status code is enough.
     }
 
-    console.error("Gemini error:", upstream.status, detail.slice(0, 500));
+    console.error("DeepSeek error:", upstream.status, detail.slice(0, 500));
 
     // Preserve statuses the client can act on: 429 (quota) and 503 (model
     // overloaded) are transient and worth retrying, so do not flatten them into
@@ -318,17 +335,21 @@ export default async function handler(req, res) {
         .map((line) => line.slice(5).replace(/^ /, ""))
         .join("");
 
+      // DeepSeek terminates the stream with this sentinel.
       if (!payload || payload === "[DONE]") continue;
 
       try {
         const parsed = JSON.parse(payload);
-        const parts = parsed?.candidates?.[0]?.content?.parts;
-        if (!Array.isArray(parts)) continue;
+        const delta = parsed?.choices?.[0]?.delta;
 
-        for (const part of parts) {
-          // Skip "thought" parts so reasoning text never reaches the visitor.
-          if (typeof part?.text === "string" && !part.thought) flush(part.text);
-        }
+        // The final chunk carries finish_reason with an empty delta, and
+        // keep-alive style chunks may have no delta at all.
+        if (!delta) continue;
+
+        // Only `content` is forwarded. `reasoning_content` holds the model's
+        // thinking and must never reach the visitor, mirroring how Gemini's
+        // `thought` parts were skipped.
+        if (typeof delta.content === "string" && delta.content) flush(delta.content);
       } catch {
         // Partial frame; the next read completes it.
       }
@@ -339,9 +360,9 @@ export default async function handler(req, res) {
     for await (const chunk of upstream.body) {
       buffer += decoder.decode(chunk, { stream: true });
 
-      // Gemini terminates SSE frames with CRLF, so splitting on "\n\n" alone
-      // finds no boundaries and every event is silently dropped. Normalise the
-      // line endings before looking for the blank-line separator.
+      // Normalise line endings before splitting. SSE frames are CRLF-delimited,
+      // and splitting on "\n\n" alone previously found no boundaries at all,
+      // which silently dropped every event.
       buffer = buffer.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
       const frames = buffer.split("\n\n");
