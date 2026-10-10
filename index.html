@@ -52,11 +52,318 @@
   <meta name="twitter:description" content="Portfolio of Fidel Jon Magat, full-stack web developer building web apps with React, Node.js and PHP.">
   <meta name="twitter:image"
     content="">
+
+  <!--
+    Boot overlay. Lives outside #root so the prerender step preserves it on
+    every route, and paints before the JS bundle so the first frame is a real
+    loading state instead of a blank background. Self-contained styling (no
+    theme/token CSS needed) so it renders correctly on the very first paint in
+    either theme.
+  -->
+  <noscript>
+    <style>
+      #boot {
+        display: none !important;
+      }
+    </style>
+  </noscript>
+  <style>
+    #boot {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: flex-end;
+      background-color: #0a0a0a;
+      color: #f5f5f3;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 620ms;
+    }
+
+    html[data-theme="light"] #boot {
+      background-color: #fafaf8;
+      color: #0f0f0f;
+    }
+
+    /* Soft accent wash so the surface reads as "alive" while it works, in the
+       same family as the hero's aurora. */
+    #boot::before {
+      content: "";
+      position: absolute;
+      left: -12%;
+      top: -32%;
+      width: 74vw;
+      height: 74vw;
+      max-width: 780px;
+      max-height: 780px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 143, 58, 0.17) 0%, rgba(255, 143, 58, 0) 68%);
+      pointer-events: none;
+    }
+
+    html[data-theme="light"] #boot::before {
+      background: radial-gradient(circle, rgba(244, 141, 44, 0.14) 0%, rgba(244, 141, 44, 0) 68%);
+    }
+
+    #boot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      background-size: 160px 160px;
+    }
+
+    #boot.is-done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #boot .boot-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1280px;
+      margin-inline: auto;
+      padding-inline: clamp(20px, 5vw, 48px);
+      padding-block: clamp(32px, 7vh, 72px);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: clamp(16px, 2.6vh, 28px);
+    }
+
+    /* The percentage is the whole event. Tabular figures keep it from jittering
+       as digits change width while it counts up. */
+    #boot .boot-value {
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      font-weight: 600;
+      font-size: clamp(3.6rem, 16vw, 11rem);
+      line-height: 0.86;
+      letter-spacing: -0.055em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+    }
+
+    #boot .boot-value-num {
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+    }
+
+    #boot .boot-value-pct {
+      margin-left: 0.06em;
+      font-size: 0.3em;
+      font-weight: 500;
+      letter-spacing: 0;
+      color: #ff8f3a;
+      transform: translateY(0.18em);
+    }
+
+    html[data-theme="light"] #boot .boot-value-pct {
+      color: #f48d2c;
+    }
+
+    /* Segmented "level meter" rather than a smooth bar: discrete ticks light up
+       left to right, so progress reads as counted steps instead of a wash. */
+    #boot .boot-meter {
+      position: relative;
+      width: 100%;
+      height: clamp(10px, 1.5vw, 15px);
+      background-image: repeating-linear-gradient(to right,
+        rgba(255, 143, 58, 0.16) 0 8px, transparent 8px 14px);
+    }
+
+    html[data-theme="light"] #boot .boot-meter {
+      background-image: repeating-linear-gradient(to right,
+        rgba(244, 141, 44, 0.2) 0 8px, transparent 8px 14px);
+    }
+
+    #boot .boot-meter-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      background-image: repeating-linear-gradient(to right,
+        #ff8f3a 0 8px, transparent 8px 14px);
+    }
+
+    html[data-theme="light"] #boot .boot-meter-fill {
+      background-image: repeating-linear-gradient(to right,
+        #f48d2c 0 8px, transparent 8px 14px);
+    }
+
+    #boot .boot-status {
+      margin: 0;
+      min-height: 1.3em;
+      font-size: clamp(13px, 1.3vw, 15px);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: #9a9a96;
+    }
+
+    html[data-theme="light"] #boot .boot-status {
+      color: #6b6b68;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #boot {
+        transition-duration: 1ms;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="boot" role="status" aria-live="polite" aria-label="Loading portfolio">
+    <div class="boot-inner">
+      <p class="boot-value" aria-hidden="true">
+        <span class="boot-value-num">0</span><span class="boot-value-pct">%</span>
+      </p>
+      <div class="boot-meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+        aria-label="Loading portfolio">
+        <span class="boot-meter-fill"></span>
+      </div>
+      <p class="boot-status" aria-hidden="true">Loading fonts</p>
+    </div>
+  </div>
   <div id="root"></div>
+  <script>
+    // Boot sequence. Counts a real percentage from 0 to 100, holding short of
+    // the end until the page has loaded and the React app has mounted, then
+    // snapping to 100 and lifting the curtain. Both readiness signals are
+    // required so it never reveals a blank or half-painted frame; a hard
+    // maximum guarantees it always clears.
+    (function () {
+      var boot = document.getElementById("boot");
+      if (!boot) return;
+
+      var numEl = boot.querySelector(".boot-value-num");
+      var fillEl = boot.querySelector(".boot-meter-fill");
+      var meterEl = boot.querySelector(".boot-meter");
+      var statusEl = boot.querySelector(".boot-status");
+
+      var reduce = window.matchMedia
+        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        : false;
+
+      var DURATION = reduce ? 380 : 1300;
+      var MIN_MS = reduce ? 180 : 820;
+      var MAX_MS = reduce ? 1500 : 5000;
+      var HOLD_MS = reduce ? 0 : 300;
+
+      // Plain, honest phases. The label only advances as progress passes each
+      // threshold, so it always describes where the load actually is.
+      var PHASES = [
+        [0, "Loading fonts"],
+        [26, "Building interface"],
+        [56, "Starting app"],
+        [84, "Finishing up"],
+        [100, "Ready"]
+      ];
+
+      var start = Date.now();
+      var startT = null;
+      var done = false;
+      var ready = false;
+      var signals = 0;
+      var lastPhase = "";
+      var shown = 0;
+
+      // Lock scrolling behind the curtain until the page is revealed.
+      document.documentElement.style.overflow = "hidden";
+
+      function phaseFor(value) {
+        for (var i = PHASES.length - 1; i >= 0; i -= 1) {
+          if (value >= PHASES[i][0]) return PHASES[i][1];
+        }
+        return PHASES[0][1];
+      }
+
+      function paint(value) {
+        value = Math.max(0, Math.min(100, value));
+        shown = value;
+        var rounded = Math.floor(value);
+        if (numEl.textContent !== String(rounded)) numEl.textContent = String(rounded);
+        fillEl.style.width = value + "%";
+        if (meterEl) meterEl.setAttribute("aria-valuenow", String(rounded));
+        var phase = phaseFor(value);
+        if (phase !== lastPhase) {
+          lastPhase = phase;
+          if (statusEl) statusEl.textContent = phase;
+        }
+      }
+
+      function frame(now) {
+        if (startT === null) startT = now;
+
+        var t = Math.min(1, (now - startT) / DURATION);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var cap = ready ? 100 : 94;
+        var value = Math.min(eased * 100, cap);
+
+        // If the animation has finished but the page is still not ready, creep
+        // toward the cap so the meter never looks frozen.
+        if (t >= 1 && !ready) {
+          value = Math.min(cap, 94 + (now - startT - DURATION) / 900);
+        }
+
+        paint(value);
+
+        if (ready && shown >= 100) {
+          finish();
+          return;
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function finish() {
+        if (done) return;
+        done = true;
+        paint(100);
+
+        var held = Math.max(0, MIN_MS - (Date.now() - start));
+        window.setTimeout(reveal, held + HOLD_MS);
+      }
+
+      function reveal() {
+        document.documentElement.style.overflow = "";
+        document.documentElement.classList.add("booted");
+        boot.classList.add("is-done");
+        window.setTimeout(function () {
+          if (boot.parentNode) boot.parentNode.removeChild(boot);
+        }, 800);
+      }
+
+      function signal() {
+        if (done) return;
+        signals += 1;
+        if (signals >= 2) ready = true;
+      }
+
+      if (document.readyState === "complete") {
+        signal();
+      } else {
+        window.addEventListener("load", signal, { once: true });
+      }
+
+      window.addEventListener("app:ready", signal, { once: true });
+
+      window.setTimeout(function () {
+        signals = 2;
+        ready = true;
+      }, MAX_MS);
+
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <script type="module" src="/src/index.jsx"></script>
 </body>
 

@@ -24,6 +24,15 @@ if (hasPrerenderedMarkup) {
   ReactDOM.render(tree, container);
 }
 
+// Let the inline boot overlay in index.html know the app has mounted so it can
+// lift the curtain. Wrapped in rAF so the reveal happens after the first paint,
+// never exposing a half-rendered frame.
+if (typeof window !== "undefined") {
+  requestAnimationFrame(() => {
+    window.dispatchEvent(new Event("app:ready"));
+  });
+}
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

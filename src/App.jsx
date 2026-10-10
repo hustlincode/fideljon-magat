@@ -18,10 +18,19 @@ const ProjectDetail = lazy(() => import("./components/Projects/ProjectDetail"));
 const Resume = lazy(() => import("./components/Resume/ResumeNew"));
 const NotFound = lazy(() => import("./components/NotFound"));
 
+// Fallback for code-split routes while a lazy chunk downloads. Deliberately
+// echoes the boot overlay in index.html (accent wash, segmented meter, plain
+// status line) so a client-side navigation feels like the same page waking up
+// rather than a generic spinner.
 function Loading() {
   return (
-    <main style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <p>Loading...</p>
+    <main className="route-loading" role="status" aria-live="polite">
+      <div className="route-loading-inner container-x">
+        <span className="route-loading-meter" aria-hidden="true">
+          <span className="route-loading-meter-fill"></span>
+        </span>
+        <p className="route-loading-status">Loading</p>
+      </div>
     </main>
   );
 }

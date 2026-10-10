@@ -251,6 +251,65 @@ textarea {
 .rise-d4 { animation-delay: 330ms; }
 .rise-d5 { animation-delay: 420ms; }
 
+/* In-app companion to the boot overlay in index.html, shown while a code-split
+   route chunk loads. Same vocabulary: segmented level meter and a plain status
+   line. The meter is masked with the tick pattern so the sliding fill reads as
+   individual segments lighting up rather than a smooth bar. */
+.route-loading {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.route-loading-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding-block: clamp(72px, 12vh, 132px);
+}
+
+.route-loading-meter {
+  position: relative;
+  display: block;
+  width: min(340px, 70vw);
+  height: 14px;
+  overflow: hidden;
+  background-image: repeating-linear-gradient(to right,
+    var(--border) 0 8px, transparent 8px 14px);
+  -webkit-mask-image: repeating-linear-gradient(to right,
+    #000 0 8px, transparent 8px 14px);
+  mask-image: repeating-linear-gradient(to right,
+    #000 0 8px, transparent 8px 14px);
+}
+
+.route-loading-meter-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 38%;
+  background: var(--accent);
+  animation: routeSweep 1300ms var(--ease-out) infinite;
+}
+
+.route-loading-status {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+@keyframes routeSweep {
+  from {
+    transform: translateX(-110%);
+  }
+
+  to {
+    transform: translateX(280%);
+  }
+}
+
 .nav {
   position: fixed;
   top: 0;
@@ -1809,5 +1868,10 @@ textarea.form-input {
 
   .work-row:hover .work-title {
     transform: none;
+  }
+
+  .route-loading-meter-fill {
+    animation: none;
+    width: 100%;
   }
 }
