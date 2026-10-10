@@ -21,6 +21,21 @@ import { dirname, join } from "node:path";
 
 const COUNTER_KEY = "visits:total";
 
+// When the counter went live. Fixed metadata reported with every response so a
+// client can render "counting since ..." without hardcoding the date itself.
+// Kept as ISO 8601 with an explicit offset (UTC+8) so it is unambiguous; the
+// label is the display form.
+const IMPLEMENTED_AT = "2026-10-05T22:04:00+08:00";
+const IMPLEMENTED_AT_LABEL = "October 5th, 2026 10:04 PM";
+
+// Merges the fixed implementation metadata into a response body. Centralised so
+// every return gets it and nothing can drift.
+const withMeta = (body) => ({
+  ...body,
+  implementedAt: IMPLEMENTED_AT,
+  implementedAtLabel: IMPLEMENTED_AT_LABEL
+});
+
 // Hashed visitor IDs are grouped into buckets so the set stays bounded and can
 // expire. A single never-expiring set would grow forever, and a per-day key
 // would not expire under SADD (TTL only applies when the key is created), which
@@ -162,7 +177,7 @@ export default async function handler(req, res) {
 
   if (req.method !== "GET" && req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
-    return res.status(405).json({ error: "Method not allowed." });
+    return res.status(405).json(withMeta({ error: "Method not allowed." }));
   }
 
   const config = getRedisConfig();
@@ -170,7 +185,7 @@ export default async function handler(req, res) {
   // Not configured locally, or the integration was removed. Reported as 503 so
   // the client hides the badge rather than showing a wrong number.
   if (!config) {
-    return res.status(503).json({ count: null, reason: "storage-unavailable" });
+    return res.status(503).json(withMeta({ count: null, reason: "storage-unavailable" }));
   }
 
   // Readings never write, so no rate limit or bot check is needed.
@@ -178,10 +193,10 @@ export default async function handler(req, res) {
     try {
       const count = await readTotal(config);
       res.setHeader("Cache-Control", "no-store");
-      return res.status(200).json({ count });
+      return res.status(200).json(withMeta({ count }));
     } catch (err) {
       console.error("[visits] read failed:", err.message);
-      return res.status(503).json({ count: null, reason: "storage-error" });
+      return res.status(503).json(withMeta({ count: null, reason: "storage-error" }));
     }
   }
 
@@ -190,17 +205,17 @@ export default async function handler(req, res) {
 
   if (!takeToken(ip)) {
     res.setHeader("Retry-After", "60");
-    return res.status(429).json({ error: "Too many requests." });
+    return res.status(429).json(withMeta({ error: "Too many requests." }));
   }
 
   if (isBot(userAgent)) {
     // Answer with the current total but record nothing.
     try {
       const count = await readTotal(config);
-      return res.status(200).json({ count, recorded: false });
+      return res.status(200).json(withMeta({ count, recorded: false }));
     } catch (err) {
       console.error("[visits] read failed:", err.message);
-      return res.status(503).json({ count: null, reason: "storage-error" });
+      return res.status(503).json(withMeta({ count: null, reason: "storage-error" }));
     }
   }
 
@@ -227,9 +242,9 @@ export default async function handler(req, res) {
     }
 
     res.setHeader("Cache-Control", "no-store");
-    return res.status(200).json({ count, recorded: added === 1 });
+    return res.status(200).json(withMeta({ count, recorded: added === 1 }));
   } catch (err) {
     console.error("[visits] write failed:", err.message);
-    return res.status(503).json({ count: null, reason: "storage-error" });
+    return res.status(503).json(withMeta({ count: null, reason: "storage-error" }));
   }
 }
