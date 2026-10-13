@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Reveal from "../Reveal";
 import { PROJECTS, projectPath } from "../../config/projectsData";
+import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
+import usePointerTracking from "../../hooks/usePointerTracking";
+
+// How quickly the floating preview catches up to the cursor each frame. Low
+// enough to feel physical, high enough that it never lags behind the pointer.
+const PREVIEW_LERP = 0.18;
 
 // `asPage` distinguishes the two places this renders:
 //   - /project   -> this list IS the page, so its title is the h1
@@ -11,25 +17,64 @@ function Projects({ asPage = false }) {
   const Heading = asPage ? "h1" : "h2";
 
   const [activeIndex, setActiveIndex] = useState(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const reducedMotion = usePrefersReducedMotion();
   const canHover =
     typeof window !== "undefined" &&
     window.matchMedia &&
     window.matchMedia("(hover: hover) and (min-width: 901px)").matches;
+  const enablePreview = Boolean(canHover) && !reducedMotion;
+
+  const previewRef = useRef(null);
+  // Cursor target, updated without re-rendering. The rendered position is a
+  // separate ref advanced toward it each frame; the frame loop writes straight
+  // to the DOM node so tracking never touches React state.
+  const pointer = usePointerTracking(enablePreview);
+  const currentRef = useRef({ x: 0, y: 0 });
+  const shownRef = useRef(false);
+
+  const previewActive = enablePreview && activeIndex !== null;
 
   useEffect(() => {
-    if (!canHover || activeIndex === null) return undefined;
-    const onMove = (event) => setPos({ x: event.clientX, y: event.clientY });
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [activeIndex, canHover]);
+    if (!previewActive) {
+      shownRef.current = false;
+      return undefined;
+    }
+
+    const apply = () => {
+      const el = previewRef.current;
+      if (!el) return;
+      const { x, y } = currentRef.current;
+      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+
+    // On the first row of an interaction the preview should appear under the
+    // cursor rather than glide in from wherever it last rested.
+    if (!shownRef.current) {
+      currentRef.current = { ...pointer.current };
+      apply();
+      shownRef.current = true;
+    }
+
+    let rafId = 0;
+    const tick = () => {
+      const cur = currentRef.current;
+      cur.x += (pointer.current.x - cur.x) * PREVIEW_LERP;
+      cur.y += (pointer.current.y - cur.y) * PREVIEW_LERP;
+      apply();
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(rafId);
+  }, [previewActive, pointer]);
 
   const rowProps = (index) =>
-    canHover
+    enablePreview
       ? {
           onMouseEnter: (event) => {
+            pointer.current.x = event.clientX;
+            pointer.current.y = event.clientY;
             setActiveIndex(index);
-            setPos({ x: event.clientX, y: event.clientY });
           },
           onMouseLeave: () => setActiveIndex(null)
         }
@@ -52,7 +97,7 @@ function Projects({ asPage = false }) {
 
         <div
           className="work-list"
-          onMouseLeave={() => canHover && setActiveIndex(null)}
+          onMouseLeave={() => enablePreview && setActiveIndex(null)}
         >
           {PROJECTS.map((project, index) => (
             <Reveal key={project.title} delay={index * 60}>
@@ -94,16 +139,20 @@ function Projects({ asPage = false }) {
         </div>
       </div>
 
-      {canHover && (
+      {enablePreview && (
         <div
-          className={`work-preview${activeIndex !== null ? " active" : ""}`}
-          style={{
-            transform: `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%) translateX(clamp(140px, 18vw, 260px))`
-          }}
+          ref={previewRef}
+          className={`work-preview${previewActive ? " active" : ""}`}
           aria-hidden="true"
         >
-          {activeIndex !== null && (
-            <img src={PROJECTS[activeIndex].img} alt="" />
+          {previewActive && (
+            <>
+              <img src={PROJECTS[activeIndex].img} alt="" />
+              <span className="work-preview-caption">
+                <strong>{PROJECTS[activeIndex].title}</strong>
+                <em>View case study&nbsp;&#8599;</em>
+              </span>
+            </>
           )}
         </div>
       )}

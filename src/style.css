@@ -331,6 +331,35 @@ textarea {
   border-bottom-color: var(--border);
 }
 
+/* Segmented progress rail pinned to the nav's bottom edge. Reuses the tick
+   vocabulary of the boot overlay and route fallback so the whole system reads
+   as one meter: faint ticks for the track, accent ticks for the fill. */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 320ms var(--ease-out);
+  background-image: repeating-linear-gradient(to right,
+    var(--border) 0 6px, transparent 6px 11px);
+}
+
+.nav.is-scrolled .scroll-progress {
+  opacity: 1;
+}
+
+.scroll-progress-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform: scaleX(var(--scroll-progress, 0));
+  background-image: repeating-linear-gradient(to right,
+    var(--accent) 0 6px, transparent 6px 11px);
+}
+
 .nav-inner {
   display: flex;
   align-items: center;
@@ -954,6 +983,9 @@ textarea {
   opacity: 0;
   transform-origin: center;
   scale: 0.92;
+  /* Centering and the right-of-cursor nudge live here so the frame loop can own
+     `transform` outright and simply track the pointer with translate3d(). */
+  translate: calc(-50% + clamp(140px, 18vw, 260px)) -50%;
   transition: opacity 220ms var(--ease-out), scale 280ms var(--ease-out);
   box-shadow: 0 24px 60px var(--shadow);
   border: 1px solid var(--border);
@@ -970,6 +1002,45 @@ textarea {
   object-fit: cover;
   transform: scale(1.03);
   transition: transform 400ms var(--ease-out), filter 300ms ease;
+}
+
+.work-preview-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 26px 18px 14px;
+  color: #f5f5f3;
+  background: linear-gradient(to top,
+    rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0));
+  transform: translateY(6px);
+  opacity: 0;
+  transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
+}
+
+.work-preview.active .work-preview-caption {
+  opacity: 1;
+  transform: none;
+}
+
+.work-preview-caption strong {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.work-preview-caption em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 html.lightbox-open {
@@ -1250,6 +1321,66 @@ textarea.form-input {
 .btn-primary:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+/* Form submit layers a tiny state machine on top of .btn-primary: the label
+   sits beside an icon that becomes an inline spinner while sending, then a
+   checkmark that draws itself once the message is away. Scoped to .btn-submit
+   so the Resume download/preview buttons (also .btn-primary) are untouched. */
+.btn-submit {
+  min-width: 184px;
+  justify-content: center;
+}
+
+.btn-submit-label {
+  transition: opacity 200ms var(--ease-out);
+}
+
+.btn-submit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: btnIconIn 220ms var(--ease-out);
+}
+
+@keyframes btnIconIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.btn-submit.is-sent,
+.btn-submit.is-sent:hover:not(:disabled) {
+  background: #3fbf6f;
+  border-color: #3fbf6f;
+  color: #0a0a0a;
+}
+
+.btn-spinner {
+  animation: btnSpin 700ms linear infinite;
+}
+
+@keyframes btnSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-check {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: checkDraw 380ms var(--ease-out) forwards;
+}
+
+@keyframes checkDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .status-message {

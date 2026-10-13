@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Reveal from "../Reveal";
 
@@ -13,6 +13,16 @@ const ContactForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
+  const [justSent, setJustSent] = useState(false);
+
+  // Hold the "Sent" button state briefly, then return to idle so the form is
+  // ready for a second message. The success status message persists regardless,
+  // so nothing is lost if the visitor looks away during the check animation.
+  useEffect(() => {
+    if (!justSent) return undefined;
+    const id = setTimeout(() => setJustSent(false), 1600);
+    return () => clearTimeout(id);
+  }, [justSent]);
 
   const handleChange = (e) => {
     setFormData({
@@ -42,6 +52,7 @@ const ContactForm = () => {
       );
 
       setSubmitStatus("success");
+      setJustSent(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
       console.error("Email sending error:", error);
@@ -50,6 +61,8 @@ const ContactForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  const submitPhase = isSubmitting ? "sending" : justSent ? "sent" : "idle";
 
   return (
     <section className="section" id="contact">
@@ -132,13 +145,41 @@ const ContactForm = () => {
                 />
               </div>
 
-              <button type="submit" disabled={isSubmitting} className="btn-primary">
-                {isSubmitting ? "Sending…" : "Send Message"}
-                {!isSubmitting && (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M7 17 17 7M8 7h9v9" />
-                  </svg>
-                )}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`btn-primary btn-submit is-${submitPhase}`}
+                aria-label={
+                  submitPhase === "sending"
+                    ? "Sending message"
+                    : submitPhase === "sent"
+                    ? "Message sent"
+                    : "Send message"
+                }
+              >
+                <span className="btn-submit-label">
+                  {submitPhase === "sending"
+                    ? "Sending…"
+                    : submitPhase === "sent"
+                    ? "Sent"
+                    : "Send Message"}
+                </span>
+                <span className="btn-submit-icon" aria-hidden="true" key={submitPhase}>
+                  {submitPhase === "sending" ? (
+                    <svg className="btn-spinner" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <circle cx="12" cy="12" r="9" opacity="0.25" />
+                      <path d="M21 12a9 9 0 0 0-9-9" />
+                    </svg>
+                  ) : submitPhase === "sent" ? (
+                    <svg className="btn-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path pathLength="1" d="M4 12.5l5 5L20 6.5" />
+                    </svg>
+                  ) : (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M7 17 17 7M8 7h9v9" />
+                    </svg>
+                  )}
+                </span>
               </button>
 
               {submitStatus === "success" && (

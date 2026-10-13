@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/ThemeContext";
+import useScrollProgress from "../hooks/useScrollProgress";
 
 const NAV_LINKS = [
   { label: "Work", type: "section", target: "work" },
@@ -24,6 +25,11 @@ function NavBar() {
   const navigate = useNavigate();
   const burgerRef = useRef(null);
   const menuRef = useRef(null);
+  const progressRef = useRef(null);
+
+  // Drives the segmented progress rail along the nav's bottom edge. Decorative:
+  // it mirrors where the visitor is on the page, so it is aria-hidden.
+  useScrollProgress(progressRef);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -162,6 +168,10 @@ function NavBar() {
             </button>
           </div>
         </div>
+
+        <span className="scroll-progress" ref={progressRef} aria-hidden="true">
+          <span className="scroll-progress-fill" />
+        </span>
       </header>
 
       <div
