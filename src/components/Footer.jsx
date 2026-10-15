@@ -2,6 +2,7 @@ import React from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import { AiFillGithub, AiFillInstagram, AiFillFacebook } from "react-icons/ai";
 import { FaLinkedinIn, FaArrowUp } from "react-icons/fa";
+import Magnetic from "./ui/Magnetic";
 
 const SOCIALS = [
   {
@@ -46,12 +47,14 @@ function Footer() {
           Have an idea? Let&rsquo;s build it <span className="serif-accent">together.</span>
         </h2>
 
-        <a className="link-sweep footer-email" href="mailto:fideljonmagat25@gmail.com">
-          fideljonmagat25@gmail.com
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M7 17 17 7M8 7h9v9" />
-          </svg>
-        </a>
+        <Magnetic strength={0.16}>
+          <a className="link-sweep footer-email" href="mailto:fideljonmagat25@gmail.com">
+            fideljonmagat25@gmail.com
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M7 17 17 7M8 7h9v9" />
+            </svg>
+          </a>
+        </Magnetic>
 
         <ul className="footer-socials">
           {SOCIALS.map((social) => (
@@ -77,3 +80,5 @@ function Footer() {
 }
 
 export default Footer;
+
+

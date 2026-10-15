@@ -9,6 +9,22 @@ function useScrollProgress(targetRef) {
     const node = targetRef.current;
     if (!node || typeof window === "undefined") return undefined;
 
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return undefined;
+
+    let supportsScrollTimeline = false;
+    try {
+      supportsScrollTimeline =
+        typeof CSS !== "undefined" &&
+        typeof CSS.supports === "function" &&
+        CSS.supports("animation-timeline", "scroll()");
+    } catch {
+      supportsScrollTimeline = false;
+    }
+    if (supportsScrollTimeline) return undefined;
+
     let rafId = 0;
 
     const apply = () => {
