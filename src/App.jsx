@@ -11,6 +11,7 @@ import Particle from "./components/Particle";
 import { ThemeProvider } from "./theme/ThemeContext";
 import { getMetaForPath, SITE_URL } from "./config/routeMeta";
 import usePrefersReducedMotion from "./hooks/usePrefersReducedMotion";
+import useViewportResync from "./hooks/useViewportResync";
 import SmoothScrollProvider from "./providers/SmoothScrollProvider";
 import { springs, exitQuick, instant } from "./theme/motion";
 import { installTapHaptics } from "./lib/haptics";
@@ -133,6 +134,10 @@ export function AppShell({ RouterComponent = BrowserRouter }) {
   // like the mobile menu and chat window -- are covered without wiring each
   // component by hand.
   useEffect(() => installTapHaptics(), []);
+
+  // iOS 26 WebKit bug: after the on-screen keyboard closes, fixed elements
+  // can drift with the page until the visual viewport re-syncs. See the hook.
+  useViewportResync();
 
   const tree = useMemo(
     () => (

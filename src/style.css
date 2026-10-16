@@ -370,16 +370,34 @@ select,
   height: var(--nav-height);
   display: flex;
   align-items: center;
-  border-bottom: 1px solid transparent;
-  transition: background-color 220ms var(--ease-out),
-    border-color 220ms var(--ease-out), backdrop-filter 220ms var(--ease-out);
+  /* CONSTRAINT (platform, not motion): WebKit on iOS mis-anchors fixed
+     elements that carry their own background/filter -- iOS 26 samples those
+     properties for toolbar tinting, and iOS 26.0 let the bar drift with
+     momentum scroll after the on-screen keyboard closed (WebKit #297779).
+     Keeping this element visually transparent and promoted to its own
+     composited layer keeps it anchored to the viewport; the actual glass
+     lives on `.nav::before`. Do not "simplify" this back onto `.nav`. */
+  transform: translateZ(0);
 }
 
-.nav.is-scrolled {
+/* The bar's glass, on an absolutely-positioned child rather than the fixed
+   element itself (see the CONSTRAINT note on `.nav`). Only opacity animates. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: var(--overlay);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border-bottom-color: var(--border);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transition: opacity 220ms var(--ease-out);
+  pointer-events: none;
+}
+
+.nav.is-scrolled::before {
+  opacity: 1;
 }
 
 /* Segmented progress rail pinned to the nav's bottom edge. Reuses the tick
@@ -668,13 +686,16 @@ select,
   position: fixed;
   inset: 0;
   z-index: 110;
-  background: var(--overlay);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
   padding: calc(var(--nav-height) + 32px) clamp(24px, 7vw, 56px) 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* CONSTRAINT (platform, not motion): mobile Safari ignores
+     `overflow: hidden` on <html> for touch pans, which lets the page scroll
+     behind the open menu -- and the fixed bar above it drift along. Panning
+     is suppressed here instead; `touch-action` never blocks taps, so every
+     link and toggle still responds. */
+  touch-action: none;
   opacity: 0;
   transform: translateY(-16px);
   visibility: hidden;
@@ -683,6 +704,18 @@ select,
      the end of the delay). Intentional `step-end`, not an easing curve. */
   transition: opacity 320ms var(--ease-out-exit),
     transform 320ms var(--ease-out-exit), visibility 0s step-end 320ms;
+}
+
+/* The menu's glass, on a child layer for the same WebKit reasons as the nav
+   (see the CONSTRAINT note on `.nav`). */
+.mobile-menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--overlay);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 .mobile-menu.is-open {
