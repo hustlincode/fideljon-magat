@@ -40,6 +40,9 @@ function ProjectDetail() {
         gsap.registerPlugin(ScrollTrigger);
 
         ctx = gsap.context(() => {
+          // CONSTRAINT: `ease: "none"` is correct here. This tween is
+          // scrub-linked -- it must map 1:1 to scroll position, and any
+          // easing curve would make the image lag the scrollbar.
           const animation = gsap.fromTo(
             img,
             { scale: 1.1, yPercent: -6 },
@@ -82,7 +85,7 @@ function ProjectDetail() {
     <main>
       <section className="page-head container-x">
         <Reveal>
-          <Link to="/project" className="project-back link-sweep">
+          <Link to="/project" className="project-back link-sweep" data-haptic="light">
             <FiArrowLeft size={14} />
             All projects
           </Link>
@@ -166,7 +169,7 @@ function ProjectDetail() {
               <ul>
                 {others.map((item) => (
                   <li key={item.slug}>
-                    <Link to={projectPath(item.slug)} className="link-sweep">
+                    <Link to={projectPath(item.slug)} className="link-sweep" data-haptic="light">
                       <span>
                         {item.title}
                         <em>{item.context}</em>

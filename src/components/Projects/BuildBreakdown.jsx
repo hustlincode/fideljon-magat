@@ -45,6 +45,7 @@ function BuildBreakdown({ project }) {
             aria-selected={index === activeIndex}
             className={`build-tab${index === activeIndex ? " is-active" : ""}`}
             onClick={() => setActiveIndex(index)}
+            data-haptic="light"
           >
             {panel.label}
           </button>

@@ -49,7 +49,7 @@ function Hero() {
               CURRENTLY<strong>Servo IT Solutions OPC</strong>
             </div>
           </div>
-          <a href="#intro" className="scroll-cue" aria-label="Scroll to introduction">
+          <a href="#intro" className="scroll-cue" aria-label="Scroll to introduction" data-haptic="light">
             SCROLL
             <span className="scroll-cue-line" aria-hidden="true"></span>
           </a>

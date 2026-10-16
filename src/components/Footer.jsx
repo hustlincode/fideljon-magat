@@ -48,7 +48,7 @@ function Footer() {
         </h2>
 
         <Magnetic strength={0.16}>
-          <a className="link-sweep footer-email" href="mailto:fideljonmagat25@gmail.com">
+          <a className="link-sweep footer-email" href="mailto:fideljonmagat25@gmail.com" data-haptic="light">
             fideljonmagat25@gmail.com
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M7 17 17 7M8 7h9v9" />
@@ -59,7 +59,7 @@ function Footer() {
         <ul className="footer-socials">
           {SOCIALS.map((social) => (
             <li key={social.label}>
-              <a href={social.href} target="_blank" rel="noreferrer noopener">
+              <a href={social.href} target="_blank" rel="noreferrer noopener" data-haptic="light">
                 <span aria-hidden="true">{social.icon}</span>
                 {social.label}
               </a>
@@ -69,7 +69,7 @@ function Footer() {
 
         <div className="footer-bottom">
           <span>© {year} FJM — Designed and developed by Fidel Jon Magat</span>
-          <a href="#top" className="back-top link-sweep" onClick={backToTop}>
+          <a href="#top" className="back-top link-sweep" onClick={backToTop} data-haptic="light">
             Back to top
             <FaArrowUp size={12} />
           </a>

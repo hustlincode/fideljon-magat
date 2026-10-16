@@ -22,15 +22,18 @@
   cursor: pointer;
   z-index: 9999;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: box-shadow 220ms var(--ease-out),
+    border-color 220ms var(--ease-out), transform 280ms var(--ease-spring);
 }
 
 .chat-toggle:hover {
   border-color: rgba(255, 143, 58, 0.55);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 24px var(--accent-glow);
   transform: translateY(-1px);
+}
+
+.chat-toggle:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .chat-toggle-avatar {
@@ -75,14 +78,18 @@
   z-index: 9999;
   font-family: var(--font-sans);
   color-scheme: dark;
+  /* Modals grow from their trigger: the toggle sits at the bottom-right
+     corner, so the window scales open from there instead of from its
+     own center. */
+  transform-origin: 100% 100%;
 }
 
 .fade-in {
-  animation: fadeIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fadeIn 0.3s var(--ease-spring-soft) forwards;
 }
 
 .fade-out {
-  animation: fadeOut 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fadeOut 0.18s var(--ease-out-exit) forwards;
 }
 
 .chat-header {
@@ -162,12 +169,17 @@
   justify-content: center;
   color: var(--text-dim);
   cursor: pointer;
-  transition: color 150ms ease, background-color 150ms ease;
+  transition: color 160ms var(--ease-out), background-color 160ms var(--ease-out),
+    transform 220ms var(--ease-spring);
 }
 
 .close-btn:hover {
   color: var(--text-main);
   background: rgba(255, 255, 255, 0.1);
+}
+
+.close-btn:active {
+  transform: scale(0.88);
 }
 
 .chat-header-actions {
@@ -315,13 +327,18 @@
   font-weight: 500;
   padding: 6px 12px;
   cursor: pointer;
-  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out), transform 220ms var(--ease-spring);
 }
 
 .suggestion-chip:hover:not(:disabled) {
   border-color: rgba(255, 143, 58, 0.65);
   color: var(--accent);
   background: rgba(255, 143, 58, 0.08);
+}
+
+.suggestion-chip:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .suggestion-chip:disabled {
@@ -339,7 +356,7 @@
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-radius: 0 0 17px 17px;
-  transition: border-color 200ms ease;
+  transition: border-color 200ms var(--ease-out);
 }
 
 .chat-footer:focus-within {
@@ -368,7 +385,7 @@
   color: var(--text-dim);
   padding: 0 16px;
   cursor: pointer;
-  transition: color 150ms ease;
+  transition: color 160ms var(--ease-out);
 }
 
 .chat-footer button:hover:not(:disabled) {
@@ -393,13 +410,19 @@
   background: rgba(255, 255, 255, 0.06);
   color: var(--text-dim);
   font-size: 13px;
-  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  transition: color 160ms var(--ease-out), background-color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out), box-shadow 200ms var(--ease-out),
+    transform 220ms var(--ease-spring);
 }
 
 .chat-footer .mic-btn:hover:not(:disabled) {
   color: var(--accent);
   border-color: rgba(255, 143, 58, 0.45);
   background: rgba(255, 143, 58, 0.1);
+}
+
+.chat-footer .mic-btn:active:not(:disabled) {
+  transform: scale(0.9);
 }
 
 .chat-footer .mic-btn.listening {
@@ -414,6 +437,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: transform 220ms var(--ease-spring);
+}
+
+.chat-footer .send-btn:active:not(:disabled) {
+  transform: scale(0.88);
 }
 
 .chat-footer input.listening {

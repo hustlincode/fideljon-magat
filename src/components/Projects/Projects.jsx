@@ -164,6 +164,7 @@ function Projects({ asPage = false }) {
                     className="work-arrow"
                     aria-label={`View details for ${project.title}`}
                     onClick={(event) => handleProjectOpen(project.slug, event)}
+                    data-haptic="light"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <path d="M7 17 17 7M8 7h9v9" />

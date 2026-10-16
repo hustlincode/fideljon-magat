@@ -36,12 +36,14 @@ function Skills() {
         gsap.registerPlugin(ScrollTrigger);
 
         ctx = gsap.context(() => {
+          // Same spring-feel curve as the split-text reveals: fast lead-in,
+          // long settle. Groups lead, items follow with a tighter curve.
           gsap.from(".skill-group", {
             y: 24,
             opacity: 0,
             stagger: 0.14,
             duration: 0.7,
-            ease: "power3.out",
+            ease: "expo.out",
             scrollTrigger: {
               trigger: container,
               start: "top 80%",
@@ -55,7 +57,7 @@ function Skills() {
             stagger: 0.03,
             duration: 0.45,
             delay: 0.15,
-            ease: "power2.out",
+            ease: "power3.out",
             scrollTrigger: {
               trigger: container,
               start: "top 80%",

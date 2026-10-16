@@ -123,11 +123,11 @@ function ResumeNew() {
             </div>
 
             <div className="resume-actions">
-              <button type="button" className="btn-primary" onClick={downloadCv}>
+              <button type="button" className="btn-primary" onClick={downloadCv} data-haptic="medium">
                 <AiOutlineDownload />
                 Download CV
               </button>
-              <button type="button" className="btn-outline" onClick={openPreview}>
+              <button type="button" className="btn-outline" onClick={openPreview} data-haptic="light">
                 <FiExternalLink />
                 Preview PDF
               </button>
@@ -147,6 +147,7 @@ function ResumeNew() {
                     type="button"
                     className="resume-status-link"
                     onClick={openPreview}
+                    data-haptic="light"
                   >
                     Open the PDF instead
                   </button>

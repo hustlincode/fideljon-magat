@@ -44,12 +44,15 @@ function useSplitTextReveal(targetRef, {
           const targets =
             type === "words" ? split.words : split.chars || split.words;
 
+          // `expo.out` is the GSAP stand-in for a critically damped spring:
+          // a very fast leading edge with a long, soft settle. Paired with
+          // the small stagger it reads as physical rather than eased.
           gsap.from(targets, {
             yPercent,
             opacity: 0,
             stagger,
             duration,
-            ease: "power3.out",
+            ease: "expo.out",
             immediateRender: false,
             scrollTrigger: {
               trigger: node,

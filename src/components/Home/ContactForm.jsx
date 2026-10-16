@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Reveal from "../Reveal";
 import Magnetic from "../ui/Magnetic";
+import { haptic } from "../../lib/haptics";
 
 const ContactForm = () => {
   const formRef = useRef();
@@ -63,9 +64,13 @@ const ContactForm = () => {
       setSubmitStatus("success");
       setJustSent(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
+      // Confirm the outcome, not just the tap: the button already buzzed on
+      // press, so this is the "it worked" beat.
+      haptic("success");
     } catch (error) {
       console.error("Email sending error:", error);
       setSubmitStatus("error");
+      haptic("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -159,6 +164,7 @@ const ContactForm = () => {
                   type="submit"
                 disabled={isSubmitting}
                 className={`btn-primary btn-submit is-${submitPhase}`}
+                data-haptic="medium"
                 aria-label={
                   submitPhase === "sending"
                     ? "Sending message"

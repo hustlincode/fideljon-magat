@@ -12,6 +12,8 @@ import { ThemeProvider } from "./theme/ThemeContext";
 import { getMetaForPath, SITE_URL } from "./config/routeMeta";
 import usePrefersReducedMotion from "./hooks/usePrefersReducedMotion";
 import SmoothScrollProvider from "./providers/SmoothScrollProvider";
+import { springs, exitQuick, instant } from "./theme/motion";
+import { installTapHaptics } from "./lib/haptics";
 import "./style.css";
 
 const Home = lazy(() => import("./components/Home/Home"));
@@ -83,6 +85,9 @@ function RouteMeta() {
 // Animated route boundary. AnimatePresence only animates on actual navigation
 // after the first client render, so prerendered/SSR HTML keeps its final
 // state and reduced-motion visitors see an immediate swap.
+//
+// Enter is a critically-damped spring (fast leading edge, soft settle);
+// exit accelerates out at ~65% of that duration so leaving never drags.
 function AnimatedRoutes() {
   const location = useLocation();
   const reduced = usePrefersReducedMotion();
@@ -98,11 +103,12 @@ function AnimatedRoutes() {
         key={location.pathname}
         initial={ready ? { opacity: 0, y: reduced ? 0 : 12 } : false}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: reduced ? 0 : -8 }}
-        transition={{
-          duration: reduced ? 0 : 0.24,
-          ease: [0.22, 1, 0.36, 1]
+        exit={{
+          opacity: 0,
+          y: reduced ? 0 : -8,
+          transition: reduced ? instant : exitQuick
         }}
+        transition={reduced ? instant : springs.route}
         style={{ width: "100%" }}
       >
         <Routes location={location} key={location.pathname}>
@@ -122,6 +128,12 @@ function AnimatedRoutes() {
 // BrowserRouter while the build-time prerender uses StaticRouter, without
 // duplicating the route table.
 export function AppShell({ RouterComponent = BrowserRouter }) {
+  // One delegated listener turns every [data-haptic] element into tactile
+  // feedback. Installed once here so all routes -- and UI rendered later,
+  // like the mobile menu and chat window -- are covered without wiring each
+  // component by hand.
+  useEffect(() => installTapHaptics(), []);
+
   const tree = useMemo(
     () => (
       <RouterComponent basename="">
