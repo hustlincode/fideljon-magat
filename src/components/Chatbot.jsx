@@ -530,6 +530,7 @@ const ChatBot = () => {
           if (isOpen) toggleClose();
           else setIsOpen(true);
         }}
+        data-haptic="light"
         aria-label={isOpen ? "Close chat with Aether" : "Open chat with Aether"}
       >
         <img src={aetherAvatar} alt="" className="chat-toggle-avatar" />
@@ -550,7 +551,7 @@ const ChatBot = () => {
               </div>
             </div>
             <div className="chat-header-actions">
-              <button className="close-btn" onClick={toggleClose} aria-label="Close chat">
+              <button className="close-btn" onClick={toggleClose} data-haptic="light" aria-label="Close chat">
                 <FaTimes />
               </button>
             </div>
@@ -568,7 +569,7 @@ const ChatBot = () => {
                   <div className={`message-text ${isBot ? "left" : "right"}`}>
                     {msg.text}
                     {msg.link && (
-                      <a href={msg.link.href} className="message-link" onClick={goToContact}>
+                      <a href={msg.link.href} className="message-link" onClick={goToContact} data-haptic="light">
                         {msg.link.label}
                       </a>
                     )}
@@ -594,6 +595,7 @@ const ChatBot = () => {
                     className="suggestion-chip"
                     onClick={() => sendMessage(label)}
                     disabled={inputDisabled}
+                    data-haptic="light"
                   >
                     {label}
                   </button>
@@ -629,6 +631,7 @@ const ChatBot = () => {
                 className={`mic-btn ${isListening ? "listening" : ""}`}
                 onClick={handleMicClick}
                 disabled={isTyping}
+                data-haptic="medium"
                 aria-label={isListening ? "Stop listening" : "Start voice input"}
                 title={
                   isListening
@@ -644,7 +647,7 @@ const ChatBot = () => {
             ) : (
               <span className="mic-unsupported" title="Voice not supported in this browser">🎙️</span>
             )}
-            <button onClick={() => sendMessage()} disabled={inputDisabled || (!input.trim() && !transcript.trim() && !interimTranscript.trim())} aria-label="Send message" className="send-btn">
+            <button onClick={() => sendMessage()} disabled={inputDisabled || (!input.trim() && !transcript.trim() && !interimTranscript.trim())} data-haptic="medium" aria-label="Send message" className="send-btn">
               <FaArrowRight />
             </button>
           </div>

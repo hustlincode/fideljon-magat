@@ -6,7 +6,7 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+  /* -webkit-text-size-adjust: 100%; */
   overflow-x: hidden;
 }
 
@@ -23,7 +23,7 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition: background-color 220ms var(--ease-out), color 220ms var(--ease-out);
   overflow-x: hidden;
 }
 
@@ -84,6 +84,20 @@ button {
 input,
 textarea {
   font-family: inherit;
+}
+
+/*
+  Tap responsiveness: `manipulation` removes the legacy double-tap-zoom wait
+  (~300ms) on touch devices, which is exactly the delay that makes a tap feel
+  late before any animation has even started.
+*/
+a,
+button,
+input,
+textarea,
+select,
+[role="button"] {
+  touch-action: manipulation;
 }
 
 ::selection {
@@ -159,6 +173,11 @@ textarea {
   letter-spacing: -0.01em;
 }
 
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
 .display-hero {
   font-size: clamp(3rem, 9vw, 7.75rem);
   line-height: 1.02;
@@ -209,7 +228,7 @@ textarea {
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 220ms var(--ease-out);
+  transition: transform 240ms var(--ease-spring-soft);
 }
 
 .link-sweep:hover::after,
@@ -220,14 +239,46 @@ textarea {
 
 .reveal {
   opacity: 0;
+  transition: opacity 650ms var(--ease-spring-soft),
+    transform 650ms var(--ease-spring-soft), filter 650ms var(--ease-spring-soft);
+}
+
+.reveal-up {
   transform: translateY(22px);
-  transition: opacity 650ms var(--ease-out), transform 650ms var(--ease-out);
+}
+
+.reveal-scale {
+  transform: scale(0.96);
+}
+
+.reveal-blur {
+  filter: blur(8px);
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  filter: none;
 }
+
+/* Stagger direct children when a Reveal opts into it. */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 560ms var(--ease-spring-soft),
+    transform 560ms var(--ease-spring-soft);
+}
+
+.reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 60ms; }
+.reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 120ms; }
+.reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 180ms; }
+.reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 240ms; }
+.reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 300ms; }
 
 @keyframes riseIn {
   from {
@@ -242,7 +293,7 @@ textarea {
 
 .rise {
   opacity: 0;
-  animation: riseIn 750ms var(--ease-out) forwards;
+  animation: riseIn 750ms var(--ease-spring-soft) forwards;
 }
 
 .rise-d1 { animation-delay: 60ms; }
@@ -319,16 +370,34 @@ textarea {
   height: var(--nav-height);
   display: flex;
   align-items: center;
-  border-bottom: 1px solid transparent;
-  transition: background-color 200ms ease, border-color 200ms ease,
-    backdrop-filter 200ms ease;
+  /* CONSTRAINT (platform, not motion): WebKit on iOS mis-anchors fixed
+     elements that carry their own background/filter -- iOS 26 samples those
+     properties for toolbar tinting, and iOS 26.0 let the bar drift with
+     momentum scroll after the on-screen keyboard closed (WebKit #297779).
+     Keeping this element visually transparent and promoted to its own
+     composited layer keeps it anchored to the viewport; the actual glass
+     lives on `.nav::before`. Do not "simplify" this back onto `.nav`. */
+  transform: translateZ(0);
 }
 
-.nav.is-scrolled {
+/* The bar's glass, on an absolutely-positioned child rather than the fixed
+   element itself (see the CONSTRAINT note on `.nav`). Only opacity animates. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: var(--overlay);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border-bottom-color: var(--border);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transition: opacity 220ms var(--ease-out);
+  pointer-events: none;
+}
+
+.nav.is-scrolled::before {
+  opacity: 1;
 }
 
 /* Segmented progress rail pinned to the nav's bottom edge. Reuses the tick
@@ -360,6 +429,29 @@ textarea {
     var(--accent) 0 6px, transparent 6px 11px);
 }
 
+@keyframes railFillNative {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  /*
+    CONSTRAINT: intentionally `linear`. This rail is a scroll-position
+    readout, not an animation -- any easing would make it lag behind the
+    scrollbar it is describing. Same reason the JS fallback in
+    useScrollProgress writes raw progress with no smoothing.
+  */
+  .scroll-progress-fill {
+    animation: railFillNative linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0% 100%;
+  }
+}
+
 .nav-inner {
   display: flex;
   align-items: center;
@@ -378,6 +470,24 @@ textarea {
 
 .wordmark-dot {
   color: var(--accent);
+  animation: wordmarkDotPulse 2.8s var(--ease-out) infinite;
+}
+
+@keyframes wordmarkDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark-dot {
+    animation: none;
+  }
 }
 
 .nav-right {
@@ -411,7 +521,7 @@ textarea {
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 220ms var(--ease-out);
+  transition: transform 260ms var(--ease-spring-soft);
 }
 
 .nav-link:hover,
@@ -436,7 +546,7 @@ textarea {
   border-radius: 999px;
   color: var(--text-secondary);
   transition: color var(--transition-fast), border-color var(--transition-fast),
-    transform var(--transition-fast);
+    transform 260ms var(--ease-spring);
 }
 
 .theme-toggle:hover {
@@ -457,7 +567,48 @@ textarea {
 }
 
 .theme-toggle svg {
-  animation: iconSwap 260ms var(--ease-out);
+  animation: iconSwap 300ms var(--ease-spring);
+}
+
+/*
+  Haptic feedback toggle. Deliberately hidden unless the primary pointer is
+  coarse: mouse-only desktops have no feedback hardware, so a control there
+  would do nothing. Phones/tablets see it next to the theme toggle. Its
+  press physics lives with the other tappables near the "Press physics"
+  block at the end of this file.
+*/
+.haptic-toggle {
+  position: relative;
+  display: none;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast), border-color var(--transition-fast),
+    transform 260ms var(--ease-spring);
+}
+
+@media (pointer: coarse) {
+  .haptic-toggle {
+    display: grid;
+  }
+}
+
+.haptic-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.haptic-toggle svg {
+  animation: iconSwap 300ms var(--ease-spring);
+}
+
+.haptic-toggle.is-off {
+  color: var(--text-secondary);
+  opacity: 0.65;
 }
 
 .nav-burger {
@@ -468,6 +619,7 @@ textarea {
   border: none;
   padding: 0;
   position: relative;
+  transition: transform 240ms var(--ease-spring);
 }
 
 .nav-burger::before {
@@ -503,8 +655,8 @@ textarea {
   height: 1.6px;
   border-radius: 2px;
   background: var(--text-primary);
-  transition: transform 300ms var(--ease-out), top 300ms var(--ease-out),
-    opacity 240ms ease;
+  transition: transform 300ms var(--ease-spring),
+    top 300ms var(--ease-spring-soft), opacity 200ms var(--ease-out);
 }
 
 .nav-burger span:nth-child(1) {
@@ -534,26 +686,45 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 110;
-  background: var(--overlay);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
   padding: calc(var(--nav-height) + 32px) clamp(24px, 7vw, 56px) 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* CONSTRAINT (platform, not motion): mobile Safari ignores
+     `overflow: hidden` on <html> for touch pans, which lets the page scroll
+     behind the open menu -- and the fixed bar above it drift along. Panning
+     is suppressed here instead; `touch-action` never blocks taps, so every
+     link and toggle still responds. */
+  touch-action: none;
   opacity: 0;
   transform: translateY(-16px);
   visibility: hidden;
-  transition: opacity 480ms cubic-bezier(0.45, 0, 0.25, 1),
-    transform 480ms cubic-bezier(0.45, 0, 0.25, 1),
-    visibility 0s linear 480ms;
+  /* The base rule describes the *exit*: ~70% of the enter duration, and the
+     visibility flip only happens after the fade has finished (step-end at
+     the end of the delay). Intentional `step-end`, not an easing curve. */
+  transition: opacity 320ms var(--ease-out-exit),
+    transform 320ms var(--ease-out-exit), visibility 0s step-end 320ms;
+}
+
+/* The menu's glass, on a child layer for the same WebKit reasons as the nav
+   (see the CONSTRAINT note on `.nav`). */
+.mobile-menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--overlay);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 .mobile-menu.is-open {
   opacity: 1;
   transform: none;
   visibility: visible;
-  transition-delay: 0s;
+  /* Enter: springier and slightly longer than the exit. */
+  transition: opacity 440ms var(--ease-spring-soft),
+    transform 440ms var(--ease-spring-soft), visibility 0s step-end 0s;
 }
 
 .mobile-menu-links {
@@ -573,7 +744,8 @@ textarea {
   gap: 16px;
   opacity: 0;
   transform: translateY(22px);
-  transition: opacity 440ms var(--ease-out), transform 440ms var(--ease-out);
+  transition: opacity 440ms var(--ease-spring-soft),
+    transform 440ms var(--ease-spring-soft);
 }
 
 .mobile-menu.is-open .mobile-menu-link {
@@ -632,6 +804,16 @@ textarea {
   background-position: 0% 0%, 100% 0%, 50% 100%;
   background-repeat: no-repeat;
   animation: hero-aurora 38s ease-in-out infinite alternate;
+}
+
+/* Theme-aware delight: keep the aurora language, but let each theme breathe at
+   a different rhythm without changing the layout or colors. */
+:root[data-theme="light"] .hero {
+  animation-duration: 24s;
+}
+
+:root[data-theme="dark"] .hero {
+  animation-duration: 46s;
 }
 
 @keyframes hero-aurora {
@@ -905,7 +1087,7 @@ textarea {
   letter-spacing: -0.025em;
   line-height: 1.12;
   margin: 0 0 10px;
-  transition: transform 250ms var(--ease-out);
+  transition: transform 320ms var(--ease-spring-soft);
 }
 
 .work-desc {
@@ -937,7 +1119,7 @@ textarea {
   place-items: center;
   color: var(--text-secondary);
   background: transparent;
-  transition: transform 250ms var(--ease-out), color var(--transition-fast),
+  transition: transform 280ms var(--ease-spring), color var(--transition-fast),
     border-color var(--transition-fast), background-color var(--transition-fast);
   margin-top: 4px;
 }
@@ -970,6 +1152,14 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 420ms var(--ease-spring-soft),
+    filter 300ms var(--ease-out);
+  will-change: transform;
+}
+
+.work-row:hover .work-thumb img {
+  transform: scale(1.045);
+  filter: saturate(1.06);
 }
 
 .work-preview {
@@ -986,7 +1176,7 @@ textarea {
   /* Centering and the right-of-cursor nudge live here so the frame loop can own
      `transform` outright and simply track the pointer with translate3d(). */
   translate: calc(-50% + clamp(140px, 18vw, 260px)) -50%;
-  transition: opacity 220ms var(--ease-out), scale 280ms var(--ease-out);
+  transition: opacity 220ms var(--ease-out), scale 320ms var(--ease-spring);
   box-shadow: 0 24px 60px var(--shadow);
   border: 1px solid var(--border);
 }
@@ -1001,7 +1191,7 @@ textarea {
   height: 100%;
   object-fit: cover;
   transform: scale(1.03);
-  transition: transform 400ms var(--ease-out), filter 300ms ease;
+  transition: transform 420ms var(--ease-spring-soft), filter 300ms var(--ease-out);
 }
 
 .work-preview-caption {
@@ -1019,7 +1209,7 @@ textarea {
     rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0));
   transform: translateY(6px);
   opacity: 0;
-  transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
+  transition: opacity 260ms var(--ease-out), transform 300ms var(--ease-spring-soft);
 }
 
 .work-preview.active .work-preview-caption {
@@ -1169,6 +1359,13 @@ html.lightbox-open {
 
 .skill-items span {
   overflow-wrap: anywhere;
+  transition: transform 220ms var(--ease-spring), color 200ms var(--ease-out);
+  display: inline-block;
+}
+
+.skill-items span:hover {
+  transform: translateY(-2px) scale(1.04);
+  color: var(--accent);
 }
 
 .skill-items span:not(:last-child)::after {
@@ -1238,6 +1435,31 @@ html.lightbox-open {
   gap: 8px;
 }
 
+@keyframes contactShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  16% {
+    transform: translateX(-6px);
+  }
+  33% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+  66% {
+    transform: translateX(4px);
+  }
+  83% {
+    transform: translateX(-2px);
+  }
+}
+
+.contact-form.is-shaking {
+  animation: contactShake 420ms var(--ease-spring);
+}
+
 .form-field {
   display: flex;
   flex-direction: column;
@@ -1286,7 +1508,7 @@ textarea.form-input {
   letter-spacing: 0.01em;
   transition: background-color var(--transition-fast),
     color var(--transition-fast), border-color var(--transition-fast),
-    transform var(--transition-fast);
+    transform 200ms var(--ease-spring);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -1309,7 +1531,7 @@ textarea.form-input {
   font-size: 14.5px;
   font-weight: 500;
   transition: border-color var(--transition-fast), color var(--transition-fast),
-    transform var(--transition-fast);
+    transform 200ms var(--ease-spring);
 }
 
 .btn-outline:hover {
@@ -1340,7 +1562,7 @@ textarea.form-input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  animation: btnIconIn 220ms var(--ease-out);
+  animation: btnIconIn 240ms var(--ease-spring);
 }
 
 @keyframes btnIconIn {
@@ -1361,6 +1583,10 @@ textarea.form-input {
   color: #0a0a0a;
 }
 
+/*
+  CONSTRAINT: intentionally `linear`. A spinner must rotate at a constant
+  rate -- easing it would read as a stutter, not as progress.
+*/
 .btn-spinner {
   animation: btnSpin 700ms linear infinite;
 }
@@ -1436,7 +1662,7 @@ textarea.form-input {
 }
 
 .footer-email svg {
-  transition: transform 250ms var(--ease-out);
+  transition: transform 300ms var(--ease-spring);
   color: var(--text-secondary);
 }
 
@@ -1718,7 +1944,47 @@ textarea.form-input {
   color: var(--text-secondary);
 }
 
-/* Scripture pull-quote closing the resume page. */
+/*
+  Shared-element view-transition polish. Only applies when the browser
+  supports startViewTransition; otherwise the route transition above is used.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(shared-project-image),
+  ::view-transition-new(shared-project-image) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(shared-project-image),
+  ::view-transition-new(shared-project-image) {
+    animation: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  /*
+    CONSTRAINT: intentionally `linear`. A view() timeline maps 1:1 to scroll
+    position; an easing curve here would desync the reveal from the page.
+  */
+  .resume-panel {
+    animation: resumePanelReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+}
+
+@keyframes resumePanelReveal {
+  from {
+    transform: scale(0.985);
+    opacity: 0.82;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 .resume-quote {
   max-width: 820px;
   margin: clamp(40px, 7vh, 72px) auto 0;
@@ -1959,11 +2225,133 @@ textarea.form-input {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+.build-breakdown {
+  margin-top: clamp(24px, 4vh, 40px);
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
 
+.build-breakdown .eyebrow {
+  margin-bottom: 10px;
+}
+
+.build-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 18px;
+}
+
+.build-tab {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color var(--transition-fast), border-color var(--transition-fast),
+    background-color var(--transition-fast), transform 200ms var(--ease-spring);
+}
+
+.build-tab:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.build-tab.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0a0a;
+}
+
+.build-panel {
+  animation: buildPanelIn 280ms var(--ease-spring-soft);
+}
+
+.build-panel-title {
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.build-panel-body {
+  max-width: 68ch;
+}
+
+.build-panel-items {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: 0;
+  margin: 18px 0 0;
+}
+
+.build-panel-items li {
+  padding: 7px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+@keyframes buildPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Press physics
+   Every tappable answers a press with a small spring-driven scale, then
+   releases back along the same spring (see the transform transitions on each
+   component). Values sit in the 0.9–0.97 "squish" band where the response
+   reads as physical rather than broken (Apple HIG / Material state-layer
+   guidance). Hover-only states keep their transforms and add the squish.
+--------------------------------------------------------------------------- */
+.btn-primary:active:not(:disabled),
+.btn-outline:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+
+.theme-toggle:active {
+  transform: rotate(12deg) scale(0.92);
+}
+
+.haptic-toggle:active {
+  transform: scale(0.92);
+}
+
+.nav-burger:active {
+  transform: scale(0.9);
+}
+
+.work-row .work-arrow:active {
+  transform: rotate(45deg) scale(0.9);
+}
+
+.build-tab:active {
+  transform: translateY(-1px) scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .build-panel {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
@@ -1975,6 +2363,15 @@ textarea.form-input {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-blur {
+    filter: none;
   }
 
   .rise {

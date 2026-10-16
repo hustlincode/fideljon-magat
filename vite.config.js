@@ -119,7 +119,17 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
-    sourcemap: false
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Keep the entire motion stack in one chunk that is only imported by
+          // the pages/contexts that need it, so the initial (route 0) bundle
+          // stays close to the pre-M0 baseline even after Tier 2/3 land.
+          "vendor-motion": ["gsap", "@gsap/react", "motion", "lenis"]
+        }
+      }
+    }
   },
   test: {
     environment: "jsdom",

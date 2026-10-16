@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/ThemeContext";
 import useScrollProgress from "../hooks/useScrollProgress";
+import HapticToggle from "./ui/HapticToggle";
 
 const NAV_LINKS = [
   { label: "Work", type: "section", target: "work" },
@@ -100,7 +101,12 @@ function NavBar() {
     const className = `nav-link${isMobile ? " mobile-menu-link" : ""}`;
     if (link.type === "section") {
       return (
-        <a href={`/#${link.target}`} className={className} onClick={goToSection(link.target)}>
+        <a
+          href={`/#${link.target}`}
+          className={className}
+          onClick={goToSection(link.target)}
+          data-haptic="light"
+        >
           {isMobile && <small>0{NAV_LINKS.indexOf(link) + 1}</small>}
           {link.label}
         </a>
@@ -111,6 +117,7 @@ function NavBar() {
         to={link.target}
         className={`${className}${location.pathname === link.target ? " active" : ""}`}
         onClick={() => setMenuOpen(false)}
+        data-haptic="light"
       >
         {isMobile && <small>0{NAV_LINKS.indexOf(link) + 1}</small>}
         {link.label}
@@ -122,7 +129,7 @@ function NavBar() {
     <>
       <header className={`nav${scrolled || menuOpen ? " is-scrolled" : ""}`}>
         <div className="container-x nav-inner">
-          <Link to="/" className="wordmark" aria-label="Fidel Jon Magat — home">
+          <Link to="/" className="wordmark" aria-label="Fidel Jon Magat — home" data-haptic="light">
             FJM<span className="wordmark-dot">.</span>
           </Link>
 
@@ -137,6 +144,7 @@ function NavBar() {
               type="button"
               className="theme-toggle"
               onClick={toggleTheme}
+              data-haptic="medium"
               aria-label={
                 theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
               }
@@ -154,11 +162,14 @@ function NavBar() {
               )}
             </button>
 
+            <HapticToggle />
+
             <button
               type="button"
               ref={burgerRef}
               className={`nav-burger${menuOpen ? " is-open" : ""}`}
               onClick={() => setMenuOpen((open) => !open)}
+              data-haptic="light"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
@@ -190,6 +201,7 @@ function NavBar() {
         // without support ignore it and fall back to today's behaviour.
         inert={menuOpen ? undefined : ""}
         aria-hidden={!menuOpen}
+        data-haptic="light"
         onClick={(event) => {
           if (event.target === event.currentTarget) setMenuOpen(false);
         }}

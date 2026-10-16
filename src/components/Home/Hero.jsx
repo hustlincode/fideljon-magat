@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import Type from "./Type";
 import VisitorCount from "./VisitorCount";
+import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 
 function Hero() {
+  const headingRef = useRef(null);
+
+  useSplitTextReveal(headingRef, { type: "chars", stagger: 0.014 });
+
   return (
     <section className="hero" id="home">
       <div className="container-x">
@@ -14,11 +19,11 @@ function Hero() {
           <VisitorCount />
         </div>
 
-        <h1 className="display-hero hero-title">
-          <span className="rise rise-d2" style={{ display: "block" }}>
+        <h1 ref={headingRef} className="display-hero hero-title">
+          <span style={{ display: "block" }}>
             FIDEL JON
           </span>
-          <span className="rise rise-d3 outline-word" style={{ display: "block" }}>
+          <span className="outline-word" style={{ display: "block" }}>
             MAGAT<span style={{ WebkitTextStroke: "0", color: "var(--accent)" }}>.</span>
           </span>
         </h1>
@@ -44,7 +49,7 @@ function Hero() {
               CURRENTLY<strong>Servo IT Solutions OPC</strong>
             </div>
           </div>
-          <a href="#intro" className="scroll-cue" aria-label="Scroll to introduction">
+          <a href="#intro" className="scroll-cue" aria-label="Scroll to introduction" data-haptic="light">
             SCROLL
             <span className="scroll-cue-line" aria-hidden="true"></span>
           </a>

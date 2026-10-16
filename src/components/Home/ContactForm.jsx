@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Reveal from "../Reveal";
+import Magnetic from "../ui/Magnetic";
+import { haptic } from "../../lib/haptics";
 
 const ContactForm = () => {
   const formRef = useRef();
@@ -14,15 +16,23 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
   const [justSent, setJustSent] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
 
-  // Hold the "Sent" button state briefly, then return to idle so the form is
-  // ready for a second message. The success status message persists regardless,
-  // so nothing is lost if the visitor looks away during the check animation.
   useEffect(() => {
     if (!justSent) return undefined;
     const id = setTimeout(() => setJustSent(false), 1600);
     return () => clearTimeout(id);
   }, [justSent]);
+
+  useEffect(() => {
+    if (submitStatus !== "error") {
+      setIsShaking(false);
+      return undefined;
+    }
+    setIsShaking(true);
+    const id = setTimeout(() => setIsShaking(false), 420);
+    return () => clearTimeout(id);
+  }, [submitStatus]);
 
   const handleChange = (e) => {
     setFormData({
@@ -54,9 +64,13 @@ const ContactForm = () => {
       setSubmitStatus("success");
       setJustSent(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
+      // Confirm the outcome, not just the tap: the button already buzzed on
+      // press, so this is the "it worked" beat.
+      haptic("success");
     } catch (error) {
       console.error("Email sending error:", error);
       setSubmitStatus("error");
+      haptic("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -92,7 +106,7 @@ const ContactForm = () => {
               </p>
             </div>
 
-            <form ref={formRef} onSubmit={handleSubmit} className="contact-form">
+            <form ref={formRef} onSubmit={handleSubmit} className={`contact-form${isShaking ? " is-shaking" : ""}`}>
               <div className="form-field">
                 <input
                   type="text"
@@ -145,10 +159,12 @@ const ContactForm = () => {
                 />
               </div>
 
-              <button
-                type="submit"
+              <Magnetic strength={0.18}>
+                <button
+                  type="submit"
                 disabled={isSubmitting}
                 className={`btn-primary btn-submit is-${submitPhase}`}
+                data-haptic="medium"
                 aria-label={
                   submitPhase === "sending"
                     ? "Sending message"
@@ -181,6 +197,7 @@ const ContactForm = () => {
                   )}
                 </span>
               </button>
+              </Magnetic>
 
               {submitStatus === "success" && (
                 <div className="status-message success" role="status">

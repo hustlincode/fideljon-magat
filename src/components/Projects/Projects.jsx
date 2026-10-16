@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { flushSync } from "react-dom";
 import Reveal from "../Reveal";
 import { PROJECTS, projectPath } from "../../config/projectsData";
 import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
 import usePointerTracking from "../../hooks/usePointerTracking";
+import Magnetic from "../ui/Magnetic";
+import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 
 // How quickly the floating preview catches up to the cursor each frame. Low
 // enough to feel physical, high enough that it never lags behind the pointer.
@@ -18,6 +21,11 @@ function Projects({ asPage = false }) {
 
   const [activeIndex, setActiveIndex] = useState(null);
   const reducedMotion = usePrefersReducedMotion();
+  const navigate = useNavigate();
+  const canSharedTransition =
+    typeof document !== "undefined" && typeof document.startViewTransition === "function";
+  const titleRef = useRef(null);
+  useSplitTextReveal(titleRef, { type: "chars", stagger: 0.012 });
   const canHover =
     typeof window !== "undefined" &&
     window.matchMedia &&
@@ -80,6 +88,32 @@ function Projects({ asPage = false }) {
         }
       : {};
 
+  const handleProjectOpen = (slug, event) => {
+    if (!canSharedTransition || reducedMotion) return;
+    const row =
+      event.currentTarget && typeof event.currentTarget.closest === "function"
+        ? event.currentTarget.closest(".work-row")
+        : null;
+    const image = row ? row.querySelector(".work-thumb img") : null;
+    if (!image) return;
+
+    image.style.viewTransitionName = "shared-project-image";
+
+    const transition = document.startViewTransition(() => {
+      flushSync(() => {
+        navigate(projectPath(slug));
+      });
+    });
+
+    transition.finished.finally(() => {
+      image.style.viewTransitionName = "";
+      const next = document.querySelector(".project-shot img");
+      if (next) next.style.viewTransitionName = "";
+    });
+
+    event.preventDefault();
+  };
+
   return (
     <section className="section" id="work">
       <div className="container-x">
@@ -87,7 +121,7 @@ function Projects({ asPage = false }) {
           <div className="work-head">
             <div>
               <p className="eyebrow">02 &mdash; Selected work</p>
-              <Heading className="display-1">
+              <Heading ref={titleRef} className="display-1">
                 Recent <span className="serif-accent">works</span>
               </Heading>
             </div>
@@ -124,15 +158,19 @@ function Projects({ asPage = false }) {
                   </p>
                 </div>
 
-                <Link
-                  to={projectPath(project.slug)}
-                  className="work-arrow"
-                  aria-label={`View details for ${project.title}`}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M7 17 17 7M8 7h9v9" />
-                  </svg>
-                </Link>
+                <Magnetic strength={0.18}>
+                  <Link
+                    to={projectPath(project.slug)}
+                    className="work-arrow"
+                    aria-label={`View details for ${project.title}`}
+                    onClick={(event) => handleProjectOpen(project.slug, event)}
+                    data-haptic="light"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M7 17 17 7M8 7h9v9" />
+                    </svg>
+                  </Link>
+                </Magnetic>
               </article>
             </Reveal>
           ))}

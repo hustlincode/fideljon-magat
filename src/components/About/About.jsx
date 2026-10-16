@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 import Reveal from "../Reveal";
 import Skills from "./Skills";
 import Timeline from "../Timeline";
+import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 
 function About() {
+  const titleRef = useRef(null);
+  useSplitTextReveal(titleRef, { type: "chars", stagger: 0.016 });
   return (
     <main>
       <section className="page-head container-x">
         <Reveal>
           <p className="eyebrow">About</p>
-          <h1 className="display-hero">
+          <h1 ref={titleRef} className="display-hero">
             Know who <span className="serif-accent">I am</span>
           </h1>
         </Reveal>

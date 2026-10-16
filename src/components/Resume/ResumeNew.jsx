@@ -3,6 +3,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { AiOutlineDownload } from "react-icons/ai";
 import { FiExternalLink } from "react-icons/fi";
 import Reveal from "../Reveal";
+import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 import pdf from "../../Assets/Fidel-Jon-Magat-CV.pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
@@ -14,9 +15,11 @@ function ResumeNew() {
   const panelHolder = useRef(null);
   const rafId = useRef(0);
   const lastWidth = useRef(0);
+  const titleRef = useRef(null);
   const [pageWidth, setPageWidth] = useState(0);
   const [numPages, setNumPages] = useState(null);
   const [failed, setFailed] = useState(false);
+  useSplitTextReveal(titleRef, { type: "chars", stagger: 0.014 });
 
   // Keep the page sized to the panel so it never overflows or gets upscaled.
   // The state update is deferred out of the ResizeObserver callback and only
@@ -110,7 +113,7 @@ function ResumeNew() {
           <div className="resume-head-row">
             <div className="resume-head-copy">
               <p className="eyebrow">Resume</p>
-              <h1 className="display-hero resume-title">
+              <h1 ref={titleRef} className="display-hero resume-title">
                 Curriculum <span className="serif-accent">vitae</span>
               </h1>
               <p className="resume-note">
@@ -120,11 +123,11 @@ function ResumeNew() {
             </div>
 
             <div className="resume-actions">
-              <button type="button" className="btn-primary" onClick={downloadCv}>
+              <button type="button" className="btn-primary" onClick={downloadCv} data-haptic="medium">
                 <AiOutlineDownload />
                 Download CV
               </button>
-              <button type="button" className="btn-outline" onClick={openPreview}>
+              <button type="button" className="btn-outline" onClick={openPreview} data-haptic="light">
                 <FiExternalLink />
                 Preview PDF
               </button>
@@ -144,6 +147,7 @@ function ResumeNew() {
                     type="button"
                     className="resume-status-link"
                     onClick={openPreview}
+                    data-haptic="light"
                   >
                     Open the PDF instead
                   </button>
