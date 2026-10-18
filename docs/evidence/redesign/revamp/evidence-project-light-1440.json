@@ -1,0 +1,108 @@
+{
+  "label": "project-light-1440",
+  "path": "/project",
+  "themeApplied": "light",
+  "title": "Projects — Fidel Jon Magat",
+  "viewport": {
+    "w": 1440,
+    "h": 900,
+    "dpr": 1
+  },
+  "scrollHeight": 1709,
+  "fonts": {
+    "body": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1Size": "26.4px",
+    "serif": "Newsreader, Georgia, serif",
+    "loaded": [
+      "Figtree 400 normal",
+      "Figtree 500 normal",
+      "Figtree 600 normal",
+      "Newsreader 400 italic"
+    ]
+  },
+  "tokens": {
+    "accent": "#17171a",
+    "brand": "#f48d2c",
+    "brandInk": "#c2410c",
+    "bgPrimary": "#fcfcfb",
+    "sidebarBg": "#f8f8f7",
+    "green": "#2f9e5b"
+  },
+  "sidebar": {
+    "display": "flex",
+    "width": "264px",
+    "background": "rgb(248, 248, 247)",
+    "border": "rgb(235, 235, 233)",
+    "radius": "18px",
+    "position": "fixed",
+    "itemCount": 6,
+    "items": [
+      "Work",
+      "About",
+      "Projects03",
+      "Skills13",
+      "Resume",
+      "Contact"
+    ]
+  },
+  "shellMain": {
+    "marginLeft": "292px",
+    "paddingTop": "81px"
+  },
+  "topbar": {
+    "display": "none",
+    "height": "64px"
+  },
+  "containerX": {
+    "maxWidth": "688px",
+    "width": 688
+  },
+  "hero": {
+    "text": "Recent works",
+    "dotColor": null,
+    "roleRow": false,
+    "moreLink": false
+  },
+  "statusDotColor": "rgb(47, 158, 91)",
+  "canvases": 0,
+  "stats": [],
+  "cards": [],
+  "workCount": {
+    "text": "(03)",
+    "isLink": false,
+    "href": null
+  },
+  "files": [
+    {
+      "name": "revamp-project-light-1440-top.png",
+      "bytes": 100565,
+      "sha256": "8f855fa17ad6389bb1db63898149bb164713d364d01ace88ff09fa064e36eea9"
+    },
+    {
+      "name": "revamp-project-light-1440-stop1.png",
+      "bytes": 109366,
+      "sha256": "ce528b3dbb6ef73fd7e14c4882e59ae1599a9aa41e4c54153f32bf457298a49f"
+    },
+    {
+      "name": "revamp-project-light-1440-stop2.png",
+      "bytes": 93872,
+      "sha256": "255c162dfb6f4fdd94bc3a80d34298c832a6bb29abe8df44f6733e1e98cfdaff"
+    },
+    {
+      "name": "revamp-project-light-1440-stop3.png",
+      "bytes": 93880,
+      "sha256": "5ec1625d11e07a69386189e359483193fb876a9e6c4e29340d65a7702e8651c1"
+    },
+    {
+      "name": "revamp-project-light-1440-stop4.png",
+      "bytes": 93880,
+      "sha256": "bf4a4a6856662906de55d669c37210b02a57dd2c21b59d494829750537ee5c35"
+    },
+    {
+      "name": "revamp-project-light-1440-full.png",
+      "bytes": 164195,
+      "sha256": "034074f106fc86ceb0e2ddee768db26936c41f9ecf548ca18e4fc7c0d514352a"
+    }
+  ]
+}

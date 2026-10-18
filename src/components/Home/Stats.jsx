@@ -6,8 +6,8 @@ import { PROJECTS } from "../../config/projectsData";
 const ARROW = (
   <svg
     className="stat-arrow"
-    width="15"
-    height="15"
+    width="14"
+    height="14"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -48,8 +48,10 @@ function Stats() {
         {ITEMS.map((item, index) => {
           const inner = (
             <>
-              {ARROW}
-              <span className="stat-value">{item.value}</span>
+              <span className="stat-top">
+                <span className="stat-value">{item.value}</span>
+                {ARROW}
+              </span>
               <span className="stat-label">{item.label}</span>
             </>
           );

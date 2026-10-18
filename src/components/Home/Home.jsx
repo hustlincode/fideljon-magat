@@ -14,8 +14,8 @@ function Home() {
       <Stats />
       <div className="container-x message-slot">
         <MessageCard
-          tone="accent"
-          icon="dot"
+          tone="green"
+          label="Availability"
           title="Open to opportunities"
           support="Full-time or freelance — Angeles City, PH · remote-friendly · replies within a day."
           cta="Start a conversation"
@@ -27,8 +27,8 @@ function Home() {
       <Projects />
       <div className="container-x message-slot">
         <MessageCard
-          tone="green"
-          icon="briefcase"
+          tone="blue"
+          label="Current role"
           title="Building hospitality systems at Servo IT Solutions OPC"
           support="Turning manual workflows into shipped platforms since 2024."
           cta="View résumé"

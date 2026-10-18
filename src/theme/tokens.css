@@ -1,6 +1,6 @@
 :root {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
 
   /*
     Motion curves. The system is spring-first: interactive settles get a fast
@@ -25,49 +25,72 @@
   --dur-fast: 160ms;
   --dur-base: 240ms;
   --dur-slow: 650ms;
-  --nav-height: 72px;
+
+  /* Layout (marwieang pass): a floating paper sidebar plus a narrow
+     editorial column. --nav-height is kept for the leftover sticky offsets
+     that still key off the bar era; the mobile top bar is 64px. */
+  --nav-height: 64px;
+  --sidebar-width: 264px;
+  --shell-gap: 14px;
+  --radius-shell: 18px;
+  --radius-card: 18px;
+
+  /* The paper sidebar: identical values in both themes, on purpose. The
+     sidebar is the one surface that stays light ("paper" motif), so it
+     reads the same at night as it does at noon. */
+  --sidebar-bg: #f8f8f7;
+  --sidebar-border: #ebebe9;
+  --sidebar-line: #ececea;
+  --sidebar-ink: #17171a;
+  --sidebar-ink-2: #6e6e73;
+  --sidebar-tile: #ffffff;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #121212;
-  --bg-tertiary: #1a1a1a;
-  --text-primary: #f5f5f3;
-  --text-secondary: #9a9a96;
-  --border: #242424;
-  --accent: #ff8f3a;
-  /* --accent-ink: accent tuned for text. Matches --accent in dark theme; the
-     light theme redefines it darker so small text stays legible. */
-  --accent-ink: #ff8f3a;
-  --accent-strong: #dc690b;
-  --shadow: rgba(0, 0, 0, 0.55);
-  --overlay: rgba(10, 10, 10, 0.82);
-  --backdrop: rgba(5, 5, 5, 0.82);
-  --aurora-a: rgba(255, 143, 58, 0.16);
-  --aurora-b: rgba(139, 92, 246, 0.1);
-  --aurora-c: rgba(63, 191, 111, 0.08);
+  --bg-primary: #0f0f11;
+  --bg-secondary: #17171a;
+  --bg-tertiary: #202024;
+  --text-primary: #ececee;
+  --text-secondary: #8b8b91;
+  --border: #232327;
+  /*
+    --accent is intentionally DRAINED to the ink color in both themes. The
+    marwieang language has no chromatic UI accent: buttons, rails, hovers and
+    focus rings are all ink, and color is reserved for the pastel message
+    banners and the status green. --brand carries the one tiny FJM identity
+    spark (wordmark dot, typewriter caret, text selection).
+  */
+  --accent: #ececee;
+  --accent-ink: #ececee;
+  --accent-strong: #c6c6cb;
+  --brand: #ff8f3a;
+  --brand-ink: #ff8f3a;
+  --green: #4cc47d;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --overlay: rgba(15, 15, 17, 0.85);
+  --backdrop: rgba(8, 8, 9, 0.72);
   --grain-opacity: 0.05;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg-primary: #fafaf8;
-  --bg-secondary: #f0f0ee;
-  --bg-tertiary: #e7e7e4;
-  --text-primary: #0f0f0f;
-  --text-secondary: #6b6b68;
-  --border: #e2e2de;
-  --accent: #f48d2c;
-  /* --accent-ink: darker accent reserved for text on light surfaces
+  --bg-primary: #fcfcfb;
+  --bg-secondary: #f4f4f2;
+  --bg-tertiary: #ebebe9;
+  --text-primary: #17171a;
+  --text-secondary: #6e6e73;
+  --border: #e8e8e6;
+  --accent: #17171a;
+  --accent-ink: #17171a;
+  --accent-strong: #3f3f46;
+  --brand: #f48d2c;
+  /* --brand-ink: darker brand tone reserved for text on light surfaces
      (4.96:1 on --bg-primary, 4.54:1 on --bg-secondary). */
-  --accent-ink: #c2410c;
-  --accent-strong: #da7400;
-  --shadow: rgba(15, 15, 15, 0.14);
-  --overlay: rgba(250, 250, 248, 0.86);
-  --backdrop: rgba(18, 18, 17, 0.6);
-  --aurora-a: rgba(244, 141, 44, 0.12);
-  --aurora-b: rgba(139, 92, 246, 0.07);
-  --aurora-c: rgba(63, 191, 111, 0.05);
+  --brand-ink: #c2410c;
+  --green: #2f9e5b;
+  --shadow: rgba(15, 15, 15, 0.1);
+  --overlay: rgba(252, 252, 251, 0.86);
+  --backdrop: rgba(24, 24, 27, 0.5);
   --grain-opacity: 0.04;
 }

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 
-import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 import Chatbot from "./components/Chatbot";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
@@ -142,13 +142,17 @@ export function AppShell({ RouterComponent = BrowserRouter }) {
     () => (
       <RouterComponent basename="">
         <RouteMeta />
-        <Navbar />
-        <ScrollToTop />
-        <Suspense fallback={<Loading />}>
-          <AnimatedRoutes />
-        </Suspense>
-        <Chatbot />
-        <Footer />
+        <div className="shell">
+          <Sidebar />
+          <div className="shell-main">
+            <ScrollToTop />
+            <Suspense fallback={<Loading />}>
+              <AnimatedRoutes />
+            </Suspense>
+            <Chatbot />
+            <Footer />
+          </div>
+        </div>
       </RouterComponent>
     ),
     [RouterComponent]

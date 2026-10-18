@@ -228,3 +228,59 @@ they use arrow-nudge + color-shift hover instead. Nothing else diverged.
 
 Still open: pushing `0a7d56b` + the implementation commits; optional history
 purge for `.opencode`; rotating the exposed OpenRouter key.
+
+---
+
+## 10. Theme revamp status — 2026-10-18 (branch `theme-revamp`)
+
+Scope answers: everything including the shell; go full marwieang; implement
+now and iterate against built previews. Supersedes the targeted-pass mandate
+(jev D1 `targeted-pass` is overridden by the user, p=1.00).
+
+Shipped on `theme-revamp` (from `3403b55`):
+
+- **Tokens (`src/theme/tokens.css`):** marwieang palette both themes — paper
+  light `#fcfcfb` / ink `#17171a` / dark `#0f0f11` / light ink `#ececee`;
+  `--accent`/`--accent-ink`/`--accent-strong` intentionally **drained to ink**
+  (no chromatic UI accent anywhere); new `--brand` / `--brand-ink` carry the
+  only orange sparks (wordmark dot, hero period, typewriter caret, selection);
+  new `--green`, `--sidebar-*` paper tokens, `--radius-shell`, `--sidebar-width`,
+  `--shell-gap`; `--nav-height` reduced to 64px (mobile bar). Aurora tokens
+  deleted.
+- **Type:** Figtree (sans) + Newsreader (serif italic accents) replace Inter +
+  Instrument Serif in `index.html` (fonts link, boot overlay recolor, dual
+  `theme-color` metas).
+- **Shell:** new `src/components/Sidebar.jsx` (replaces `Navbar.jsx` +
+  `Navbar.test.jsx`; tests ported 1:1 to `Sidebar.test.jsx`, all green). Desktop
+  ≥1024px: fixed 264px paper sidebar (stays light in both themes) with wordmark,
+  collapse control (persisted in localStorage `fjm-shell`), Contact pill, three
+  grouped nav sections with count badges (`Projects 03`, `Skills 13`),
+  visitor counter (single instance, note below), live `GMT+8 · HH:MM` chip,
+  theme + haptic toggles, GitHub/LinkedIn icon buttons. Collapsed state shows a
+  floating expand button. `<1024px`: glass top bar (burger, name, mini status
+  pill) + slide-in paper drawer with the same contents; drawer sits above the
+  chat launcher (z-index 10000 > 9999).
+- **Column:** `.container-x` is now a ~640px editorial column; all sections
+  restyled quietly (eyebrows, `display-1`/`display-hero` sizes down to 1.3–2.3rem,
+  hero is a profile intro — name + serif typewriter role + lead + status chip +
+  "↓ More about me", no display/outline treatment, no aurora).
+- **Components:** `MessageCard` reworked to marwieang banner anatomy
+  (colored micro-label, title, support, arrow; tones `green`/`blue`; pastel
+  cards stay light in BOTH themes by design). Stats: inline ↗ arrows, 3-across
+  even on phones. Work rows, skills, contact, footer (icon-only social squares)
+  all drained. GitHub calendar uses an ink scale. Chatbot keeps its dark glass
+  but its local accent is neutralized.
+- **Prerender marker:** `/` marker changed from `FIDEL JON` (uppercase display
+  heading no longer exists) to `Professional since 2024`.
+
+Verification: 50 tests green (incl. ported drawer a11y tests), build +
+prerender 8/8 routes; CDP captures at 1440×900 and 375×812 in both themes
+(`docs/evidence/redesign/revamp/`, PNGs ignored, text evidence committed).
+
+Deviations from the marwieang reference: 6 nav links grouped 2/2/2 instead of
+4 groups; no avatar (name carries the identity); visitor counter lives in the
+desktop sidebar only — `useVisitorCount` increments once per session and must
+not be mounted twice; brand spark kept for FJM identity (marwieang has none).
+
+Still open: user review of the built result; pushing `css_architecture`
+commits; optional `.opencode` history purge; rotating the exposed key.

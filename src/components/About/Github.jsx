@@ -2,9 +2,11 @@ import React from "react";
 import GitHubCalendar from "react-github-calendar";
 import { useTheme } from "../../theme/ThemeContext";
 
-const ACCENTS = {
-  dark: "#ff7b1c",
-  light: "#e8590c"
+// Ink scale for the contribution graph (marwieang pass): the chart is
+// grayscale like the rest of the UI -- no chromatic accent remains.
+const INK = {
+  dark: "#ececee",
+  light: "#17171a"
 };
 
 function Github() {
@@ -18,7 +20,7 @@ function Github() {
         blockSize={13}
         blockMargin={4}
         fontSize={13}
-        color={ACCENTS[theme]}
+        color={INK[theme]}
       />
     </div>
   );

@@ -56,8 +56,8 @@
   --glass-border: rgba(255, 255, 255, 0.12);
   --text-main: #f2f2f5;
   --text-dim: rgba(233, 233, 242, 0.62);
-  --accent: #ff8f3a;
-  --accent-strong: #dc690b;
+  --accent: #e6e6ea;
+  --accent-strong: #d2d2d9;
 
   position: fixed;
   bottom: 66px;
