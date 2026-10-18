@@ -35,3 +35,6 @@ Server/config.js
 
 # Live-site capture screenshots stay local; text evidence is tracked
 docs/evidence/**/*.png
+
+# Local-only OpenCode agent/MCP config (kept out of the repo)
+.opencode/
