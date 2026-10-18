@@ -32,3 +32,9 @@ Facts gathered during recon:
 - Action needed: restart OpenCode so the new MCP registration loads.
 
 **next step: 3**  (ROUTE — website → rea.tools/guides/browser)
+
+## Repo / Step 7 state (for resume)
+- Remote now redirects: github.com/hustlincode/FideljonPortfolio → github.com/hustlincode/fideljon-magat (renamed on GitHub; About = fideljon-magat.vercel.app).
+- Current branch: css_architecture (commits pushed here).
+- Repo visibility: PUBLIC. Decision pending: user wants private? (gh CLI is not installed; visibility can be changed in GitHub settings or by installing gh.)
+- Commits so far: REA-TASK.md created and pushed (chore(rea): step 1-2).
