@@ -8,7 +8,8 @@
       "command": ["npx", "-y", "@jkudish/jev-mcp"],
       "enabled": true,
       "environment": {
-        "TYPESAFE_API_KEY": "{env:TYPESAFE_API_KEY}"
+        "TYPESAFE_API_KEY": "{env:TYPESAFE_API_KEY}",
+        "OPENROUTER_API_KEY": "{env:OPENROUTER_API_KEY}"
       }
     }
   },
