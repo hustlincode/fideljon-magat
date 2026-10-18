@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar";
 import Chatbot from "./components/Chatbot";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import Particle from "./components/Particle";
 import { ThemeProvider } from "./theme/ThemeContext";
 import { getMetaForPath, SITE_URL } from "./config/routeMeta";
 import usePrefersReducedMotion from "./hooks/usePrefersReducedMotion";
@@ -144,7 +143,6 @@ export function AppShell({ RouterComponent = BrowserRouter }) {
       <RouterComponent basename="">
         <RouteMeta />
         <Navbar />
-        <Particle />
         <ScrollToTop />
         <Suspense fallback={<Loading />}>
           <AnimatedRoutes />

@@ -469,7 +469,7 @@ select,
 }
 
 .wordmark-dot {
-  color: var(--accent);
+  color: var(--accent-ink);
   animation: wordmarkDotPulse 2.8s var(--ease-out) infinite;
 }
 
@@ -773,7 +773,7 @@ select,
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.14em;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .mobile-menu-footer {
@@ -803,26 +803,6 @@ select,
   background-size: 170% 170%, 150% 150%, 140% 140%;
   background-position: 0% 0%, 100% 0%, 50% 100%;
   background-repeat: no-repeat;
-  animation: hero-aurora 38s ease-in-out infinite alternate;
-}
-
-/* Theme-aware delight: keep the aurora language, but let each theme breathe at
-   a different rhythm without changing the layout or colors. */
-:root[data-theme="light"] .hero {
-  animation-duration: 24s;
-}
-
-:root[data-theme="dark"] .hero {
-  animation-duration: 46s;
-}
-
-@keyframes hero-aurora {
-  from {
-    background-position: 0% 0%, 100% 0%, 50% 100%;
-  }
-  to {
-    background-position: 26% 18%, 68% 26%, 40% 55%;
-  }
 }
 
 .status-chip {
@@ -907,7 +887,7 @@ select,
 }
 
 .type-line .Typewriter__cursor {
-  color: var(--accent);
+  color: var(--accent-ink);
   font-style: normal;
 }
 
@@ -1029,7 +1009,7 @@ select,
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .timeline-role {
@@ -1125,7 +1105,7 @@ select,
 }
 
 .work-row:hover .work-num {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .work-row:hover .work-title {
@@ -1229,7 +1209,7 @@ select,
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-ink);
   white-space: nowrap;
 }
 
@@ -1277,7 +1257,7 @@ html.lightbox-open {
 }
 
 .lightbox-close:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
   border-color: var(--accent);
   transform: rotate(90deg);
 }
@@ -1365,13 +1345,13 @@ html.lightbox-open {
 
 .skill-items span:hover {
   transform: translateY(-2px) scale(1.04);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .skill-items span:not(:last-child)::after {
   content: "·";
   margin-inline: 12px;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .github-cal {
@@ -1417,7 +1397,7 @@ html.lightbox-open {
 }
 
 .contact-email:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .avail-note {
@@ -1536,7 +1516,7 @@ textarea.form-input {
 
 .btn-outline:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
   transform: translateY(-1px);
 }
 
@@ -1667,12 +1647,12 @@ textarea.form-input {
 }
 
 .footer-email:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .footer-email:hover svg {
   transform: translate(6px, -6px);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .footer-socials {
@@ -1697,7 +1677,7 @@ textarea.form-input {
 }
 
 .footer-socials a:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .footer-bottom {
@@ -2074,7 +2054,7 @@ textarea.form-input {
   border: 0;
   padding: 0;
   font: inherit;
-  color: var(--accent);
+  color: var(--accent-ink);
   cursor: pointer;
   text-decoration: underline;
 }
@@ -2260,7 +2240,7 @@ textarea.form-input {
 
 .build-tab:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
   transform: translateY(-1px);
 }
 
@@ -2402,4 +2382,213 @@ textarea.form-input {
     animation: none;
     width: 100%;
   }
+}
+
+/* ------------------------------------------------------------------
+   Redesign P2/P3: at-a-glance stats + message cards.
+   Static by design -- no looping motion, hover transitions only.
+   ------------------------------------------------------------------ */
+
+.stats {
+  padding-block: clamp(18px, 4vh, 44px) clamp(4px, 1.2vh, 14px);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 4vw, 48px);
+}
+
+.stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-right: 24px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.stat-value {
+  font-size: clamp(1.5rem, 2.8vw, 2.05rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-base) var(--ease-spring-soft);
+}
+
+.stat-label {
+  font-size: 12px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.stat-arrow {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  transition: transform var(--dur-base) var(--ease-spring-soft),
+    opacity var(--dur-base) var(--ease-spring-soft);
+}
+
+.stat:hover .stat-value,
+.stat:focus-visible .stat-value {
+  color: var(--accent-ink);
+}
+
+.stat:hover .stat-arrow,
+.stat:focus-visible .stat-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+@media (max-width: 560px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+.message-slot {
+  padding-block: clamp(6px, 1.6vh, 18px) 0;
+}
+
+.message-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(16px, 2.4vw, 22px) clamp(18px, 2.6vw, 26px);
+  border: 1px solid var(--mc-border);
+  border-radius: 16px;
+  background: var(--mc-bg);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur-base) var(--ease-spring-soft),
+    background-color var(--dur-base) var(--ease-spring-soft);
+}
+
+.message-card--accent {
+  --mc-bg: rgba(255, 143, 58, 0.06);
+  --mc-border: rgba(255, 143, 58, 0.22);
+  --mc-border-hover: rgba(255, 143, 58, 0.45);
+  --mc-icon-bg: rgba(255, 143, 58, 0.1);
+  --mc-icon-border: rgba(255, 143, 58, 0.26);
+  --mc-ink: var(--accent-ink);
+}
+
+:root[data-theme="light"] .message-card--accent {
+  --mc-bg: rgba(244, 141, 44, 0.08);
+  --mc-border: rgba(244, 141, 44, 0.3);
+  --mc-border-hover: rgba(194, 65, 12, 0.45);
+  --mc-icon-bg: rgba(244, 141, 44, 0.12);
+  --mc-icon-border: rgba(244, 141, 44, 0.32);
+}
+
+.message-card--green {
+  --mc-bg: rgba(63, 191, 111, 0.06);
+  --mc-border: rgba(63, 191, 111, 0.2);
+  --mc-border-hover: rgba(63, 191, 111, 0.44);
+  --mc-icon-bg: rgba(63, 191, 111, 0.1);
+  --mc-icon-border: rgba(63, 191, 111, 0.26);
+  --mc-ink: #3fbf6f;
+}
+
+:root[data-theme="light"] .message-card--green {
+  --mc-bg: rgba(63, 191, 111, 0.09);
+  --mc-border: rgba(63, 191, 111, 0.28);
+  --mc-border-hover: rgba(29, 122, 68, 0.42);
+  --mc-icon-bg: rgba(29, 122, 68, 0.08);
+  --mc-icon-border: rgba(29, 122, 68, 0.24);
+  --mc-ink: #1d7a44;
+}
+
+.message-card:hover,
+.message-card:focus-visible {
+  border-color: var(--mc-border-hover);
+}
+
+.message-card-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--mc-icon-bg);
+  border: 1px solid var(--mc-icon-border);
+  color: var(--mc-ink);
+  flex-shrink: 0;
+}
+
+.message-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.message-card-title {
+  font-size: clamp(15px, 1.6vw, 16.5px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.message-card-support {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.message-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  transition: color var(--dur-base) var(--ease-spring-soft);
+}
+
+.message-card-cta svg {
+  transition: transform var(--dur-base) var(--ease-spring-soft);
+}
+
+.message-card:hover .message-card-cta,
+.message-card:focus-visible .message-card-cta {
+  color: var(--mc-ink);
+}
+
+.message-card:hover .message-card-cta svg,
+.message-card:focus-visible .message-card-cta svg {
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 560px) {
+  .message-card {
+    gap: 13px;
+  }
+
+  .message-card-cta-label {
+    display: none;
+  }
+}
+
+/* P4: work-head count becomes the pointer to the full projects page. */
+
+.work-count-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-secondary);
+  transition: color var(--dur-base) var(--ease-spring-soft);
+}
+
+.work-count-link:hover,
+.work-count-link:focus-visible {
+  color: var(--text-primary);
 }

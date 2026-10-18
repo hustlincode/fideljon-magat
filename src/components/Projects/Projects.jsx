@@ -125,7 +125,20 @@ function Projects({ asPage = false }) {
                 Recent <span className="serif-accent">works</span>
               </Heading>
             </div>
-            <span className="work-count">({String(PROJECTS.length).padStart(2, "0")})</span>
+            {asPage ? (
+              <span className="work-count">
+                ({String(PROJECTS.length).padStart(2, "0")})
+              </span>
+            ) : (
+              <Link
+                to="/project"
+                className="work-count work-count-link link-sweep"
+                data-haptic="light"
+              >
+                View all ({String(PROJECTS.length).padStart(2, "0")}){" "}
+                <span aria-hidden="true">↗</span>
+              </Link>
+            )}
           </div>
         </Reveal>
 

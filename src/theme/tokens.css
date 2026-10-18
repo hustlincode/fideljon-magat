@@ -37,6 +37,9 @@
   --text-secondary: #9a9a96;
   --border: #242424;
   --accent: #ff8f3a;
+  /* --accent-ink: accent tuned for text. Matches --accent in dark theme; the
+     light theme redefines it darker so small text stays legible. */
+  --accent-ink: #ff8f3a;
   --accent-strong: #dc690b;
   --shadow: rgba(0, 0, 0, 0.55);
   --overlay: rgba(10, 10, 10, 0.82);
@@ -56,6 +59,9 @@
   --text-secondary: #6b6b68;
   --border: #e2e2de;
   --accent: #f48d2c;
+  /* --accent-ink: darker accent reserved for text on light surfaces
+     (4.96:1 on --bg-primary, 4.54:1 on --bg-secondary). */
+  --accent-ink: #c2410c;
   --accent-strong: #da7400;
   --shadow: rgba(15, 15, 15, 0.14);
   --overlay: rgba(250, 250, 248, 0.86);
