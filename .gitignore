@@ -32,3 +32,6 @@ yarn-error.log*
 
 Server/node_modules
 Server/config.js
+
+# Live-site capture screenshots stay local; text evidence is tracked
+docs/evidence/**/*.png

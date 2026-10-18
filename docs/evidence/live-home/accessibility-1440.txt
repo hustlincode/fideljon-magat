@@ -1,0 +1,122 @@
+- document:
+  - banner:
+    - link "Fidel Jon Magat — home":
+      - /url: /
+      - text: FJM .
+    - navigation "Primary":
+      - link "Work":
+        - /url: /#work
+      - link "About":
+        - /url: /about
+      - link "Resume":
+        - /url: /resume
+      - link "Contact":
+        - /url: /#contact
+    - button "Switch to light theme":
+      - img
+  - main:
+    - text: Available for opportunities
+    - heading "FIDEL JONMAGAT." [level=1]
+    - text: — React Developer|
+    - paragraph: Experienced in developing systems for hospitality industry, focusing on solving complex real-world challenges through continuous innovation and impactful technology.
+    - text: LOCATION
+    - strong: Angeles City, PH
+    - text: FOCUS
+    - strong: Full-stack Web Development
+    - text: CURRENTLY
+    - strong: Servo IT Solutions OPC
+    - link "Scroll to introduction":
+      - /url: "#intro"
+      - text: SCROLL
+    - paragraph: 01 — Intro
+    - heading "Let me introduce myself" [level=2]
+    - paragraph: I fell in love with programming and have gained substantial experience in the field ever since.
+    - paragraph: I am proficient in PHP, JavaScript, and MySQL, and my interests include developing new web technologies and products.
+    - paragraph: I am passionate about building products using Node.js and modern JavaScript libraries and frameworks such as React.js and Next.js — always aiming for clean, maintainable, and scalable code.
+    - paragraph: Career journey
+    - text: 2025 Junior Software Developer Servo IT Solutions OPC 2024 Associate Software Developer Servo IT Solutions OPC 2024 BS Information Technology Pampanga State Agricultural University 2021 Hello World! Wrote my first line of code
+    - paragraph: 02 — Selected work
+    - heading "Recent works" [level=2]
+    - text: (03)
+    - article:
+      - text: "01"
+      - paragraph: Banquet Sales Management 2024
+      - heading "Salesportal" [level=2]
+      - paragraph: A sales portal for Banquuet, a company that provides food and catering services. Built with Bootstrap, HTML, and JQuery, PHP, and MySQL. Features include user authentication, product management, order processing, and real-time updates.
+      - paragraph: PHP jQuery Bootstrap MySQL
+      - link "View details for Salesportal":
+        - /url: /project/salesportal
+        - img
+    - article:
+      - text: "02"
+      - paragraph: Online Check-in System 2025
+      - heading "XOLF" [level=2]
+      - paragraph: An online check-in system for XOLF, a company that provides online check-in services. Built with React, Node.js, AWS Lambda, and DynamoDB. Features include user authentication, booking management, and real-time updates.
+      - paragraph: React Node.js AWS Lambda DynamoDB
+      - link "View details for XOLF":
+        - /url: /project/xolf
+        - img
+    - article:
+      - text: "03"
+      - paragraph: Medicine Inventory 2024
+      - heading "SLFreemed" [level=2]
+      - paragraph: "A school capstone project: an inventory system to manage the stocks of medicines. Built with HTML, CSS, JavaScript, PHP, and MySQL (XAMPP). Features include stock management, record management, QR prescriptions, report generation."
+      - paragraph: HTML/CSS/JS PHP MySQL QR Prescriptions
+      - link "View details for SLFreemed":
+        - /url: /project/slfreemed
+        - img
+    - paragraph: 03 — Skillset
+    - heading "Professional skillset" [level=2]
+    - text: Stack
+    - paragraph: React· TypeScript· Next.js· PHP· JavaScript· Node.js· MySQL
+    - text: Tools
+    - paragraph: Windows· VS Code· Postman· GitHub· Git· AWS
+    - paragraph: Days I code
+    - article:
+      - img: Nov Dec Jan Feb Mar Apr May Jun Jul Aug Sep Oct
+      - text: 75 contributions in the last year Less
+      - img
+      - img
+      - img
+      - img
+      - img
+      - text: More
+    - paragraph: 04 — Contact
+    - heading "Get in touch" [level=2]
+    - paragraph: Have a project in mind? Let’s work together — my inbox is always open.
+    - link "fideljonmagat25@gmail.com":
+      - /url: mailto:fideljonmagat25@gmail.com
+    - paragraph: Currently available for freelance & full-time roles
+    - textbox "Your Name"
+    - textbox "Your Email"
+    - textbox "Subject"
+    - textbox "Your Message"
+    - button "Send message": Send Message
+  - button "Open chat with Aether": Chat with Aether
+  - contentinfo:
+    - heading "Have an idea? Let’s build it together." [level=2]
+    - link "fideljonmagat25@gmail.com":
+      - /url: mailto:fideljonmagat25@gmail.com
+      - text: fideljonmagat25@gmail.com
+      - img
+    - list:
+      - listitem:
+        - link "GitHub":
+          - /url: https://github.com/hustlincode
+      - listitem:
+        - link "LinkedIn":
+          - /url: https://www.linkedin.com/in/fidel-jon-magat
+      - listitem:
+        - link "Twitter / X":
+          - /url: https://twitter.com/fideljon_
+      - listitem:
+        - link "Instagram":
+          - /url: https://www.instagram.com/fideljon
+      - listitem:
+        - link "Facebook":
+          - /url: https://www.facebook.com/maginoo21
+    - text: © 2026 FJM — Designed and developed by Fidel Jon Magat
+    - link "Back to top":
+      - /url: "#top"
+      - text: Back to top
+      - img
