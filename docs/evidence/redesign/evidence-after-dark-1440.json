@@ -1,0 +1,133 @@
+{
+  "label": "after-dark-1440",
+  "themeApplied": "dark",
+  "url": "http://localhost:4173/",
+  "viewport": {
+    "w": 1440,
+    "h": 900,
+    "dpr": 1
+  },
+  "scrollHeight": 5693,
+  "reducedMotion": false,
+  "tokens": {
+    "accent": "#ff8f3a",
+    "accentInk": "#ff8f3a",
+    "bgPrimary": "#0a0a0a",
+    "textSecondary": "#9a9a96"
+  },
+  "hero": {
+    "animationName": "none"
+  },
+  "canvases": 0,
+  "stats": [
+    {
+      "value": "03",
+      "label": "Projects shipped",
+      "href": "#work",
+      "arrow": true,
+      "valueFontSize": "32.8px",
+      "revealed": true
+    },
+    {
+      "value": "2+",
+      "label": "Professional since 2024",
+      "href": "/resume",
+      "arrow": true,
+      "valueFontSize": "32.8px",
+      "revealed": true
+    },
+    {
+      "value": "13",
+      "label": "Tools & technologies",
+      "href": "#skills",
+      "arrow": true,
+      "valueFontSize": "32.8px",
+      "revealed": true
+    }
+  ],
+  "cards": [
+    {
+      "className": "message-card message-card--accent",
+      "title": "Open to opportunities",
+      "support": "Full-time or freelance — Angeles City, PH · remote-friendly · replies within a day.",
+      "cta": "Start a conversation",
+      "href": "/#contact",
+      "background": "rgba(255, 143, 58, 0.06)",
+      "borderColor": "rgba(255, 143, 58, 0.22)",
+      "radius": "16px",
+      "height": 98,
+      "revealed": true
+    },
+    {
+      "className": "message-card message-card--green",
+      "title": "Building hospitality systems at Servo IT Solutions OPC",
+      "support": "Turning manual workflows into shipped platforms since 2024.",
+      "cta": "View résumé",
+      "href": "/resume",
+      "background": "rgba(63, 191, 111, 0.06)",
+      "borderColor": "rgba(63, 191, 111, 0.2)",
+      "radius": "16px",
+      "height": 98,
+      "revealed": true
+    }
+  ],
+  "workCount": {
+    "text": "View all (03) ↗",
+    "isLink": true,
+    "href": "/project"
+  },
+  "files": [
+    {
+      "name": "after-dark-1440-top.png",
+      "bytes": 781012,
+      "sha256": "ac9fa60e2aacee557166211000d2fbd5616b0e65106de942c989f0b537313523"
+    },
+    {
+      "name": "after-dark-1440-stats.png",
+      "bytes": 170760,
+      "sha256": "67ea74371e8e5ab4e845fa1b54d08ea0c526ece4bd1f596caecea92e9e7344d0"
+    },
+    {
+      "name": "after-dark-1440-work.png",
+      "bytes": 87984,
+      "sha256": "6365e042e59f33661ee945d7ef18d2a6a2bfff10913aa3266642f79760032adb"
+    },
+    {
+      "name": "after-dark-1440-cardB.png",
+      "bytes": 66484,
+      "sha256": "90ef4526e3b22d27df5dbfd76c65bb57e719b0780f89e45973ab6a20334bd074"
+    },
+    {
+      "name": "after-dark-1440-contact.png",
+      "bytes": 61622,
+      "sha256": "6ccaac1ecdf488417b9436256cee817e5d3d7c6cc5fb3078fc4802cbebcb670e"
+    }
+  ],
+  "scrollLog": [
+    {
+      "name": "top",
+      "target": 0,
+      "actual": 0
+    },
+    {
+      "name": "stats",
+      "target": 750,
+      "actual": 750
+    },
+    {
+      "name": "work",
+      "target": 2015,
+      "actual": 2015
+    },
+    {
+      "name": "cardB",
+      "target": 3145,
+      "actual": 3145
+    },
+    {
+      "name": "contact",
+      "target": 4348,
+      "actual": 4348
+    }
+  ]
+}

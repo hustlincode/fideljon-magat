@@ -1,0 +1,123 @@
+- document:
+  - banner:
+    - button "Open menu"
+    - link "Mar Wie Ang":
+      - /url: /
+    - text: Available
+  - complementary:
+    - link "Mar Wie Ang":
+      - /url: /
+    - button "Collapse sidebar"
+    - button "Contact"
+    - navigation "Main":
+      - link "Webinars Upcoming":
+        - /url: /webinars
+      - link "Courses":
+        - /url: /courses
+      - text: Explore
+      - link "Links 11":
+        - /url: /links
+      - link "Blog":
+        - /url: /blog
+      - link "Gear 12":
+        - /url: /gear
+      - link "Resources":
+        - /url: /resources
+      - text: Work with me
+      - link "Services":
+        - /url: /services
+      - text: Portfolio
+      - link "More about me":
+        - /url: /about
+      - link "Projects 10":
+        - /url: /projects
+      - link "Stack 45":
+        - /url: /stack
+    - text: Pokes this month 1,272,008
+    - button "Poke"
+    - text: GMT+8
+    - button "Toggle dark mode"
+    - button "Contact"
+    - link "LinkedIn":
+      - /url: https://www.linkedin.com/in/mar-wie-ang-044836236/
+  - main:
+    - img "Mar Wie Ang"
+    - text: Mar Wie Ang Software Developer
+    - link "Resume":
+      - /url: /resume.pdf
+    - paragraph: "I'm currently a freelance AI-native full-stack developer. I'm also building a community around AI-native development, where I teach for free through my course and raise money for charity along the way. I dropped out of college to focus on building projects and growing my skills the non-traditional way. I was never a structured learner anyway. I believe that to keep up in this fast-moving tech space, you have to step out of your comfort zone: learn, explore, and build things yourself."
+    - link "More about me":
+      - /url: /about
+    - link "7,000+ TikTok community":
+      - /url: /links?highlight=tiktok
+    - link "1,400+ Private dev community":
+      - /url: /links?highlight=discord
+    - link "2+ yrs Shipping":
+      - /url: /projects
+    - link "Upcoming event Course 3 & 4 Webinar October 18, 2026 · 7PM Sunday PHT Cloud mascot":
+      - /url: https://course.marwieang.com
+      - text: Upcoming event Course 3 & 4 Webinar October 18, 2026 · 7PM Sunday PHT
+      - img "Cloud mascot"
+    - link "2nd Place Winner AppBuildersPH First Hackathon Snapsort · Team Generation of Miracles":
+      - /url: https://appbuildersph.com/hackathon/
+    - heading "Experience" [level=2]
+    - text: Currently open to new work
+    - button "Contact me"
+    - text: Software Developer · Freelance 2026 to Present
+    - list:
+      - listitem: Build custom CRMs, web apps, and workflow systems for US law firms and other client businesses, owning implementation from architecture through deployment and handoff
+    - list:
+      - listitem: Develop full-stack products with production integrations across Clio, Microsoft 365, RingCentral, GoHighLevel, Meta, Zoom, and Chatwoot
+      - listitem: Design for reliability and security with authentication controls, server-side API boundaries, testing, observability, scheduled jobs, and durable integration workflows
+      - listitem: Building open source projects and my own application Voogle
+    - button "+ 3 more"
+    - text: Next.js · React · TypeScript · Convex · Node.js · Vercel Founder & Community Leader · AI Dev PH 2026 to Present
+    - list:
+      - listitem: Founded and lead a 1,400+ member Discord community of Filipino developers learning AI-native development, backed by a 7,000+ follower TikTok audience
+    - list:
+      - listitem: Wrote and teach a 4-course, 16-lesson curriculum on course.marwieang.com covering AI workflow setup, building, deployment, and a from-scratch project build
+      - listitem: Host free milestone webinars with up to 350+ live attendees, with advanced courses unlocked by a donation to the Angat Buhay Foundation, raising ₱7,000+ for charity so far
+    - button "+ 2 more"
+    - text: Community · Discord · TikTok · Teaching · AI-Native Development · Webinars AI Automations Specialist · Freelance 2024 to 2026
+    - list:
+      - listitem: Automated cross-application business workflows with make.com, n8n, REST APIs, and webhooks, then moved projects to fully coded systems when they needed more flexibility and maintainability
+    - list:
+      - listitem: Built AI chatbots for Instagram, Facebook, and the web with grounded knowledge, lead qualification, safety rules, and human handoff
+    - button "+ 1 more"
+    - text: make.com · n8n · Node.js · REST APIs · Webhooks · AI Chatbots
+    - heading "Client projects" [level=2]
+    - text: "04"
+    - link "SHLF Intake CRM Custom CRM that runs a law firm's client intake in one platform US law firm":
+      - /url: /projects/shlf-crm-automations
+    - link "JL iPad Form Site iPad interview form and consult recordings filed straight to the CRM US law firm":
+      - /url: /projects/jordan-lulich-form-automation
+    - button "+ 2 more"
+    - heading "Personal projects" [level=2]
+    - text: "06"
+    - link "Taskflow Beta An Automation Platform for Law Firms Using Clio Software":
+      - /url: /projects/taskflow
+    - link "Voogle Soon Mac app that searches video by what's said, what's on screen, and who's in it Mac app":
+      - /url: /projects/voogle
+    - button "+ 4 more"
+    - heading "Stack" [level=2]
+    - link "View all":
+      - /url: /stack
+    - text: Frontend Next.js, React, TypeScript, Vite, Tailwind CSS, shadcn/ui, Zustand, TanStack Query, Zod Backend & hosting Convex, Convex Auth, Node.js, Express, Python, SQLite, Vercel AI OpenRouter, Vercel AI SDK, Kimi K2, Gemini, Claude Code On-device ML PyTorch, Hugging Face Transformers, Core ML, Apple Vision, llama.cpp, SigLIP 2, DINOv2, YOLO11, Granite 4.0 Mobile Expo, React Native Mac apps Swift, SwiftUI, Tauri, Rust, Electron Integrations Clio, Microsoft Graph, RingCentral, GoHighLevel, Meta Graph API, Chatwoot, Resend, Zapier
+    - heading "GitHub" [level=2]
+    - link "8,249 contributions in the last year":
+      - /url: https://github.com/marwie0904
+    - img "GitHub contribution graph"
+    - text: © 2026 Mar Wie Ang
+    - navigation "Social":
+      - button "Email"
+      - link "LinkedIn":
+        - /url: https://www.linkedin.com/in/mar-wie-ang-044836236/
+      - link "GitHub":
+        - /url: https://github.com/marwie0904
+      - link "TikTok":
+        - /url: https://www.tiktok.com/@marwie_ang
+      - link "X":
+        - /url: https://x.com/mwr_dev
+      - link "Discord":
+        - /url: https://discord.gg/N2xeqwWuba
+  - alert
