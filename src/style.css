@@ -8,6 +8,12 @@ html {
   scroll-behavior: smooth;
   /* -webkit-text-size-adjust: 100%; */
   overflow-x: hidden;
+  /*
+    Custom arrow cursor (marwieang pass): white arrow with the #111113 stroke.
+    The hotspot sits at 3 3 so the drawn tip is the click target. Browsers that
+    cannot decode the SVG cursor fall through to `auto`.
+  */
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M3 3v17l5.2-4.6h7.2z' fill='white' stroke='%23111113' stroke-width='1.5' stroke-linejoin='round'/></svg>") 3 3, auto;
 }
 
 html.menu-open {
