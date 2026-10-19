@@ -417,26 +417,47 @@ html.shell-collapsed .shell-main {
   z-index: 120;
   display: flex;
   flex-direction: column;
-  padding: 16px 12px 12px;
-  background: var(--sidebar-bg);
+  padding: 5px;
+  background-color: var(--sidebar-shell-b);
+  background-image: var(--sidebar-grain),
+    linear-gradient(var(--sidebar-shell-a), var(--sidebar-shell-b));
+  background-size: 180px 180px, auto;
   border: 1px solid var(--sidebar-border);
   border-radius: var(--radius-shell);
-  box-shadow: 0 24px 48px -34px rgba(15, 15, 15, 0.35);
-  overflow-y: auto;
-  scrollbar-width: thin;
+  box-shadow: inset 0 1px 0 var(--sidebar-highlight),
+    0 1px 2px rgba(17, 17, 19, 0.05), 0 18px 40px rgba(17, 17, 19, 0.09);
+  overflow: hidden;
   transition: transform 460ms var(--ease-spring-soft), opacity 300ms var(--ease-out);
-  /* Scope the paper palette: every control inside stays ink-on-paper in both
-     themes, including focus rings and form accents. The explicit `color`
-     matters: without it, text nodes inherit the body's theme ink and go
-     invisible on the paper in dark mode. */
+  /* Scope the sidebar palette: in light mode every control stays ink-on-paper;
+     in dark mode the whole scope flips to the grainy charcoal tokens. The
+     explicit `color` matters: without it, text nodes inherit the body's theme
+     ink and go invisible on the sidebar in the opposite theme. */
   color: var(--sidebar-ink);
-  color-scheme: light;
+  color-scheme: var(--sidebar-scheme);
   --text-primary: var(--sidebar-ink);
   --text-secondary: var(--sidebar-ink-2);
   --border: var(--sidebar-line);
   --bg-secondary: var(--sidebar-tile);
   --accent: var(--sidebar-ink);
   --accent-ink: var(--sidebar-ink);
+}
+
+/* The inner panel sits inside the 5px outer lip, with its own 1px ring. This
+   nested edge is what gives the reference rail its soft double-border look. */
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 16px;
+  padding: 13px 12px 0;
+  border-radius: 19px;
+  background-color: var(--sidebar-bg);
+  background-image: var(--sidebar-grain);
+  background-size: 180px 180px;
+  box-shadow: 0 0 0 1px var(--sidebar-line),
+    0 1px 3px rgba(17, 17, 19, 0.06);
+  overflow: hidden;
 }
 
 html.shell-collapsed .sidebar {
@@ -456,72 +477,76 @@ html.shell-collapsed .sidebar {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 4px 8px 14px;
+  padding: 2px 4px 0 10px;
 }
 
 .sidebar-collapse {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   background: transparent;
-  border: 1px solid var(--sidebar-line);
-  border-radius: 8px;
-  color: var(--sidebar-ink-2);
-  transition: color var(--transition-fast), border-color var(--transition-fast),
+  border: 0;
+  border-radius: 10px;
+  color: var(--sidebar-ink);
+  transition: background-color 140ms var(--ease-out),
     transform 220ms var(--ease-spring);
 }
 
 .sidebar-collapse:hover {
-  color: var(--sidebar-ink);
-  border-color: rgba(23, 23, 26, 0.28);
+  background: var(--sidebar-hover);
 }
 
 .sidebar-collapse:active {
-  transform: scale(0.92);
+  transform: scale(0.94);
 }
 
 /* Full-width raised contact pill, directly under the wordmark. */
 .sidebar-contact {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 40px;
-  margin: 0 4px clamp(20px, 3vh, 28px);
-  border: 1px solid var(--sidebar-line);
+  justify-content: flex-start;
+  gap: 9px;
+  height: 44px;
+  margin: 0;
+  padding: 0 16px 0 14px;
+  border: 0;
   border-radius: 999px;
-  background: var(--sidebar-tile);
-  box-shadow: 0 1px 2px rgba(20, 20, 20, 0.04),
-    0 10px 22px -16px rgba(20, 20, 20, 0.35);
+  background: linear-gradient(var(--sidebar-tile-a), var(--sidebar-tile-b));
+  box-shadow: inset 0 0 0 1px var(--sidebar-line),
+    inset 0 1px 0 var(--sidebar-highlight),
+    0 1px 2px rgba(17, 17, 19, 0.06), 0 4px 10px rgba(17, 17, 19, 0.04);
   font-size: 14px;
   font-weight: 500;
   color: var(--sidebar-ink);
-  transition: transform 220ms var(--ease-spring),
-    box-shadow 220ms var(--ease-out), border-color var(--transition-fast);
+  transition: box-shadow 140ms var(--ease-out),
+    transform 140ms var(--ease-out);
 }
 
 .sidebar-contact svg {
-  color: var(--sidebar-ink-2);
+  color: var(--sidebar-muted);
 }
 
 .sidebar-contact:hover {
-  transform: translateY(-1px);
-  border-color: rgba(23, 23, 26, 0.2);
-  box-shadow: 0 2px 4px rgba(20, 20, 20, 0.05),
-    0 14px 26px -16px rgba(20, 20, 20, 0.4);
+  box-shadow: inset 0 0 0 1px var(--sidebar-line-strong),
+    inset 0 1px 0 var(--sidebar-highlight),
+    0 2px 4px rgba(17, 17, 19, 0.08), 0 8px 16px rgba(17, 17, 19, 0.06);
 }
 
 .sidebar-contact:active {
-  transform: translateY(0) scale(0.985);
+  transform: translateY(1px);
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 0 2px;
+  flex-shrink: 1;
+  min-height: 0;
+  gap: 16px;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .sidebar-group {
@@ -531,55 +556,64 @@ html.shell-collapsed .sidebar {
 }
 
 .sidebar-group-label {
-  margin: 0 0 4px;
-  padding: 0 10px;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--sidebar-ink-2);
-  opacity: 0.85;
+  margin: 0;
+  padding: 0 11px 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--sidebar-subtle);
 }
 
 .sidebar-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 10px;
-  border-radius: 10px;
+  gap: 11px;
+  height: 38px;
+  padding: 0 11px;
+  border-radius: 11px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--sidebar-ink);
-  transition: background-color 150ms var(--ease-out);
+  color: var(--sidebar-ink-2);
+  transition: background-color 140ms var(--ease-out),
+    box-shadow 140ms var(--ease-out), color 140ms var(--ease-out);
 }
 
 .sidebar-item svg {
-  color: var(--sidebar-ink-2);
+  color: var(--sidebar-faint);
   flex-shrink: 0;
 }
 
 .sidebar-item:hover {
-  background: rgba(23, 23, 26, 0.055);
+  background: var(--sidebar-hover);
 }
 
 .sidebar-item.is-active {
-  background: rgba(23, 23, 26, 0.07);
+  color: var(--sidebar-ink);
+  background: linear-gradient(var(--sidebar-active-a), var(--sidebar-active-b));
+  box-shadow: inset 0 0 0 1px var(--sidebar-active-line),
+    inset 0 1px 0 var(--sidebar-highlight),
+    0 1px 2px rgba(17, 17, 19, 0.06);
+}
+
+.sidebar-item.is-active svg {
+  color: var(--sidebar-ink);
 }
 
 .sidebar-item-badge {
   margin-left: auto;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 500;
-  color: var(--sidebar-ink-2);
+  color: var(--sidebar-count);
   font-variant-numeric: tabular-nums;
 }
 
 .sidebar-foot {
-  margin-top: auto;
+  margin: auto -12px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 14px 8px 4px;
+  gap: 9px;
+  padding: 12px 14px 12px 20px;
   border-top: 1px solid var(--sidebar-line);
 }
 
@@ -591,28 +625,29 @@ html.shell-collapsed .sidebar {
   padding: 0;
   border: none;
   background: none;
-  font-size: 12.5px;
-  letter-spacing: 0.02em;
-  color: var(--sidebar-ink-2);
+  font-size: 11.5px;
+  letter-spacing: 0.01em;
+  color: var(--sidebar-subtle);
 }
 
 .sidebar .visitor-chip-number {
-  color: var(--sidebar-ink);
-  font-weight: 600;
+  color: var(--sidebar-ink-2);
+  font-size: 12px;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
 .sidebar-strip {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
 }
 
 .sidebar-time {
   margin-right: auto;
   font-size: 11.5px;
-  letter-spacing: 0.02em;
-  color: var(--sidebar-ink-2);
+  letter-spacing: 0.01em;
+  color: var(--sidebar-muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -622,21 +657,46 @@ html.shell-collapsed .sidebar {
   place-items: center;
   width: 30px;
   height: 30px;
-  border: 1px solid var(--sidebar-line);
+  border: 0;
   border-radius: 9px;
-  color: var(--sidebar-ink-2);
-  font-size: 15px;
-  transition: color var(--transition-fast), border-color var(--transition-fast),
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--sidebar-line);
+  color: var(--sidebar-muted);
+  font-size: 14px;
+  transition: color 140ms var(--ease-out), background-color 140ms var(--ease-out),
     transform 220ms var(--ease-spring);
 }
 
 .sidebar-social:hover {
   color: var(--sidebar-ink);
-  border-color: rgba(23, 23, 26, 0.28);
+  background: var(--sidebar-hover);
 }
 
 .sidebar-social:active {
   transform: scale(0.92);
+}
+
+/* The theme and haptic toggles use the same 32px inset-ring button as the
+   socials when they live in the rail or the drawer. */
+.sidebar .theme-toggle,
+.sidebar .haptic-toggle,
+.mobile-menu-panel .theme-toggle,
+.mobile-menu-panel .haptic-toggle {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--sidebar-line);
+  color: var(--sidebar-muted);
+}
+
+.sidebar .theme-toggle:hover,
+.sidebar .haptic-toggle:hover,
+.mobile-menu-panel .theme-toggle:hover,
+.mobile-menu-panel .haptic-toggle:hover {
+  color: var(--sidebar-ink);
+  background: var(--sidebar-hover);
 }
 
 /* Re-open affordance shown only while the sidebar is collapsed. */
@@ -646,14 +706,17 @@ html.shell-collapsed .sidebar {
   top: var(--shell-gap);
   left: var(--shell-gap);
   z-index: 120;
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   place-items: center;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--sidebar-border);
-  border-radius: 10px;
+  background-color: var(--sidebar-bg);
+  background-image: var(--sidebar-grain);
+  background-size: 180px 180px;
+  border: 0;
+  border-radius: 12px;
   color: var(--sidebar-ink);
-  box-shadow: 0 10px 24px -18px rgba(15, 15, 15, 0.4);
+  box-shadow: 0 0 0 1px var(--sidebar-line),
+    0 1px 3px rgba(17, 17, 19, 0.06);
   transition: transform 220ms var(--ease-spring);
 }
 
@@ -682,6 +745,14 @@ html.shell-collapsed .shell-expand {
   align-items: baseline;
   gap: 1px;
   white-space: nowrap;
+}
+
+/* The rail's wordmark uses the reference's larger 18px lockup; the mobile
+   name in the top bar keeps its own smaller size. */
+.sidebar .wordmark,
+.mobile-menu-panel .wordmark {
+  font-size: 17px;
+  letter-spacing: -0.02em;
 }
 
 .wordmark-dot {
@@ -967,17 +1038,22 @@ html.shell-collapsed .shell-expand {
   top: 0;
   bottom: 0;
   left: 0;
-  width: min(340px, 88vw);
+  width: min(320px, 88vw);
   display: flex;
   flex-direction: column;
-  padding: 16px 14px 14px;
-  background: var(--sidebar-bg);
+  gap: 16px;
+  padding: 13px 12px 0;
+  background-color: var(--sidebar-bg);
+  background-image: var(--sidebar-grain);
+  background-size: 180px 180px;
   border-right: 1px solid var(--sidebar-border);
   overflow-y: auto;
   transform: translateX(-103%);
-  /* Paper palette inside, same as the desktop sidebar. */
+  /* Same palette and nested-edge feel as the desktop sidebar. The drawer has
+     one extra inset hairline on its right edge instead of a full outer lip. */
+  box-shadow: inset -1px 0 0 var(--sidebar-line);
   color: var(--sidebar-ink);
-  color-scheme: light;
+  color-scheme: var(--sidebar-scheme);
   --text-primary: var(--sidebar-ink);
   --text-secondary: var(--sidebar-ink-2);
   --border: var(--sidebar-line);

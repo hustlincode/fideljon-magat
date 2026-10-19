@@ -9,9 +9,10 @@ import HapticToggle from "./ui/HapticToggle";
 import VisitorCount from "./Home/VisitorCount";
 import { PROJECTS } from "../config/projectsData";
 
-// Count of stack + tools entries in About/Skills.jsx GROUPS (7 + 6).
+// Count of entries across GROUPS in About/Skills.jsx
+// (7 + 3 + 6 + 2 + 6 + 6).
 // Kept as a constant because the list is deliberately local to that file.
-const SKILL_COUNT = 13;
+const SKILL_COUNT = 30;
 
 const GITHUB_URL = "https://github.com/hustlincode";
 const LINKEDIN_URL = "https://www.linkedin.com/in/fidel-jon-magat";
@@ -20,10 +21,10 @@ const icon = (children) => (
   <svg
     width="16"
     height="16"
-    viewBox="0 0 24 24"
+    viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.7"
+    strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
@@ -32,56 +33,63 @@ const icon = (children) => (
   </svg>
 );
 
+// 16px line icons, 1.5 stroke, drawn on the same 16px grid as the reference
+// sidebar. Keeping one grid and one weight is what makes the rail read calm.
 const ICONS = {
+  // Briefcase: the home page's selected-work section.
   work: icon(
     <>
-      <rect x="3.5" y="3.5" width="7" height="7" rx="1.6" />
-      <rect x="13.5" y="3.5" width="7" height="7" rx="1.6" />
-      <rect x="3.5" y="13.5" width="7" height="7" rx="1.6" />
-      <rect x="13.5" y="13.5" width="7" height="7" rx="1.6" />
+      <rect x="2" y="5" width="12" height="8.5" rx="1.2" />
+      <path d="M5.5 5V3.5h5V5" />
     </>
   ),
   user: icon(
     <>
-      <circle cx="12" cy="8.2" r="3.4" />
-      <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+      <circle cx="8" cy="5.5" r="2.8" />
+      <path d="M2.5 14c.8-2.7 3-4 5.5-4s4.7 1.3 5.5 4" />
     </>
   ),
+  // The portfolio grid: four small tiles.
   folder: icon(
-    <path d="M3.5 7.5a2 2 0 0 1 2-2h3.6l2 2h7.4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z" />
+    <>
+      <rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1" />
+      <rect x="9" y="2.5" width="4.5" height="4.5" rx="1" />
+      <rect x="2.5" y="9" width="4.5" height="4.5" rx="1" />
+      <rect x="9" y="9" width="4.5" height="4.5" rx="1" />
+    </>
   ),
   layers: icon(
     <>
-      <path d="m12 3.5 8.5 4.6L12 12.7 3.5 8.1 12 3.5Z" />
-      <path d="m4.8 12.6 7.2 3.9 7.2-3.9" />
-      <path d="m4.8 16.4 7.2 3.9 7.2-3.9" />
+      <path d="M8 2 14 5 8 8 2 5z" />
+      <path d="M2 8.5 8 11.5 14 8.5" />
+      <path d="M2 11.5 8 14.5 14 11.5" />
     </>
   ),
   file: icon(
     <>
-      <path d="M13.5 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9Z" />
-      <path d="M13.5 3.5V9H19" />
+      <path d="M3 2.5h7.5L13 5v8.5H3z" />
+      <path d="M5.5 8h5M5.5 10.5h3.5" />
     </>
   ),
   mail: icon(
     <>
-      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
-      <path d="m4.5 7.5 7.5 5.5 7.5-5.5" />
+      <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
+      <path d="m2.5 4.5 5.5 4 5.5-4" />
     </>
   )
 };
 
 const COLLAPSE_ICON = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="m11 7-5 5 5 5" />
-    <path d="m17 7-5 5 5 5" />
+  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+    <rect x="3" y="4" width="14" height="12" rx="2.5" />
+    <path d="M8 4v12" />
   </svg>
 );
 
 const EXPAND_ICON = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="m7 7 5 5-5 5" />
-    <path d="m13 7 5 5-5 5" />
+  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+    <rect x="3" y="4" width="14" height="12" rx="2.5" />
+    <path d="M12 4v12" />
   </svg>
 );
 
@@ -384,39 +392,41 @@ function Sidebar() {
       </span> */}
 
       <aside className="sidebar" aria-label="Sidebar">
-        <div className="sidebar-head">
-          <Link
-            to="/"
-            className="wordmark"
-            aria-label="Fidel Jon Magat — home"
-            data-haptic="light"
-          >
-            Fidel Jon Magat<span className="wordmark-dot">.</span>
-          </Link>
-          <button
-            type="button"
-            className="sidebar-collapse"
-            onClick={() => setCollapsed(true)}
-            data-haptic="light"
-            aria-label="Collapse sidebar"
-          >
-            {COLLAPSE_ICON}
-          </button>
-        </div>
+        <div className="sidebar-panel">
+          <div className="sidebar-head">
+            <Link
+              to="/"
+              className="wordmark"
+              aria-label="Fidel Jon Magat — home"
+              data-haptic="light"
+            >
+              Fidel Jon Magat<span className="wordmark-dot">.</span>
+            </Link>
+            <button
+              type="button"
+              className="sidebar-collapse"
+              onClick={() => setCollapsed(true)}
+              data-haptic="light"
+              aria-label="Collapse sidebar"
+            >
+              {COLLAPSE_ICON}
+            </button>
+          </div>
 
-        {contactLink}
+          {contactLink}
 
-        <nav className="sidebar-nav" aria-label="Primary">
-          {renderGroups(false)}
-        </nav>
+          <nav className="sidebar-nav" aria-label="Primary">
+            {renderGroups(false)}
+          </nav>
 
-        <div className="sidebar-foot">
-          <VisitorCount />
-          <div className="sidebar-strip">
-            {timeChip}
-            {themeToggle}
-            <HapticToggle />
-            {socials}
+          <div className="sidebar-foot">
+            <VisitorCount />
+            <div className="sidebar-strip">
+              {timeChip}
+              {themeToggle}
+              <HapticToggle />
+              {socials}
+            </div>
           </div>
         </div>
       </aside>
