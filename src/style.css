@@ -1572,6 +1572,9 @@ html.lightbox-open {
 }
 
 .skill-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -1580,47 +1583,127 @@ html.lightbox-open {
   padding-top: 5px;
 }
 
+.skill-group-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
 .skill-items {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  justify-content: flex-end;
   row-gap: 6px;
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   line-height: 1.8;
   min-width: 0;
+  text-align: right;
 }
 
-.skill-items span {
-  overflow-wrap: anywhere;
+.skill-items > span {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
   transition: transform 220ms var(--ease-spring), color 200ms var(--ease-out);
-  display: inline-block;
 }
 
-.skill-items span:hover {
+.skill-name {
+  overflow-wrap: anywhere;
+}
+
+.skill-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  transition: color 200ms var(--ease-out);
+}
+
+.skill-items > span:hover {
   transform: translateY(-2px) scale(1.04);
   color: var(--accent-ink);
 }
 
-.skill-items span:not(:last-child)::after {
+.skill-items > span:hover .skill-icon {
+  color: var(--accent-ink);
+}
+
+.skill-items > span:not(:last-child)::after {
   content: "·";
   margin-inline: 12px;
   color: var(--text-secondary);
 }
 
-.github-cal {
+/* ---------------------------------------------------------------------------
+   GitHub section (marwieang pass) — label + contribution count over a
+   hairline, then the year's activity as Sunday-first columns of 9px squares.
+--------------------------------------------------------------------------- */
+
+.github {
   margin-top: clamp(40px, 6vh, 64px);
+}
+
+.github-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.github-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.github-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-faint);
+  transition: color 200ms var(--ease-out);
+}
+
+.github-count:hover {
+  color: var(--text-secondary);
+}
+
+.github-grid {
+  display: flex;
+  gap: 3px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
   overflow-x: auto;
-  padding-bottom: 8px;
 }
 
-.github-cal .react-github-calendar text {
-  fill: var(--text-secondary) !important;
+.github-week {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.github-cal svg {
-  max-width: 100% !important;
-  height: auto !important;
+.github-day {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--graph-0);
 }
+
+/* Edge padding in partial weeks: holds the column's shape, draws nothing. */
+.github-day.is-pad {
+  visibility: hidden;
+}
+
+.github-level-1 { background: var(--graph-1); }
+.github-level-2 { background: var(--graph-2); }
+.github-level-3 { background: var(--graph-3); }
+.github-level-4 { background: var(--graph-4); }
 
 .contact-grid {
   display: grid;
@@ -2505,6 +2588,21 @@ textarea.form-input {
   .skill-group {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .skill-items {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  /*
+    The year of squares is wider than the phone column. Keep the most recent
+    weeks in view and let the older ones run off the left edge, the way the
+    reference graph does, instead of introducing a scroll strip.
+  */
+  .github-grid {
+    justify-content: flex-end;
+    overflow: hidden;
   }
 
   .timeline-row {

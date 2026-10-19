@@ -34,7 +34,7 @@ const ITEMS = [
     kind: "route"
   },
   {
-    value: "13",
+    value: "30",
     label: "Tools & technologies",
     href: "#skills",
     kind: "hash"
