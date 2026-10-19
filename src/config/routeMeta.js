@@ -43,7 +43,7 @@ export const ROUTES = {
   "/project": {
     title: "Projects — Fidel Jon Magat",
     description:
-      "Selected work by Fidel Jon Magat, including a banquet sales portal, a serverless online check-in system, and a medicine inventory capstone project."
+      "Work and personal projects by Fidel Jon Magat: client systems built with teams, plus independent full-stack products, developer tools, and a medicine inventory capstone."
   },
   "/404": {
     title: "404 — Page Not Found | Fidel Jon Magat",

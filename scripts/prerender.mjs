@@ -170,9 +170,11 @@ const ROUTE_MARKERS = {
   "/": "Professional since 2024",
   "/about": "Who I am",
   "/resume": "Curriculum",
-  "/project": "Recent",
+  "/project": "Personal projects",
   "/project/salesportal": "Salesportal",
   "/project/xolf": "XOLF",
+  "/project/aether-dental": "Aether Dental",
+  "/project/code-review-assistant": "Code Review Assistant",
   "/project/slfreemed": "SLFreemed",
   "/404": "Page not found"
 };
