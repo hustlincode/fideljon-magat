@@ -1,0 +1,104 @@
+{
+  "label": "detail-light-1440",
+  "path": "/project/salesportal",
+  "themeApplied": "light",
+  "title": "Salesportal — Banquet Sales Management | Fidel Jon Magat",
+  "viewport": {
+    "w": 1440,
+    "h": 900,
+    "dpr": 1
+  },
+  "scrollHeight": 3211,
+  "fonts": {
+    "body": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1Size": "36.8px",
+    "serif": "Newsreader, Georgia, serif",
+    "loaded": [
+      "Figtree 400 normal",
+      "Figtree 500 normal",
+      "Figtree 600 normal",
+      "Newsreader 400 italic"
+    ]
+  },
+  "tokens": {
+    "accent": "#17171a",
+    "brand": "#f48d2c",
+    "brandInk": "#c2410c",
+    "bgPrimary": "#fcfcfb",
+    "sidebarBg": "#f8f8f7",
+    "green": "#2f9e5b"
+  },
+  "sidebar": {
+    "display": "flex",
+    "width": "264px",
+    "background": "rgb(248, 248, 247)",
+    "border": "rgb(235, 235, 233)",
+    "radius": "18px",
+    "position": "fixed",
+    "itemCount": 6,
+    "items": [
+      "Work",
+      "About",
+      "Projects03",
+      "Skills13",
+      "Resume",
+      "Contact"
+    ]
+  },
+  "shellMain": {
+    "marginLeft": "292px",
+    "paddingTop": "81px"
+  },
+  "topbar": {
+    "display": "none",
+    "height": "64px"
+  },
+  "containerX": {
+    "maxWidth": "688px",
+    "width": 688
+  },
+  "hero": {
+    "text": "Salesportal",
+    "dotColor": null,
+    "roleRow": false,
+    "moreLink": false
+  },
+  "statusDotColor": "rgb(47, 158, 91)",
+  "canvases": 0,
+  "stats": [],
+  "cards": [],
+  "workCount": null,
+  "files": [
+    {
+      "name": "revamp-detail-light-1440-top.png",
+      "bytes": 107626,
+      "sha256": "462d68ec12414eba60880a4571a6d3ae821c74e5d1ceb6d558dc0aad15c677c6"
+    },
+    {
+      "name": "revamp-detail-light-1440-stop1.png",
+      "bytes": 187652,
+      "sha256": "9ce3779c8d61b9f49396c9e4cd8bfe1e560412bb1274f090ef191adf91863ef6"
+    },
+    {
+      "name": "revamp-detail-light-1440-stop2.png",
+      "bytes": 101530,
+      "sha256": "558ce6ee7dbeaf6fe6e94f36d2c18f422a948afe21842d21db840e7f02665281"
+    },
+    {
+      "name": "revamp-detail-light-1440-stop3.png",
+      "bytes": 72118,
+      "sha256": "dcd6bfb7b3f9d25d4429688eb17c959b4b115171ba5fd0daa2d24e90b59e62c3"
+    },
+    {
+      "name": "revamp-detail-light-1440-stop4.png",
+      "bytes": 72112,
+      "sha256": "4a6d9a24cca1cb5b998653cbcfc15b7696d68e309b0a4ab8d3a1b21e74991d47"
+    },
+    {
+      "name": "revamp-detail-light-1440-full.png",
+      "bytes": 323030,
+      "sha256": "68c6abb5dba97cc91c5811d422b9f60af065ade4b5bd07e6b1c64e0d5d28d737"
+    }
+  ]
+}

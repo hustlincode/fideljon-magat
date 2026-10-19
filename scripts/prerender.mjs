@@ -167,12 +167,14 @@ const outputPathFor = (pathname) =>
 // which made the failure easy to miss. These markers make an empty render fail
 // the build instead of shipping quietly.
 const ROUTE_MARKERS = {
-  "/": "FIDEL JON",
+  "/": "Professional since 2024",
   "/about": "Who I am",
   "/resume": "Curriculum",
-  "/project": "Recent",
+  "/project": "Personal projects",
   "/project/salesportal": "Salesportal",
   "/project/xolf": "XOLF",
+  "/project/aether-dental": "Aether Dental",
+  "/project/code-review-assistant": "Code Review Assistant",
   "/project/slfreemed": "SLFreemed",
   "/404": "Page not found"
 };

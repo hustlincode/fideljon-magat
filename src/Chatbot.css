@@ -9,7 +9,9 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  background: var(--glass-bg);
+  background-color: var(--glass-bg);
+  background-image: var(--grain-texture);
+  background-size: 180px 180px;
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   backdrop-filter: blur(18px) saturate(140%);
   color: #f2f2f5;
@@ -56,8 +58,8 @@
   --glass-border: rgba(255, 255, 255, 0.12);
   --text-main: #f2f2f5;
   --text-dim: rgba(233, 233, 242, 0.62);
-  --accent: #ff8f3a;
-  --accent-strong: #dc690b;
+  --accent: #e6e6ea;
+  --accent-strong: #d2d2d9;
 
   position: fixed;
   bottom: 66px;
@@ -101,7 +103,9 @@
   align-items: flex-start;
   padding: 14px 14px 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: var(--glass-bg-strong);
+  background-color: var(--glass-bg-strong);
+  background-image: var(--grain-texture);
+  background-size: 180px 180px;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
 }
@@ -352,7 +356,9 @@
   display: flex;
   align-items: stretch;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: var(--glass-bg-strong);
+  background-color: var(--glass-bg-strong);
+  background-image: var(--grain-texture);
+  background-size: 180px 180px;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-radius: 0 0 17px 17px;

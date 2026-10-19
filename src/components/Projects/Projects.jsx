@@ -1,16 +1,97 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { flushSync } from "react-dom";
 import Reveal from "../Reveal";
-import { PROJECTS, projectPath } from "../../config/projectsData";
+import {
+  PERSONAL_PROJECTS,
+  PROJECTS,
+  WORK_PROJECTS,
+  projectPath
+} from "../../config/projectsData";
 import usePrefersReducedMotion from "../../hooks/usePrefersReducedMotion";
-import usePointerTracking from "../../hooks/usePointerTracking";
-import Magnetic from "../ui/Magnetic";
 import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 
-// How quickly the floating preview catches up to the cursor each frame. Low
-// enough to feel physical, high enough that it never lags behind the pointer.
-const PREVIEW_LERP = 0.18;
+// Number of personal rows shown before the "+N more" reveal. Work is short
+// enough to show in full; the home page keeps personal projects to the two
+// strongest entries, while /project shows the complete archive.
+const PERSONAL_PREVIEW_COUNT = 2;
+
+const pad = (value) => String(value).padStart(2, "0");
+
+function ProjectRow({ project, onOpen }) {
+  return (
+    <Link
+      to={projectPath(project.slug)}
+      className="project-row"
+      aria-label={`View ${project.title} case study`}
+      onClick={(event) => onOpen(project.slug, event)}
+      data-haptic="light"
+    >
+      <span className="project-row-thumb" aria-hidden="true">
+        <img src={project.img} alt="" loading="lazy" />
+      </span>
+
+      <span className="project-row-body">
+        <span className="project-row-title">
+          <span className="project-row-name">{project.title}</span>
+          {project.badge ? (
+            <span className="project-row-badge">{project.badge}</span>
+          ) : null}
+        </span>
+        <span className="project-row-line">{project.tagline}</span>
+      </span>
+
+      <span className="project-row-meta">{project.year}</span>
+    </Link>
+  );
+}
+
+function ProjectGroup({
+  id,
+  label,
+  projects,
+  previewCount,
+  headingLevel: GroupHeading,
+  onOpen
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? projects : projects.slice(0, previewCount);
+  const remaining = projects.length - visible.length;
+
+  return (
+    <section className="project-group" id={id} aria-labelledby={`${id}-heading`}>
+      <Reveal>
+        <div className="project-group-head">
+          <GroupHeading id={`${id}-heading`} className="project-group-label">
+            {label}
+          </GroupHeading>
+          <span className="project-group-count">{pad(projects.length)}</span>
+        </div>
+      </Reveal>
+
+      <ul className="project-list">
+        {visible.map((project, index) => (
+          <Reveal as="li" key={project.slug} delay={index * 55}>
+            <ProjectRow project={project} onOpen={onOpen} />
+          </Reveal>
+        ))}
+      </ul>
+
+      {remaining > 0 ? (
+        <div className="project-more-wrap">
+          <button
+            type="button"
+            className="project-more"
+            onClick={() => setExpanded(true)}
+            data-haptic="light"
+          >
+            + {remaining} more
+          </button>
+        </div>
+      ) : null}
+    </section>
+  );
+}
 
 // `asPage` distinguishes the two places this renders:
 //   - /project   -> this list IS the page, so its title is the h1
@@ -18,83 +99,22 @@ const PREVIEW_LERP = 0.18;
 //                   title must stay an h2 to keep one h1 per document
 function Projects({ asPage = false }) {
   const Heading = asPage ? "h1" : "h2";
-
-  const [activeIndex, setActiveIndex] = useState(null);
+  const GroupHeading = asPage ? "h2" : "h3";
   const reducedMotion = usePrefersReducedMotion();
   const navigate = useNavigate();
   const canSharedTransition =
     typeof document !== "undefined" && typeof document.startViewTransition === "function";
   const titleRef = useRef(null);
   useSplitTextReveal(titleRef, { type: "chars", stagger: 0.012 });
-  const canHover =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(hover: hover) and (min-width: 901px)").matches;
-  const enablePreview = Boolean(canHover) && !reducedMotion;
-
-  const previewRef = useRef(null);
-  // Cursor target, updated without re-rendering. The rendered position is a
-  // separate ref advanced toward it each frame; the frame loop writes straight
-  // to the DOM node so tracking never touches React state.
-  const pointer = usePointerTracking(enablePreview);
-  const currentRef = useRef({ x: 0, y: 0 });
-  const shownRef = useRef(false);
-
-  const previewActive = enablePreview && activeIndex !== null;
-
-  useEffect(() => {
-    if (!previewActive) {
-      shownRef.current = false;
-      return undefined;
-    }
-
-    const apply = () => {
-      const el = previewRef.current;
-      if (!el) return;
-      const { x, y } = currentRef.current;
-      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    };
-
-    // On the first row of an interaction the preview should appear under the
-    // cursor rather than glide in from wherever it last rested.
-    if (!shownRef.current) {
-      currentRef.current = { ...pointer.current };
-      apply();
-      shownRef.current = true;
-    }
-
-    let rafId = 0;
-    const tick = () => {
-      const cur = currentRef.current;
-      cur.x += (pointer.current.x - cur.x) * PREVIEW_LERP;
-      cur.y += (pointer.current.y - cur.y) * PREVIEW_LERP;
-      apply();
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(rafId);
-  }, [previewActive, pointer]);
-
-  const rowProps = (index) =>
-    enablePreview
-      ? {
-          onMouseEnter: (event) => {
-            pointer.current.x = event.clientX;
-            pointer.current.y = event.clientY;
-            setActiveIndex(index);
-          },
-          onMouseLeave: () => setActiveIndex(null)
-        }
-      : {};
 
   const handleProjectOpen = (slug, event) => {
     if (!canSharedTransition || reducedMotion) return;
+
     const row =
       event.currentTarget && typeof event.currentTarget.closest === "function"
-        ? event.currentTarget.closest(".work-row")
+        ? event.currentTarget.closest(".project-row")
         : null;
-    const image = row ? row.querySelector(".work-thumb img") : null;
+    const image = row ? row.querySelector(".project-row-thumb img") : null;
     if (!image) return;
 
     image.style.viewTransitionName = "shared-project-image";
@@ -107,7 +127,7 @@ function Projects({ asPage = false }) {
 
     transition.finished.finally(() => {
       image.style.viewTransitionName = "";
-      const next = document.querySelector(".project-shot img");
+      const next = document.querySelector(".project-carousel-slide img");
       if (next) next.style.viewTransitionName = "";
     });
 
@@ -118,82 +138,66 @@ function Projects({ asPage = false }) {
     <section className="section" id="work">
       <div className="container-x">
         <Reveal>
-          <div className="work-head">
+          <div className="work-head project-index-head">
             <div>
-              <p className="eyebrow">02 &mdash; Selected work</p>
+              <p className="eyebrow">{asPage ? "Portfolio" : "02 — Projects"}</p>
               <Heading ref={titleRef} className="display-1">
-                Recent <span className="serif-accent">works</span>
+                {asPage ? (
+                  <>
+                    Work &amp; <span className="serif-accent">personal</span> projects
+                  </>
+                ) : (
+                  <>
+                    Selected <span className="serif-accent">work</span>
+                  </>
+                )}
               </Heading>
             </div>
-            <span className="work-count">({String(PROJECTS.length).padStart(2, "0")})</span>
+            {asPage ? (
+              <span className="work-count">({pad(PROJECTS.length)})</span>
+            ) : (
+              <Link
+                to="/project"
+                className="work-count work-count-link link-sweep"
+                data-haptic="light"
+              >
+                All projects ({pad(PROJECTS.length)}){" "}
+                <span aria-hidden="true">↗</span>
+              </Link>
+            )}
           </div>
         </Reveal>
 
-        <div
-          className="work-list"
-          onMouseLeave={() => enablePreview && setActiveIndex(null)}
-        >
-          {PROJECTS.map((project, index) => (
-            <Reveal key={project.title} delay={index * 60}>
-              <article className="work-row has-thumb" {...rowProps(index)}>
-                <div className="work-thumb" aria-hidden="true">
-                  <img src={project.img} alt={project.title} loading="lazy" />
-                </div>
+        {asPage ? (
+          <Reveal delay={60}>
+            <p className="project-index-lede">
+              Client systems built with teams, plus personal products I designed
+              and shipped on my own. Every entry opens into the problem, the
+              build, and what I owned.
+            </p>
+          </Reveal>
+        ) : null}
 
-                <span className="work-num">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+        <div className="project-index">
+          <ProjectGroup
+            id="work-projects"
+            label="Work projects"
+            projects={WORK_PROJECTS}
+            previewCount={WORK_PROJECTS.length}
+            headingLevel={GroupHeading}
+            onOpen={handleProjectOpen}
+          />
 
-                <div className="work-body">
-                  <p className="work-tags" style={{ marginBottom: 12 }}>
-                    <span>{project.context}</span>
-                    <span>{project.year}</span>
-                  </p>
-                  <h2 className="work-title">{project.title}</h2>
-                  <p className="work-desc">{project.description}</p>
-                  <p className="work-tags">
-                    {project.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </p>
-                </div>
-
-                <Magnetic strength={0.18}>
-                  <Link
-                    to={projectPath(project.slug)}
-                    className="work-arrow"
-                    aria-label={`View details for ${project.title}`}
-                    onClick={(event) => handleProjectOpen(project.slug, event)}
-                    data-haptic="light"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                      <path d="M7 17 17 7M8 7h9v9" />
-                    </svg>
-                  </Link>
-                </Magnetic>
-              </article>
-            </Reveal>
-          ))}
+          <ProjectGroup
+            id="personal-projects"
+            label="Personal projects"
+            projects={PERSONAL_PROJECTS}
+            previewCount={asPage ? PERSONAL_PROJECTS.length : PERSONAL_PREVIEW_COUNT}
+            headingLevel={GroupHeading}
+            onOpen={handleProjectOpen}
+          />
         </div>
       </div>
-
-      {enablePreview && (
-        <div
-          ref={previewRef}
-          className={`work-preview${previewActive ? " active" : ""}`}
-          aria-hidden="true"
-        >
-          {previewActive && (
-            <>
-              <img src={PROJECTS[activeIndex].img} alt="" />
-              <span className="work-preview-caption">
-                <strong>{PROJECTS[activeIndex].title}</strong>
-                <em>View case study&nbsp;&#8599;</em>
-              </span>
-            </>
-          )}
-        </div>
-      )}
     </section>
   );
 }

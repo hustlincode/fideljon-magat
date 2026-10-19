@@ -1,0 +1,144 @@
+{
+  "label": "home-light-1440",
+  "path": "/",
+  "themeApplied": "light",
+  "title": "Fidel Jon Magat — Full-stack Web Developer",
+  "viewport": {
+    "w": 1440,
+    "h": 900,
+    "dpr": 1
+  },
+  "scrollHeight": 4954,
+  "fonts": {
+    "body": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1Size": "36.8px",
+    "serif": "Newsreader, Georgia, serif",
+    "loaded": [
+      "Figtree 400 normal",
+      "Figtree 500 normal",
+      "Figtree 600 normal",
+      "Newsreader 400 italic",
+      "Newsreader 400 normal"
+    ]
+  },
+  "tokens": {
+    "accent": "#17171a",
+    "brand": "#f48d2c",
+    "brandInk": "#c2410c",
+    "bgPrimary": "#fcfcfb",
+    "sidebarBg": "#f8f8f7",
+    "green": "#2f9e5b"
+  },
+  "sidebar": {
+    "display": "flex",
+    "width": "264px",
+    "background": "rgb(248, 248, 247)",
+    "border": "rgb(235, 235, 233)",
+    "radius": "18px",
+    "position": "fixed",
+    "itemCount": 6,
+    "items": [
+      "Work",
+      "About",
+      "Projects03",
+      "Skills13",
+      "Resume",
+      "Contact"
+    ]
+  },
+  "shellMain": {
+    "marginLeft": "292px",
+    "paddingTop": "81px"
+  },
+  "topbar": {
+    "display": "none",
+    "height": "64px"
+  },
+  "containerX": {
+    "maxWidth": "688px",
+    "width": 688
+  },
+  "hero": {
+    "text": "Fidel Jon Magat.",
+    "dotColor": "rgb(194, 65, 12)",
+    "roleRow": true,
+    "moreLink": true
+  },
+  "statusDotColor": "rgb(47, 158, 91)",
+  "canvases": 0,
+  "stats": [
+    {
+      "value": "03",
+      "label": "Projects shipped",
+      "arrow": true
+    },
+    {
+      "value": "2+",
+      "label": "Professional since 2024",
+      "arrow": true
+    },
+    {
+      "value": "13",
+      "label": "Tools & technologies",
+      "arrow": true
+    }
+  ],
+  "cards": [
+    {
+      "className": "message-card message-card--green",
+      "label": "Availability",
+      "title": "Open to opportunities",
+      "backgroundImage": "linear-gradient(rgb(239, 248, 241) 0%, rgb(233, 244, 236) 100%)",
+      "borderColor": "rgb(217, 236, 223)",
+      "labelColor": "rgb(35, 122, 70)",
+      "titleColor": "rgb(28, 28, 31)"
+    },
+    {
+      "className": "message-card message-card--blue",
+      "label": "Current role",
+      "title": "Building hospitality systems at Servo IT Solutions OPC",
+      "backgroundImage": "linear-gradient(rgb(239, 244, 251) 0%, rgb(232, 238, 249) 100%)",
+      "borderColor": "rgb(221, 231, 245)",
+      "labelColor": "rgb(74, 101, 132)",
+      "titleColor": "rgb(28, 28, 31)"
+    }
+  ],
+  "workCount": {
+    "text": "View all (03) ↗",
+    "isLink": true,
+    "href": "/project"
+  },
+  "files": [
+    {
+      "name": "revamp-home-light-1440-top.png",
+      "bytes": 98041,
+      "sha256": "b0917244cdc6f5fbfa29ef5a961d2d4f60040ced5cd6d967f705600969299d9e"
+    },
+    {
+      "name": "revamp-home-light-1440-stop1.png",
+      "bytes": 97078,
+      "sha256": "7cf94a024440a283377336f72fb3a311f1eae2bde157aedc02d492661a2a95f8"
+    },
+    {
+      "name": "revamp-home-light-1440-stop2.png",
+      "bytes": 103087,
+      "sha256": "704085226bfd81b6e7e131ebdbdb605ec86ad1ac7aac595421f460dfa930e577"
+    },
+    {
+      "name": "revamp-home-light-1440-stop3.png",
+      "bytes": 83520,
+      "sha256": "bcdbd609743b8a6f0e1ad0fda8f39b53007b8861b0f681028944212eff29140f"
+    },
+    {
+      "name": "revamp-home-light-1440-stop4.png",
+      "bytes": 86622,
+      "sha256": "2e338c7a5db3163ddc63d917900877186c7a1aea4dfe4b00afc10335c0ebd5c4"
+    },
+    {
+      "name": "revamp-home-light-1440-full.png",
+      "bytes": 420022,
+      "sha256": "9d890fc52e80205c208688ff7ee36f2b3a9d379c1dd014f8617ed8ac43d29e2d"
+    }
+  ]
+}

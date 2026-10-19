@@ -1,0 +1,29 @@
+{
+  "ranAt": "2026-10-18T05:44:33.042Z",
+  "callParams": {
+    "name": "jev_compare",
+    "arguments": {
+      "passage_a": "Badge: Available for opportunities\nHeadline: FIDEL JON MAGAT.\nRole line: — React Developer\nSubhead: Experienced in developing systems for hospitality industry, focusing on solving complex real-world challenges through continuous innovation and impactful technology.\nMeta labels: LOCATION Angeles City, PH / FOCUS Full-stack Web Development / CURRENTLY Servo IT Solutions OPC\nCTA: SCROLL (link aria-label \"Scroll to introduction\")",
+      "passage_b": "Badge: Available for opportunities\nHeadline: FIDEL JON MAGAT.\nRole line: — React Developer (typewriter strings: React Developer, TypeScript Developer, Next.js Developer, Web App Developer)\nSubhead: Experienced in developing systems for hospitality industry, focusing on solving complex real-world challenges through continuous innovation and impactful technology.\nMeta labels: LOCATION Angeles City, PH / FOCUS Full-stack Web Development / CURRENTLY Servo IT Solutions OPC\nCTA: SCROLL (link aria-label \"Scroll to introduction\")",
+      "aspects": [
+        "headline",
+        "subhead",
+        "cta",
+        "badge"
+      ],
+      "purpose": "Detect copy drift between the live deployed hero section (captured DOM text) and the local Hero.jsx source."
+    }
+  },
+  "response": {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"tool\": \"jev_compare\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"overall\": {\n    \"relation\": \"same_fact\",\n    \"probabilities\": {\n      \"same_fact\": 0.9,\n      \"contradicts\": 0.02,\n      \"different_facts\": 0.08\n    },\n    \"confidence\": 0.85,\n    \"margin\": 0.8200000000000001,\n    \"decision\": \"auto\"\n  },\n  \"aspects\": [\n    {\n      \"aspect\": \"headline\",\n      \"relation\": \"same_fact\",\n      \"probabilities\": {\n        \"same_fact\": 1,\n        \"contradicts\": 0,\n        \"different_facts\": 0\n      },\n      \"confidence\": 1,\n      \"margin\": 1,\n      \"decision\": \"auto\"\n    },\n    {\n      \"aspect\": \"subhead\",\n      \"relation\": \"same_fact\",\n      \"probabilities\": {\n        \"same_fact\": 1,\n        \"contradicts\": 0,\n        \"different_facts\": 0\n      },\n      \"confidence\": 1,\n      \"margin\": 1,\n      \"decision\": \"auto\"\n    },\n    {\n      \"aspect\": \"cta\",\n      \"relation\": \"same_fact\",\n      \"probabilities\": {\n        \"same_fact\": 1,\n        \"contradicts\": 0,\n        \"different_facts\": 0\n      },\n      \"confidence\": 1,\n      \"margin\": 1,\n      \"decision\": \"auto\"\n    },\n    {\n      \"aspect\": \"badge\",\n      \"relation\": \"same_fact\",\n      \"probabilities\": {\n        \"same_fact\": 1,\n        \"contradicts\": 0,\n        \"different_facts\": 0\n      },\n      \"confidence\": 1,\n      \"margin\": 1,\n      \"decision\": \"auto\"\n    }\n  ],\n  \"thresholds\": {\n    \"auto_accept\": 0.85,\n    \"minimum_margin\": 0.5\n  },\n  \"usage\": {\n    \"input_tokens\": 1124,\n    \"output_tokens\": 216\n  }\n}"
+        }
+      ]
+    },
+    "jsonrpc": "2.0",
+    "id": 2
+  }
+}

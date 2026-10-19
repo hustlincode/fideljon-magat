@@ -59,9 +59,15 @@ function Footer() {
         <ul className="footer-socials">
           {SOCIALS.map((social) => (
             <li key={social.label}>
-              <a href={social.href} target="_blank" rel="noreferrer noopener" data-haptic="light">
+              <a
+                href={social.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={social.label}
+                title={social.label}
+                data-haptic="light"
+              >
                 <span aria-hidden="true">{social.icon}</span>
-                {social.label}
               </a>
             </li>
           ))}
@@ -80,5 +86,3 @@ function Footer() {
 }
 
 export default Footer;
-
-

@@ -1,0 +1,108 @@
+{
+  "label": "resume-light-1440",
+  "path": "/resume",
+  "themeApplied": "light",
+  "title": "Resume — Fidel Jon Magat",
+  "viewport": {
+    "w": 1440,
+    "h": 900,
+    "dpr": 1
+  },
+  "scrollHeight": 1893,
+  "fonts": {
+    "body": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1": "Figtree, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "h1Size": "36.8px",
+    "serif": "Newsreader, Georgia, serif",
+    "loaded": [
+      "Figtree 400 normal",
+      "Figtree 500 normal",
+      "Figtree 600 normal",
+      "Newsreader 400 italic",
+      "g_d0_f1 normal normal",
+      "g_d0_f2 normal normal",
+      "g_d0_f5 normal normal",
+      "g_d0_f7 normal normal"
+    ]
+  },
+  "tokens": {
+    "accent": "#17171a",
+    "brand": "#f48d2c",
+    "brandInk": "#c2410c",
+    "bgPrimary": "#fcfcfb",
+    "sidebarBg": "#f8f8f7",
+    "green": "#2f9e5b"
+  },
+  "sidebar": {
+    "display": "flex",
+    "width": "264px",
+    "background": "rgb(248, 248, 247)",
+    "border": "rgb(235, 235, 233)",
+    "radius": "18px",
+    "position": "fixed",
+    "itemCount": 6,
+    "items": [
+      "Work",
+      "About",
+      "Projects03",
+      "Skills13",
+      "Resume",
+      "Contact"
+    ]
+  },
+  "shellMain": {
+    "marginLeft": "292px",
+    "paddingTop": "81px"
+  },
+  "topbar": {
+    "display": "none",
+    "height": "64px"
+  },
+  "containerX": {
+    "maxWidth": "688px",
+    "width": 688
+  },
+  "hero": {
+    "text": "Curriculum vitae",
+    "dotColor": null,
+    "roleRow": false,
+    "moreLink": false
+  },
+  "statusDotColor": "rgb(47, 158, 91)",
+  "canvases": 1,
+  "stats": [],
+  "cards": [],
+  "workCount": null,
+  "files": [
+    {
+      "name": "revamp-resume-light-1440-top.png",
+      "bytes": 144354,
+      "sha256": "d0ccfff10d8f66c0280a4326ba7600ea0fd4b7ca4b57e9c14b0d99e1b3cabeea"
+    },
+    {
+      "name": "revamp-resume-light-1440-stop1.png",
+      "bytes": 165023,
+      "sha256": "530611f55245b5d8c21a7232c08efc763acde5b1fb7216502e62928821180ebf"
+    },
+    {
+      "name": "revamp-resume-light-1440-stop2.png",
+      "bytes": 106055,
+      "sha256": "b22068eb773f7699810db4ce5ac99da34b25bc5d7f3985539b19cc0084d4d0b9"
+    },
+    {
+      "name": "revamp-resume-light-1440-stop3.png",
+      "bytes": 97634,
+      "sha256": "b59008e7ccd11d5f1d6ad1d13a08a416fada9359793451ea4770668e7e080c4b"
+    },
+    {
+      "name": "revamp-resume-light-1440-stop4.png",
+      "bytes": 97629,
+      "sha256": "7242c34e4a48beb3313fb6a9a9c49a53cf113f0c3a03d4679b48f764936b2e35"
+    },
+    {
+      "name": "revamp-resume-light-1440-full.png",
+      "bytes": 229356,
+      "sha256": "9be26c9cebb07111d3afb4a3c398b2887a35b1f5a1b6af44c870f515b5c18e23"
+    }
+  ]
+}

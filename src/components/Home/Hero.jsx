@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import Type from "./Type";
-import VisitorCount from "./VisitorCount";
 import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 
 function Hero() {
@@ -11,31 +10,30 @@ function Hero() {
   return (
     <section className="hero" id="home">
       <div className="container-x">
-        <div className="hero-chips">
-          <span className="status-chip rise rise-d1">
-            <span className="status-dot" aria-hidden="true"></span>
-            Available for opportunities
-          </span>
-          <VisitorCount />
-        </div>
-
-        <h1 ref={headingRef} className="display-hero hero-title">
-          <span style={{ display: "block" }}>
-            FIDEL JON
-          </span>
-          <span className="outline-word" style={{ display: "block" }}>
-            MAGAT<span style={{ WebkitTextStroke: "0", color: "var(--accent)" }}>.</span>
-          </span>
+        <h1 ref={headingRef} className="hero-name">
+          Fidel Jon Magat<span className="hero-dot">.</span>
         </h1>
 
-        <div className="hero-role-row rise rise-d4">
+        <div className="hero-role-row rise rise-d2">
           <span className="text-secondary">&mdash;</span>
           <Type />
         </div>
-          
-         <p className="hero-desc body-copy rise rise-d5">
-          Experienced in developing systems for hospitality industry, focusing on solving complex real-world challenges through continuous innovation and impactful technology.
+
+        <p className="hero-desc body-copy rise rise-d3">
+          Experienced in developing systems for hospitality industry, focusing
+          on solving complex real-world challenges through continuous
+          innovation and impactful technology.
         </p>
+
+        <div className="hero-links rise rise-d4">
+          <span className="status-chip">
+            <span className="status-dot" aria-hidden="true"></span>
+            Available for opportunities
+          </span>
+          <a href="#intro" className="hero-more link-sweep" data-haptic="light">
+            &darr; More about me
+          </a>
+        </div>
 
         <div className="hero-meta rise rise-d5">
           <div className="hero-meta-left">
@@ -49,10 +47,6 @@ function Hero() {
               CURRENTLY<strong>Servo IT Solutions OPC</strong>
             </div>
           </div>
-          <a href="#intro" className="scroll-cue" aria-label="Scroll to introduction" data-haptic="light">
-            SCROLL
-            <span className="scroll-cue-line" aria-hidden="true"></span>
-          </a>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 :root {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
 
   /*
     Motion curves. The system is spring-first: interactive settles get a fast
@@ -25,43 +25,140 @@
   --dur-fast: 160ms;
   --dur-base: 240ms;
   --dur-slow: 650ms;
-  --nav-height: 72px;
+
+  /* Layout (marwieang pass): a floating paper sidebar plus a narrow
+     editorial column. --nav-height is kept for the leftover sticky offsets
+     that still key off the bar era; the mobile top bar is 64px. */
+  --nav-height: 64px;
+  --sidebar-width: 248px;
+  --shell-gap: 14px;
+  --radius-shell: 24px;
+  --radius-card: 18px;
+
+  /* Sidebar shell: a paper outer card with a 5px lip around an inner panel,
+     mirroring the reference's nested border. The dark overrides live in the
+     theme block below, so the drawer and desktop rail stay in lockstep. */
+  --sidebar-bg: #ffffff;
+  --sidebar-shell-a: #f3f3f1;
+  --sidebar-shell-b: #ecece9;
+  --sidebar-border: #e2e2de;
+  --sidebar-line: #e6e6e2;
+  --sidebar-line-strong: #d8d8d4;
+  --sidebar-ink: #111113;
+  --sidebar-ink-2: #3a3a3f;
+  --sidebar-muted: #6e6e73;
+  --sidebar-subtle: #76767b;
+  --sidebar-faint: #8a8a8f;
+  --sidebar-count: #8a8a8f;
+  --sidebar-tile: #ededec;
+  --sidebar-tile-a: #ffffff;
+  --sidebar-tile-b: #f4f4f2;
+  --sidebar-hover: #f5f5f3;
+  --sidebar-active-a: #f7f7f5;
+  --sidebar-active-b: #efefec;
+  --sidebar-active-line: #e4e4e0;
+  --sidebar-highlight: #ffffff;
+  --sidebar-scheme: light;
+  --sidebar-grain: none;
+
+  /* Shared film grain for dark surfaces. The sidebar, the page background and
+     the chatbot all use the same tile so their texture reads as one material. */
+  --grain-texture: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='3 0 0 0 -1 3 0 0 0 -1 3 0 0 0 -1 0 0 0 0 1'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/></svg>");
+  --page-grain: none;
+
+  /*
+    GitHub contribution graph (marwieang pass): a five-step ink ramp, from the
+    empty cell up to the busiest day. Light values live here, dark ones in the
+    dark block below; the "faint" text tone is the graph's caption color.
+  */
+  --graph-0: #efefee;
+  --graph-1: #d4d4d2;
+  --graph-2: #a3a3a0;
+  --graph-3: #5e5e5b;
+  --graph-4: #17171a;
+  --text-faint: #9a9a9e;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #121212;
-  --bg-tertiary: #1a1a1a;
-  --text-primary: #f5f5f3;
-  --text-secondary: #9a9a96;
-  --border: #242424;
-  --accent: #ff8f3a;
-  --accent-strong: #dc690b;
-  --shadow: rgba(0, 0, 0, 0.55);
-  --overlay: rgba(10, 10, 10, 0.82);
-  --backdrop: rgba(5, 5, 5, 0.82);
-  --aurora-a: rgba(255, 143, 58, 0.16);
-  --aurora-b: rgba(139, 92, 246, 0.1);
-  --aurora-c: rgba(63, 191, 111, 0.08);
+  --bg-primary: #0f0f11;
+  --bg-secondary: #17171a;
+  --bg-tertiary: #202024;
+  --text-primary: #ececee;
+  --text-secondary: #8b8b91;
+  --border: #232327;
+  /*
+    --accent is intentionally DRAINED to the ink color in both themes. The
+    marwieang language has no chromatic UI accent: buttons, rails, hovers and
+    focus rings are all ink, and color is reserved for the pastel message
+    banners and the status green. --brand carries the one tiny FJM identity
+    spark (wordmark dot, typewriter caret, text selection).
+  */
+  --accent: #ececee;
+  --accent-ink: #ececee;
+  --accent-strong: #c6c6cb;
+  --brand: #ff8f3a;
+  --brand-ink: #ff8f3a;
+  --green: #4cc47d;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --overlay: rgba(15, 15, 17, 0.85);
+  --backdrop: rgba(8, 8, 9, 0.72);
   --grain-opacity: 0.05;
+
+  /* Dark sidebar: a nested charcoal shell with a fine film grain, matching the
+     reference layout. The grain uses the same sharpened SVG noise as the
+     reference: a low-opacity speckle over both the outer lip and inner panel. */
+  --sidebar-bg: #19191c;
+  --sidebar-shell-a: #151518;
+  --sidebar-shell-b: #111114;
+  --sidebar-border: #232327;
+  --sidebar-line: #28282d;
+  --sidebar-line-strong: #3a3a40;
+  --sidebar-ink: #ececee;
+  --sidebar-ink-2: #c6c6cb;
+  --sidebar-muted: #8b8b91;
+  --sidebar-subtle: #8b8b91;
+  --sidebar-faint: #737379;
+  --sidebar-count: #7d7d84;
+  --sidebar-tile: #1c1c20;
+  --sidebar-tile-a: #202024;
+  --sidebar-tile-b: #1b1b1e;
+  --sidebar-hover: #212125;
+  --sidebar-active-a: #242428;
+  --sidebar-active-b: #1f1f23;
+  --sidebar-active-line: #303035;
+  --sidebar-highlight: rgba(255, 255, 255, 0.04);
+  --sidebar-scheme: dark;
+  --sidebar-grain: var(--grain-texture);
+  --page-grain: var(--grain-texture);
+
+  /* GitHub graph scale, drained to the night palette. */
+  --graph-0: #1c1c20;
+  --graph-1: #34343a;
+  --graph-2: #62626a;
+  --graph-3: #a3a3a9;
+  --graph-4: #ececee;
+  --text-faint: #66666c;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg-primary: #fafaf8;
-  --bg-secondary: #f0f0ee;
-  --bg-tertiary: #e7e7e4;
-  --text-primary: #0f0f0f;
-  --text-secondary: #6b6b68;
-  --border: #e2e2de;
-  --accent: #f48d2c;
-  --accent-strong: #da7400;
-  --shadow: rgba(15, 15, 15, 0.14);
-  --overlay: rgba(250, 250, 248, 0.86);
-  --backdrop: rgba(18, 18, 17, 0.6);
-  --aurora-a: rgba(244, 141, 44, 0.12);
-  --aurora-b: rgba(139, 92, 246, 0.07);
-  --aurora-c: rgba(63, 191, 111, 0.05);
+  --bg-primary: #fcfcfb;
+  --bg-secondary: #f4f4f2;
+  --bg-tertiary: #ebebe9;
+  --text-primary: #17171a;
+  --text-secondary: #6e6e73;
+  --border: #e8e8e6;
+  --accent: #17171a;
+  --accent-ink: #17171a;
+  --accent-strong: #3f3f46;
+  --brand: #f48d2c;
+  /* --brand-ink: darker brand tone reserved for text on light surfaces
+     (4.96:1 on --bg-primary, 4.54:1 on --bg-secondary). */
+  --brand-ink: #c2410c;
+  --green: #2f9e5b;
+  --shadow: rgba(15, 15, 15, 0.1);
+  --overlay: rgba(252, 252, 251, 0.86);
+  --backdrop: rgba(24, 24, 27, 0.5);
   --grain-opacity: 0.04;
 }
