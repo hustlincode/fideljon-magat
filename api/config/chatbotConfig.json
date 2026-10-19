@@ -79,7 +79,7 @@
     "linkedin": "https://www.linkedin.com/in/fidel-jon-magat",
     "github": "github.com/hustlincode"
   },
-  "professional_summary": "Full-stack Junior Software Developer (PHP, .NET, React/TypeScript) shipping production systems for the hospitality and hotel industry. He uses AI coding assistants (Claude, Codex, ChatGPT) daily as a force multiplier for fast, production-ready — while keeping architecture and logic self-directed. Key deliverables: a BIR-compliant accounting integration (CAS) used live across the client base, the Halo Protocol NSSM-based service that automates tech-support triage across client deployments, and the Xenia Online microservice syncing on-premise and cloud data via REST/HTTP APIs, DynamoDB, and S3.",
+  "professional_summary": "Full-stack Junior Software Developer (PHP, .NET, React/TypeScript) shipping production systems for the hospitality and hotel industry. He uses AI coding assistants (Claude Code, Codex, ChatGPT, OpenCode) and MCP tooling daily as a force multiplier for fast, production-ready — while keeping architecture and logic self-directed. Key deliverables: a BIR-compliant accounting integration (CAS) used live across the client base, the Halo Protocol NSSM-based service that automates tech-support triage across client deployments, and the Xenia Online microservice syncing on-premise and cloud data via REST/HTTP APIs, DynamoDB, and S3.",
   "skillset": {
     "languages_frameworks": [
       "PHP",
@@ -115,11 +115,41 @@
       "AJAX",
       "Bootstrap"
     ],
+    "styling_design_system": [
+      "Tailwind CSS v4 (CSS-first config)",
+      "shadcn/ui",
+      "Radix UI",
+      "class-variance-authority (CVA)",
+      "lucide-react",
+      "tw-animate-css",
+      "Custom cn class-merge engine (cn + clsx + tailwind-merge)",
+      "Custom light/dark/system theme provider"
+    ],
+    "backend_data": [
+      "Next.js Route Handlers / REST APIs",
+      "Prisma ORM",
+      "PostgreSQL (Supabase)",
+      "NextAuth / Auth.js v5",
+      "Zod",
+      "Nodemailer",
+      "bcryptjs"
+    ],
+    "client_ui_libraries": [
+      "TanStack Table",
+      "Recharts",
+      "react-hook-form",
+      "sonner",
+      "date-fns"
+    ],
     "ai_assisted_development": [
       "Claude",
+      "Claude Code",
       "Codex",
       "ChatGPT",
-      "Daily \"vibe coding\" workflow — fast, production-ready implementation with self-directed logic and architecture; comfortable adopting new AI coding tools like Claude Code",
+      "OpenCode",
+      "REA MCP (reverse engineering and artifact analysis)",
+      "Jev MCP (semantic comparison, reranking, screening, and claim verification)",
+      "Daily \"vibe coding\" workflow — fast, production-ready implementation with self-directed logic and architecture",
       "Orchestration Engineering",
       "Loop Engineering"
     ],
@@ -151,17 +181,17 @@
   ],
   "projects": [
     {
-      "name": "Salesportal | Banquet & Sales Management System",
+      "name": "Salesportal | Banquet System Management",
       "stack": ["PHP", "MySQL", "Bootstrap", "HTML", "CSS", "JavaScript", "jQuery"],
       "features": [
         "User authentication",
-        "Product management",
-        "Order processing",
+        "Banquet package and product management",
+        "On-prem deployment",
         "Real-time updates",
         "BIR-compliant CAS integration generating Sales/Receipt Journal Entries",
         "Chart.js analytics and QR code features in reporting workflow"
       ],
-      "impact": "Client-facing, production feature used live across the client base — generates Sales Journal Entries, Receipt Journal Entries, and receipts for BIR tax compliance."
+      "impact": "On-prem production system used live, generating Sales Journal Entries, Receipt Journal Entries, and receipts for BIR tax compliance."
     },
     {
       "name": "XOLF | Online Check-in System (with Xenia Online microservice)",
@@ -193,12 +223,76 @@
         "QR prescriptions",
         "Report generation"
       ]
+    },
+    {
+      "name": "Aether Dental | Clinic Booking & Management",
+      "stack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS v4",
+        "shadcn/ui",
+        "Radix UI",
+        "Prisma",
+        "PostgreSQL (Supabase)",
+        "NextAuth / Auth.js v5",
+        "Zod",
+        "Nodemailer",
+        "TanStack Table",
+        "Recharts",
+        "react-hook-form",
+        "sonner",
+        "date-fns"
+      ],
+      "stack_details": {
+        "styling_design_system": [
+          "Tailwind CSS v4 (4.3.3) via @tailwindcss/postcss — CSS-first config in globals.css, no tailwind.config",
+          "shadcn/ui components (new-york style, RSC enabled, neutral base) in src/components/ui",
+          "Radix UI primitives via the unified radix-ui package (1.6.7)",
+          "class-variance-authority (0.7.1) for component variants",
+          "lucide-react (1.43.0) for icons",
+          "tw-animate-css for animations",
+          "Custom cn class-merging engine: cn (0.2.6) + clsx + tailwind-merge, with a generated token table (src/lib/cn-tables.ts) and cn.config.mjs",
+          "Custom light/dark/system theme provider (hand-rolled, not next-themes)"
+        ],
+        "backend_data": [
+          "Next.js Route Handlers powering a REST API (/api/services, /api/appointments, /api/availability, /api/patients, /api/dentists, /api/clinic, /api/notifications, /api/auth)",
+          "Prisma ORM 6.19.3 (prisma-client-js generator, classic engine)",
+          "PostgreSQL via Supabase (managed), split pooler URLs: transaction pooler (6543) at runtime and session pooler (5432) for CLI/migrations",
+          "Models: User, Patient, Dentist, Service, Appointment, Availability, BlockedDate, ClinicSetting, Activity, EmailLog",
+          "NextAuth / Auth.js v5 (5.0.0-beta.32) — Credentials provider, JWT sessions, custom RBAC (ADMIN, RECEPTIONIST, DENTIST), and a read-only demo provider",
+          "bcryptjs 3.0.3 for password hashing",
+          "Zod 4.5.4 for request and credential validation",
+          "Nodemailer 8.0.11 for SMTP email, with DB-backed preview mode fallback"
+        ],
+        "client_ui_libraries": [
+          "TanStack Table 9.2.4 for admin data tables",
+          "Recharts 3.10.1 for dashboard charts",
+          "react-hook-form 7.87 + @hookform/resolvers 5.9.1 for forms",
+          "sonner 2.0.8 for toast notifications",
+          "date-fns 4.4.0 for date handling"
+        ],
+        "tooling": [
+          "ESLint 9 flat config with eslint-config-next 16.3.4",
+          "Custom local ESLint plugin (eslint-local-rules/) enforcing 7 design-token guardrails: no raw font size, radius, shadow, duration, accent-as-fill, focus-outline-none, and accent-hover-confusion",
+          "tsx 4.23.13 for TS scripts and Prisma seeding",
+          "Scripts: dev, build, start, lint, audit:contrast, audit:classes, cn:build, security:rotate-passwords",
+          "Package manager: npm (package-lock.json)"
+        ]
+      },
+      "features": [
+        "Multi-step public booking flow with live availability, server-side double-booking prevention, and instant email confirmation",
+        "Role-based staff dashboard for admins, receptionists, and dentists",
+        "Appointments, calendar, patient CRM, dentists, services, notifications, activity logs, and reports",
+        "Read-only demo provider that blocks mutating API routes"
+      ],
+      "impact": "Full-stack dental clinic platform with a custom design system and token guardrails, a validated REST API, transactional booking, RBAC, and email notifications."
     }
   ],
   "contributions": [
     "Built responsive, reusable front-end components and refactored React/TypeScript UI for consistency, maintainability, and reduced load time.",
     "Set up a Git-based CI/CD pipeline that reduced deployment steps by 50% and helped maintain on-premise backend services.",
-    "Uses AI coding assistants (Claude, Codex, ChatGPT) daily to accelerate implementation while keeping logic, architecture, and code-quality decisions self-directed."
+    "Uses AI coding assistants (Claude Code, Codex, ChatGPT, OpenCode) and MCP tooling (REA, Jev) daily to accelerate implementation while keeping logic, architecture, and code-quality decisions self-directed."
   ],
   "personal_traits": [
     "Strong problem-solving, collaboration, and code-review habits",
