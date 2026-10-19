@@ -794,7 +794,6 @@ html.shell-collapsed .shell-expand {
 .theme-toggle:hover {
   color: var(--text-primary);
   border-color: var(--text-secondary);
-  transform: rotate(12deg);
 }
 
 @keyframes iconSwap {
@@ -2553,7 +2552,7 @@ textarea.form-input {
 }
 
 .theme-toggle:active {
-  transform: rotate(12deg) scale(0.92);
+  transform: scale(0.92);
 }
 
 .haptic-toggle:active {
