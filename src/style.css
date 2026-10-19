@@ -26,6 +26,8 @@ body {
   font-size: 15.5px;
   line-height: 1.65;
   background-color: var(--bg-primary);
+  background-image: var(--page-grain);
+  background-size: 180px 180px;
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
