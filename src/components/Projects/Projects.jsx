@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { flushSync } from "react-dom";
 import Reveal from "../Reveal";
+import ProjectPreview from "./ProjectPreview";
 import {
   PERSONAL_PROJECTS,
   PROJECTS,
@@ -16,15 +17,21 @@ import useSplitTextReveal from "../../hooks/useSplitTextReveal";
 // strongest entries, while /project shows the complete archive.
 const PERSONAL_PREVIEW_COUNT = 2;
 
+// Hover preview only makes sense where a pointer exists to drive it. Touch
+// devices keep the inline thumbnail instead.
+const HOVER_QUERY = "(hover: hover) and (pointer: fine)";
+
 const pad = (value) => String(value).padStart(2, "0");
 
-function ProjectRow({ project, onOpen }) {
+function ProjectRow({ project, onOpen, onPreview }) {
   return (
     <Link
       to={projectPath(project.slug)}
       className="project-row"
       aria-label={`View ${project.title} case study`}
       onClick={(event) => onOpen(project.slug, event)}
+      onMouseEnter={(event) => onPreview(project, event.currentTarget)}
+      onFocus={(event) => onPreview(project, event.currentTarget)}
       data-haptic="light"
     >
       <span className="project-row-thumb" aria-hidden="true">
@@ -52,7 +59,8 @@ function ProjectGroup({
   projects,
   previewCount,
   headingLevel: GroupHeading,
-  onOpen
+  onOpen,
+  onPreview
 }) {
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? projects : projects.slice(0, previewCount);
@@ -72,7 +80,11 @@ function ProjectGroup({
       <ul className="project-list">
         {visible.map((project, index) => (
           <Reveal as="li" key={project.slug} delay={index * 55}>
-            <ProjectRow project={project} onOpen={onOpen} />
+            <ProjectRow
+              project={project}
+              onOpen={onOpen}
+              onPreview={onPreview}
+            />
           </Reveal>
         ))}
       </ul>
@@ -107,7 +119,51 @@ function Projects({ asPage = false }) {
   const titleRef = useRef(null);
   useSplitTextReveal(titleRef, { type: "chars", stagger: 0.012 });
 
+  // Hover preview state. The preview plate needs a pointer to drive it, so it
+  // stays off on touch layouts where the inline thumbnail is the only preview.
+  const [canPreview, setCanPreview] = useState(false);
+  const [previewProject, setPreviewProject] = useState(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const previewAnchorRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return undefined;
+    const query = window.matchMedia(HOVER_QUERY);
+    const update = () => setCanPreview(query.matches);
+    update();
+    if (typeof query.addEventListener === "function") {
+      query.addEventListener("change", update);
+      return () => query.removeEventListener("change", update);
+    }
+    if (typeof query.addListener === "function") {
+      query.addListener(update);
+      return () => query.removeListener(update);
+    }
+    return undefined;
+  }, []);
+
+  const handlePreview = (project, element) => {
+    if (!canPreview) return;
+    previewAnchorRef.current = element;
+    setPreviewProject(project);
+    setPreviewOpen(true);
+  };
+
+  const closePreview = () => setPreviewOpen(false);
+
+  // Keyboard focus can leave the section without a pointer ever entering it.
+  const handleFocusOut = (event) => {
+    if (event.relatedTarget && event.currentTarget.contains(event.relatedTarget)) {
+      return;
+    }
+    closePreview();
+  };
+
   const handleProjectOpen = (slug, event) => {
+    // The preview plate is a floating layer; it must not travel into the
+    // case study behind the shared-element transition.
+    closePreview();
+
     if (!canSharedTransition || reducedMotion) return;
 
     const row =
@@ -135,7 +191,12 @@ function Projects({ asPage = false }) {
   };
 
   return (
-    <section className="section" id="work">
+    <section
+      className="section"
+      id="work"
+      onMouseLeave={closePreview}
+      onBlur={handleFocusOut}
+    >
       <div className="container-x">
         <Reveal>
           <div className="work-head project-index-head">
@@ -186,6 +247,7 @@ function Projects({ asPage = false }) {
             previewCount={WORK_PROJECTS.length}
             headingLevel={GroupHeading}
             onOpen={handleProjectOpen}
+            onPreview={handlePreview}
           />
 
           <ProjectGroup
@@ -195,9 +257,18 @@ function Projects({ asPage = false }) {
             previewCount={asPage ? PERSONAL_PROJECTS.length : PERSONAL_PREVIEW_COUNT}
             headingLevel={GroupHeading}
             onOpen={handleProjectOpen}
+            onPreview={handlePreview}
           />
         </div>
       </div>
+
+      {canPreview ? (
+        <ProjectPreview
+          project={previewProject}
+          anchorRef={previewAnchorRef}
+          open={previewOpen}
+        />
+      ) : null}
     </section>
   );
 }
