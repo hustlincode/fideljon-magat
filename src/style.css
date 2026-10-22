@@ -1604,18 +1604,29 @@ html.lightbox-open {
   overflow: hidden;
 }
 
+/* ---------------------------------------------------------------------------
+   Screenshot lightbox — the case-study shot opened at full size
+   The overlay is portalled to <body>: the carousel sits inside a Reveal whose
+   transform would otherwise become the containing block for position: fixed.
+   The zoom out of the carousel frame is a FLIP animation run in
+   ProjectLightbox; these rules only carry the backdrop and the chrome.
+--------------------------------------------------------------------------- */
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  /* Above the chat launcher (9999) and the mobile drawer (10000). */
+  z-index: 10001;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(16px, 4vw, 48px);
-  background: var(--backdrop);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: var(--lightbox-scrim);
   animation: lightboxFade 300ms var(--ease-out);
+}
+
+/* The page-wide focus ring is ink, which vanishes on the dark scrim. */
+.lightbox :focus-visible {
+  outline-color: var(--lightbox-ink);
 }
 
 @keyframes lightboxFade {
@@ -1634,59 +1645,129 @@ html.lightbox-open {
   padding: 0;
   display: grid;
   place-items: center;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
+  background: var(--lightbox-tint);
+  border: 1px solid var(--lightbox-line);
   border-radius: 999px;
-  color: var(--text-primary);
+  color: var(--lightbox-ink);
   cursor: pointer;
   transition: transform var(--transition-fast), color var(--transition-fast),
-    border-color var(--transition-fast);
+    background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .lightbox-close:hover {
-  color: var(--accent-ink);
-  border-color: var(--accent);
+  background: var(--lightbox-ink);
+  border-color: var(--lightbox-ink);
+  color: var(--lightbox-scrim);
   transform: rotate(90deg);
 }
 
 .lightbox-figure {
   margin: 0;
-  max-width: min(1000px, 100%);
+  min-width: 0;
+  width: min(1180px, 100%);
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  animation: lightboxZoom 380ms var(--ease-out);
 }
 
-@keyframes lightboxZoom {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(14px);
-  }
+/*
+  One fixed window for every shot. Without it the figure tracks each image's
+  own aspect ratio, so the caption and the arrow pair slide sideways (or jump
+  up and down) as the visitor moves between shots of different crops. The
+  image stays inside at its native ratio, never upscaled.
+*/
+.lightbox-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: min(78vh, 820px);
 }
 
-.lightbox-figure img {
+/*
+  Absolute + auto margins keeps the shot centred and hard-caps it to the
+  stage. A plain `max-height: 100%` does not resolve when the stage's height
+  comes from an aspect ratio, so on short viewports the photograph grew past
+  the stage and covered the caption and arrows.
+*/
+.lightbox-stage img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: block;
+  width: auto;
+  height: auto;
   max-width: 100%;
-  max-height: min(74vh, 760px);
+  max-height: 100%;
   object-fit: contain;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 32px 80px var(--shadow);
+  border: 1px solid var(--lightbox-line);
+  box-shadow: var(--lightbox-shadow);
+  background: var(--lightbox-tint);
 }
 
 .lightbox-caption {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  font-size: 14px;
-  color: var(--text-secondary);
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--lightbox-ink-muted);
 }
 
-.lightbox-caption strong {
-  color: var(--text-primary);
+.lightbox-copy {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  min-width: 0;
+}
+
+.lightbox-count {
+  color: var(--lightbox-ink-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.lightbox-title {
+  color: var(--lightbox-ink);
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+
+.lightbox-caption-text {
+  color: var(--lightbox-ink-muted);
+}
+
+.lightbox-nav {
+  display: flex;
+  flex: none;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.lightbox-nav-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--lightbox-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--lightbox-ink-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast),
+    transform 220ms var(--ease-spring);
+}
+
+.lightbox-nav-btn:hover {
+  border-color: var(--lightbox-ink);
+  color: var(--lightbox-ink);
+}
+
+.lightbox-nav-btn:active {
+  transform: scale(0.94);
 }
 
 .skills-head {
@@ -2372,6 +2453,52 @@ textarea.form-input {
   -webkit-user-drag: none;
 }
 
+/* The shot itself is the way into the full-screen preview. */
+.project-carousel-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.project-carousel-zoom-hint {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translateY(-3px);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.project-carousel-zoom:hover .project-carousel-zoom-hint,
+.project-carousel-zoom:focus-visible .project-carousel-zoom-hint {
+  opacity: 1;
+  transform: none;
+}
+
+/* Touch has no hover, so the affordance stays visible. */
+@media (pointer: coarse) {
+  .project-carousel-zoom-hint {
+    opacity: 0.9;
+    transform: none;
+  }
+}
+
 .project-carousel-bar {
   display: flex;
   align-items: flex-start;
@@ -2403,6 +2530,48 @@ textarea.form-input {
   display: flex;
   flex: none;
   gap: 8px;
+}
+
+/* Shot rail: every screenshot of the project at once, so the whole build can
+   be scouted before opening a case study. The rail behaves as one control --
+   arrow keys move between shots and only the current shot is in the tab
+   order -- which is why it is a radiogroup rather than a row of links. */
+.project-carousel-rail {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.project-carousel-rail-item {
+  flex: 0 1 120px;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  opacity: 0.45;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.project-carousel-rail-item:hover {
+  opacity: 0.8;
+}
+
+.project-carousel-rail-item[aria-checked="true"] {
+  opacity: 1;
+  border-color: var(--text-secondary);
+}
+
+.project-carousel-rail-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .project-carousel-btn {
@@ -2824,6 +2993,25 @@ textarea.form-input {
   .resume-panel {
     padding: 10px;
     max-width: 100%;
+  }
+
+  /* Six shots will not fit the phone column. The rail scrolls sideways with
+     the thumbnails at a readable size, instead of shrinking every one of them
+     into an unreadable stamp. */
+  .project-carousel-rail {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .project-carousel-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-carousel-rail-item {
+    flex: 0 0 96px;
+    scroll-snap-align: start;
   }
 }
 

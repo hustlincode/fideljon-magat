@@ -77,6 +77,19 @@
   --graph-3: #5e5e5b;
   --graph-4: #17171a;
   --text-faint: #9a9a9e;
+
+  /*
+    Lightbox: a fixed "cinema" surface. It stays dark in BOTH themes -- the
+    shot is the only lit thing on screen, and the chrome keeps the same
+    contrast either way. Deliberately not keyed to --backdrop, which is tuned
+    for scrims that sit behind solid cards rather than behind raw text.
+  */
+  --lightbox-scrim: rgba(8, 8, 10, 0.94);
+  --lightbox-ink: #f2f2f4;
+  --lightbox-ink-muted: rgba(242, 242, 244, 0.66);
+  --lightbox-line: rgba(242, 242, 244, 0.2);
+  --lightbox-tint: rgba(242, 242, 244, 0.08);
+  --lightbox-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
 }
 
 :root[data-theme="dark"] {
