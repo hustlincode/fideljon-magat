@@ -534,7 +534,6 @@ const ChatBot = () => {
         aria-label={isOpen ? "Close chat with Aether" : "Open chat with Aether"}
       >
         <img src={aetherAvatar} alt="" className="chat-toggle-avatar" />
-        {isOpen ? "Hide Aether" : "Chat with Aether"}
       </button>
 
       {isOpen && (
