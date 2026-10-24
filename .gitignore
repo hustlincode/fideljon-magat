@@ -38,3 +38,6 @@ docs/evidence/**/*.png
 
 # Local-only OpenCode agent/MCP config (kept out of the repo)
 .opencode/
+
+# Local-only Codex agent/MCP config (kept out of the repo)
+AGENTS.md
