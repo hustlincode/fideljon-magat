@@ -11,9 +11,9 @@ const BOT_NAME = "Aether";
 const OWNER_NAME = "Fideljon";
 
 const LIMITS = {
-  PER_MINUTE: 2,
-  PER_DAY: 10,
-  COOLDOWN_MS: 5 * 60 * 1000,
+  PER_MINUTE: 12,
+  PER_DAY: 120,
+  COOLDOWN_MS: 60 * 1000,
   MAX_CHARS: 500,
   MAX_EXCHANGES: 8,
 };
