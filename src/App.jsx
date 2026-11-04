@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
 import { useLocation } from "react-router-dom";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 
 import Sidebar from "./components/Sidebar";
@@ -114,6 +114,8 @@ function AnimatedRoutes() {
         <Routes location={location} key={location.pathname}>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/project" element={<Projects asPage />} />
+          <Route path="/project/salesportal" element={<Navigate to="/project/confidential-work-01" replace />} />
+          <Route path="/project/xolf" element={<Navigate to="/project/confidential-work-02" replace />} />
           <Route exact path="/project/:slug" element={<ProjectDetail />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/resume" element={<Resume />} />
