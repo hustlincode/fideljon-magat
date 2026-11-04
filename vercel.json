@@ -3,10 +3,19 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/project/salesportal", "destination": "/project/confidential-work-01", "permanent": true },
+    { "source": "/project/xolf", "destination": "/project/confidential-work-02", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/resume", "destination": "/resume/index.html" },
     { "source": "/project", "destination": "/project/index.html" },
+    { "source": "/project/confidential-work-01", "destination": "/project/confidential-work-01/index.html" },
+    { "source": "/project/confidential-work-02", "destination": "/project/confidential-work-02/index.html" },
+    { "source": "/project/aether-dental", "destination": "/project/aether-dental/index.html" },
+    { "source": "/project/code-review-assistant", "destination": "/project/code-review-assistant/index.html" },
+    { "source": "/project/slfreemed", "destination": "/project/slfreemed/index.html" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
   "functions": {
