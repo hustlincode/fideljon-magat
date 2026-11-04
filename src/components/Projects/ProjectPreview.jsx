@@ -164,7 +164,7 @@ function ProjectPreview({ project, anchorRef, open }) {
 
       <div className="project-preview-bar">
         <span className="project-preview-name">{project.title}</span>
-        <span className="project-preview-meta">{project.year}</span>
+        <span className="project-preview-meta">{project.category === "work" ? `NDA / ${project.year}` : project.year}</span>
       </div>
 
       {slides.length > 1 ? (
