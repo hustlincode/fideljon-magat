@@ -1335,6 +1335,31 @@ html.shell-collapsed .shell-expand {
   border-top: 1px solid var(--border);
 }
 
+.project-nda-notice {
+  margin-block: 0 16px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.project-confidential-figure {
+  margin: 0;
+}
+
+.project-confidential-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+}
+
+.project-confidential-figure figcaption {
+  margin-block: 12px 0;
+}
+
 .project-list > li {
   border-bottom: 1px solid var(--border);
 }
@@ -1374,6 +1399,7 @@ html.shell-collapsed .shell-expand {
 
 .project-row-title {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   min-width: 0;
@@ -2420,7 +2446,8 @@ textarea.form-input {
 
 /* Screenshot stage: one image reads as a figure, while two or more use the
    same frame as a carousel with counter, caption and arrow controls. */
-.project-carousel {
+.project-carousel,
+.project-confidential-figure {
   margin-bottom: clamp(40px, 6vh, 56px);
 }
 
