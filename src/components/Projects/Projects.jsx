@@ -28,7 +28,7 @@ function ProjectRow({ project, onOpen, onPreview }) {
     <Link
       to={projectPath(project.slug)}
       className="project-row"
-      aria-label={`View ${project.title} case study`}
+      aria-label={`View ${project.title} ${project.category === "work" ? "contributions" : "case study"}`}
       onClick={(event) => onOpen(project.slug, event)}
       onMouseEnter={(event) => onPreview(project, event.currentTarget)}
       onFocus={(event) => onPreview(project, event.currentTarget)}
@@ -76,6 +76,12 @@ function ProjectGroup({
           <span className="project-group-count">{pad(projects.length)}</span>
         </div>
       </Reveal>
+
+      {id === "work-projects" ? (
+        <p className="project-nda-notice">
+          Client identities, product features, and interface details are withheld under NDA.
+        </p>
+      ) : null}
 
       <ul className="project-list">
         {visible.map((project, index) => (
@@ -233,8 +239,8 @@ function Projects({ asPage = false }) {
           <Reveal delay={60}>
             <p className="project-index-lede">
               Client systems built with teams, plus personal products I designed
-              and shipped on my own. Every entry opens into the problem, the
-              build, and what I owned.
+              and shipped on my own. Work entries highlight my contributions
+              within NDA boundaries; personal projects include full case studies.
             </p>
           </Reveal>
         ) : null}
