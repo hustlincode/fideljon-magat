@@ -44,8 +44,13 @@ describe("Projects index", () => {
       screen.getByRole("heading", { level: 2, name: "Personal projects" })
     ).toBeInTheDocument();
 
-    expect(screen.getByRole("link", { name: /View Salesportal/ })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /View XOLF/ })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /View Project 1/ })).toHaveAttribute(
+      "href", "/project/confidential-work-01"
+    );
+    expect(screen.getAllByText("NDA")).toHaveLength(2);
+    expect(screen.getByText(/Client identities, product features/)).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/Salesportal|XOLF|banquet|check-in/i);
+    expect(screen.getByRole("link", { name: /View Project 2/ })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /View Aether Dental/ })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /View Code Review Assistant/ })
@@ -93,15 +98,17 @@ describe("Projects hover preview", () => {
     expect(plate.querySelectorAll(".project-preview-thumb")).toHaveLength(6);
   });
 
-  test("stays out of the way for a project with a single screenshot", () => {
+  test("shows the sanitized work preview on keyboard focus without screenshot controls", () => {
     supportHover();
     renderProjects({ asPage: true });
 
-    fireEvent.mouseEnter(screen.getByRole("link", { name: /View XOLF/ }));
+    fireEvent.focus(screen.getByRole("link", { name: /View Project 2/ }));
 
     const plate = document.querySelector(".project-preview");
     expect(plate.querySelectorAll(".project-preview-thumb")).toHaveLength(0);
-    expect(plate.querySelector(".project-preview-name").textContent).toBe("XOLF");
+    expect(plate.querySelector(".project-preview-name").textContent).toBe("Project 2");
+    expect(plate.querySelector(".project-preview-meta").textContent).toContain("NDA");
+    expect(plate.querySelector(".project-preview-frame img").getAttribute("src")).toContain("confidential-work-02");
   });
 
   test("does not mount at all without a pointer", () => {
