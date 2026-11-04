@@ -32,6 +32,8 @@ function ProjectDetail() {
   // Unknown slug: send the visitor to the project index rather than a dead end.
   if (!project) return <Navigate to="/project" replace />;
 
+  const isWork = project.category === "work";
+
   const slides = [
     {
       src: project.img,
@@ -95,33 +97,49 @@ function ProjectDetail() {
           </Reveal>
 
           <Reveal delay={90}>
-            <ProjectCarousel
-              slides={slides}
-              title={project.title}
-              canSharedTransition={canSharedTransition}
-            />
+            {isWork ? (
+              <figure className="project-confidential-figure">
+                <img
+                  src={project.img}
+                  alt="Permanently blurred confidential project preview"
+                />
+                <figcaption className="project-nda-notice">
+                  <span className="project-row-badge">NDA</span>{" "}
+                  {project.heroCaption}
+                </figcaption>
+              </figure>
+            ) : (
+              <ProjectCarousel
+                slides={slides}
+                title={project.title}
+                canSharedTransition={canSharedTransition}
+              />
+            )}
           </Reveal>
 
           <Reveal delay={120}>
             <article className="project-case">
               <section className="project-case-section">
-                <h2>Overview</h2>
+                <h2>{isWork ? "Confidential project" : "Overview"}</h2>
                 <p>{project.description}</p>
-                {project.contribution ? <p>{project.contribution}</p> : null}
+                {!isWork && project.contribution ? <p>{project.contribution}</p> : null}
               </section>
 
-              <section className="project-case-section">
-                <h2>Features</h2>
-                <ul>
-                  {project.features.map((feature) => (
-                    <li key={feature}>{feature}</li>
-                  ))}
-                </ul>
-              </section>
+              {!isWork ? (
+                <section className="project-case-section">
+                  <h2>Features</h2>
+                  <ul>
+                    {project.features.map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
 
               {project.highlights?.length ? (
                 <section className="project-case-section">
-                  <h2>Highlights</h2>
+                  <h2>{isWork ? "My contributions" : "Highlights"}</h2>
+                  {isWork ? <p>{project.contribution}</p> : null}
                   <ul>
                     {project.highlights.map((highlight) => (
                       <li key={highlight}>{highlight}</li>
@@ -131,7 +149,7 @@ function ProjectDetail() {
               ) : null}
 
               <section className="project-case-section">
-                <h2>Built with</h2>
+                <h2>{isWork ? "Role & technologies" : "Built with"}</h2>
                 <dl className="project-stack">
                   {project.category === "work" ? (
                     <div className="project-stack-row">
@@ -139,10 +157,12 @@ function ProjectDetail() {
                       <dd>{project.role}</dd>
                     </div>
                   ) : null}
-                  <div className="project-stack-row">
-                    <dt>Type</dt>
-                    <dd>{project.kind}</dd>
-                  </div>
+                  {!isWork ? (
+                    <div className="project-stack-row">
+                      <dt>Type</dt>
+                      <dd>{project.kind}</dd>
+                    </div>
+                  ) : null}
                   {stack.map((group) => (
                     <div className="project-stack-row" key={group.label}>
                       <dt>{group.label}</dt>
