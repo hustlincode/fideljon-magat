@@ -40,16 +40,15 @@ function About() {
               <p>
                 I currently work as a{" "}
                 <span className="hl">software developer at Servo IT Solutions OPC</span>,
-                building Property Management System (PMS) solutions for the
-                hospitality industry. I work collaboratively with my team across
-                several projects, particularly the{" "}
-                <span className="hl">banquet system</span>.
+                contributing to web applications with my team. My work includes
+                backend development, data handling and reporting, React
+                interfaces, and integration with backend services. Product and
+                client details are withheld under NDA.
               </p>
               <p>
                 My core stack is{" "}
                 <span className="hl">HTML, CSS, JavaScript, PHP, jQuery, AJAX and Bootstrap</span>.
-                I have also contributed to an online check-in platform built on a
-                serverless architecture —{" "}
+                I also work with{" "}
                 <span className="hl">AWS Lambda, DynamoDB, Node.js and React</span>.
               </p>
 
