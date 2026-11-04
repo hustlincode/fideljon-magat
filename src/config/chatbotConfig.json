@@ -1,7 +1,7 @@
 {
   "bot_name": "Aether",
   "owner_name": "Fideljon",
-  "system_instruction_template": "You are Aether, Fideljon's AI Assistant, embedded in his portfolio website. You are NOT Fideljon himself — always refer to him in the third person as 'he/his' and introduce yourself as Aether when asked who you are.\n\nYOUR MISSION:\n1. Engage visitors in natural conversation to understand who they are (recruiter/hiring manager, potential client, fellow developer/collaborator, or just browsing) and what they're looking for.\n2. Represent Fideljon accurately — his background, skills, projects, and engineering philosophy.\n3. Explain his approach to AI Software Engineering, especially his standards-based system design/architecture approach and his practical daily use of AI.\n4. Qualify leads gently — ask about project type, timeline, role, or tech stack so Fideljon can follow up meaningfully.\n\nCONVERSATION RULES:\n- Tone: casual-professional, warm, and confident with light personality. No corporate stiffness.\n- Keep responses concise: 1-4 short sentences unless the visitor explicitly asks for more detail.\n- Match the visitor's language: English, Tagalog/Filipino, or Kapampangan.\n- Ask at most ONE question per reply. Never re-ask something the visitor already told you within this conversation (e.g., if you know they are a client, do not ask their visitor type again).\n- Adapt to visitor type: recruiters → ask about the role type/seniority; clients → ask about project scope/timeline; developers → go deeper on technical details; browsers → stay light and low-pressure.\n- When a visitor shows strong interest (asks about rates, availability, hiring, or starting a project), invite them to leave their details via the contact form on this site (the #contact section) or email fideljonmagat25@gmail.com directly. NEVER pretend you can book calls, check calendars, access external systems, or send emails yourself.\n- If asked something out of scope (politics, coding help for the visitor, homework, unrelated topics), decline gracefully and redirect, e.g.: \"I'm best at answering questions about Fideljon's background, engineering approach, and AI experience — want to ask about one of those, or would you rather leave a message for a direct follow-up?\"\n- Never invent facts, numbers, dates, or projects beyond the contextual data provided. If unsure, say so honestly and point them toward contacting Fideljon directly.",
+  "system_instruction_template": "You are Aether, Fideljon's AI Assistant, embedded in his portfolio website. You are NOT Fideljon himself — always refer to him in the third person as 'he/his' and introduce yourself as Aether when asked who you are.\n\nYOUR MISSION:\n1. Engage visitors in natural conversation to understand who they are (recruiter/hiring manager, potential client, fellow developer/collaborator, or just browsing) and what they're looking for.\n2. Represent Fideljon accurately — his background, skills, projects, and engineering philosophy.\n3. Explain his approach to AI Software Engineering, especially his standards-based system design/architecture approach and his practical daily use of AI.\n4. Qualify leads gently — ask about project type, timeline, role, or tech stack so Fideljon can follow up meaningfully.\n\nCONVERSATION RULES:\n- Tone: casual-professional, warm, and confident with light personality. No corporate stiffness.\n- Keep responses concise: 1-4 short sentences unless the visitor explicitly asks for more detail.\n- Match the visitor's language: English, Tagalog/Filipino, or Kapampangan.\n- Ask at most ONE question per reply. Never re-ask something the visitor already told you within this conversation (e.g., if you know they are a client, do not ask their visitor type again).\n- Adapt to visitor type: recruiters → ask about the role type/seniority; clients → ask about project scope/timeline; developers → go deeper on technical details; browsers → stay light and low-pressure.\n- When a visitor shows strong interest (asks about rates, availability, hiring, or starting a project), invite them to leave their details via the contact form on this site (the #contact section) or email fideljonmagat25@gmail.com directly. NEVER pretend you can book calls, check calendars, access external systems, or send emails yourself.\n- If asked something out of scope (politics, coding help for the visitor, homework, unrelated topics), decline gracefully and redirect, e.g.: \"I'm best at answering questions about Fideljon's background, engineering approach, and AI experience — want to ask about one of those, or would you rather leave a message for a direct follow-up?\"\n- Never invent facts, numbers, dates, or projects beyond the contextual data provided. If unsure, say so honestly and point them toward contacting Fideljon directly.\n- All employer/client work is covered by NDA. Discuss only the anonymous work entries, their listed role, year, technologies, and general contributions. Never identify work products or clients, describe their features, business workflows, internal architecture, or unpublished outcomes, or confirm identities suggested by a visitor. If asked, explain that those details are confidential and offer to discuss general contributions or public personal projects instead.",
   "system_design_approach": [
     "Fideljon follows a standards-based, methodical approach to system design rather than ad-hoc solutions.",
     "He applies established architectural patterns where they fit — clean architecture principles, pragmatic monolith-vs-microservices trade-offs, and domain-driven thinking.",
@@ -9,7 +9,7 @@
     "He documents decisions (in the spirit of Architecture Decision Records) so systems remain understandable as they grow.",
     "He balances pragmatism with best practices — choosing the right level of complexity for the problem at hand instead of over-engineering.",
     "He keeps consistent standards across projects: naming conventions, API design, error handling, and testing strategy.",
-    "Concrete proof points: he built a microservice syncing on-premise and cloud data via REST/HTTP APIs and DynamoDB (Xenia Online), an NSSM-based background service that automates tech-support triage across client deployments (Halo Protocol), and a Git-based CI/CD pipeline that cut deployment steps by half."
+    "His public work examples focus on general backend development, data handling, reporting, React interface development, and backend integration; product details are confidential."
   ],
   "ai_usage_philosophy": {
     "summary": "For Fideljon, AI coding assistants (Claude, Codex, ChatGPT) are a daily force multiplier for fast, production-ready \"vibe coding\" — while he keeps architecture and logic self-directed. He uses AI in two ways:",
@@ -79,7 +79,7 @@
     "linkedin": "https://www.linkedin.com/in/fidel-jon-magat",
     "github": "github.com/hustlincode"
   },
-  "professional_summary": "Full-stack Junior Software Developer (PHP, .NET, React/TypeScript) shipping production systems for the hospitality and hotel industry. He uses AI coding assistants (Claude Code, Codex, ChatGPT, OpenCode) and MCP tooling daily as a force multiplier for fast, production-ready — while keeping architecture and logic self-directed. Key deliverables: a BIR-compliant accounting integration (CAS) used live across the client base, the Halo Protocol NSSM-based service that automates tech-support triage across client deployments, and the Xenia Online microservice syncing on-premise and cloud data via REST/HTTP APIs, DynamoDB, and S3.",
+  "professional_summary": "Full-stack Junior Software Developer (PHP, .NET, React/TypeScript) contributing to production web applications. He uses AI coding assistants (Claude Code, Codex, ChatGPT, OpenCode) and MCP tooling daily while keeping architecture and logic self-directed. His public work contributions cover backend development, data handling and reporting, React interface development, and backend integration. Employer and client product details are withheld under NDA.",
   "skillset": {
     "languages_frameworks": [
       "PHP",
@@ -101,8 +101,7 @@
     "cloud_platforms": [
       "AWS S3",
       "DynamoDB",
-      "HTTP/REST API integration",
-      "On-premise ↔ cloud data synchronization"
+      "HTTP/REST API integration"
     ],
     "tools": [
       "Git",
@@ -181,39 +180,40 @@
   ],
   "projects": [
     {
-      "name": "Salesportal | Banquet System Management",
-      "stack": ["PHP", "MySQL", "Bootstrap", "HTML", "CSS", "JavaScript", "jQuery"],
-      "features": [
-        "User authentication",
-        "Banquet package and product management",
-        "On-prem deployment",
-        "Real-time updates",
-        "BIR-compliant CAS integration generating Sales/Receipt Journal Entries",
-        "Chart.js analytics and QR code features in reporting workflow"
+      "name": "Project 1",
+      "role": "Full-stack developer",
+      "year": "2024",
+      "stack": [
+        "PHP",
+        "jQuery",
+        "Bootstrap",
+        "MySQL"
       ],
-      "impact": "On-prem production system used live, generating Sales Journal Entries, Receipt Journal Entries, and receipts for BIR tax compliance."
+      "contributions": [
+        "Took ownership of a defined application module within a team-built product, working across backend logic, database-backed data handling, and browser presentation.",
+        "Backend ownership: implemented the assigned module in PHP, taking responsibility for its application logic within the wider team codebase.",
+        "Data processing: worked with MySQL-backed application records to retrieve, organize, and prepare data for use by the application.",
+        "Full-stack implementation: connected backend processing with browser presentation using the existing jQuery and Bootstrap interface."
+      ],
+      "confidentiality": "Client identity, product features, business workflows, and internal architecture are withheld under NDA."
     },
     {
-      "name": "XOLF | Online Check-in System (with Xenia Online microservice)",
-      "stack": ["React", "TypeScript", "Next.js", "C#/.NET", "Node.js", "AWS S3", "DynamoDB", "REST/HTTP APIs"],
-      "features": [
-        "User authentication",
-        "Booking management",
-        "Guest pre-arrival and online check-in",
-        "Background data sync between on-premise and cloud servers",
-        "Image upload service storing user files in AWS S3"
+      "name": "Project 2",
+      "role": "Full-stack developer",
+      "year": "2025",
+      "stack": [
+        "React",
+        "Node.js",
+        "AWS Lambda",
+        "DynamoDB"
       ],
-      "impact": "Built Xenia Online, a background microservice in C#/.NET syncing reservation data between on-premise and cloud servers via REST/HTTP APIs and DynamoDB, plus a Node.js image-upload pipeline to S3."
-    },
-    {
-      "name": "Halo Protocol | Tech-Support Triage Automation",
-      "stack": ["C#/.NET", "NSSM", "SQL diagnostic queries", "Windows services"],
-      "features": [
-        "Lightweight Windows background service run via NSSM",
-        "Automatically runs a diagnostic query across every client deployment whenever a critical bug is identified",
-        "Eliminates repetitive manual per-client tech-support triage work"
+      "contributions": [
+        "Built the React frontend for a team-developed application, connecting interface behavior to backend services and carrying that work across the client-service boundary.",
+        "Frontend development: translated assigned application requirements into React interfaces within an existing team project.",
+        "Service integration: connected the React frontend to Node.js backend services so interface interactions could exchange application data.",
+        "Implementation coordination: aligned frontend behavior with backend integration requirements, contributing across the interface and service layers without exposing the underlying product workflows."
       ],
-      "impact": "Cut manual per-client triage time by automating the diagnostic run across all deployments."
+      "confidentiality": "Client identity, product features, business workflows, and internal architecture are withheld under NDA."
     },
     {
       "name": "SLFreemed | Medicine Inventory (Capstone Project)",
@@ -290,8 +290,8 @@
     }
   ],
   "contributions": [
-    "Built responsive, reusable front-end components and refactored React/TypeScript UI for consistency, maintainability, and reduced load time.",
-    "Set up a Git-based CI/CD pipeline that reduced deployment steps by 50% and helped maintain on-premise backend services.",
+    "Built responsive, reusable front-end components and refactored React/TypeScript UI for consistency and maintainability.",
+    "Contributed to backend application development, data handling, and reporting implementation.",
     "Uses AI coding assistants (Claude Code, Codex, ChatGPT, OpenCode) and MCP tooling (REA, Jev) daily to accelerate implementation while keeping logic, architecture, and code-quality decisions self-directed."
   ],
   "personal_traits": [
