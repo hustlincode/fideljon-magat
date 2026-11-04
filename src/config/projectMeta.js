@@ -22,37 +22,24 @@
 
 export const PROJECT_META = [
   {
-    slug: "salesportal",
-    title: "Salesportal",
-    context: "Banquet System Management",
-    kind: "On-prem web app",
+    slug: "confidential-work-01",
+    title: "Project 1",
+    context: "Engineering contributions",
+    kind: "Web application",
     category: "work",
+    badge: "NDA",
     year: "2024",
     role: "Full-stack developer",
-    employer: "Servo IT Solutions OPC",
-    clientName: "Banquet System Management",
-    clientNote: "On-prem web app",
-    heroCaption: "On-prem banquet system management with invoicing and accounting reports.",
-    tagline: "On-prem banquet system management with invoicing and accounting.",
-    summary:
-      "An on-prem banquet system management web app covering banquet packages, products, invoicing, and a Computer Accounting System module.",
-    description:
-      "Banquet System Management is an on-prem web app built with Bootstrap, HTML, jQuery, PHP, and MySQL. It covers user authentication, banquet package and product management, and a Computer Accounting System module for sales invoicing. Sales invoices and acknowledgment receipts can be printed, and invoicing data is reported into the accounting system as Sales and Receipt Journal Entries.",
-    features: [
-      "User authentication and role-based access",
-      "Banquet package and product management",
-      "On-prem deployment",
-      "Computer Accounting System module for sales invoicing",
-      "Printable sales invoices and acknowledgment receipts",
-      "Accounting reports and BIR-compliant Sales/Receipt Journal Entries"
-    ],
-    contribution:
-      "Owned the Computer Accounting System module, centered on invoicing: sales invoices, acknowledgment receipt printing, and reporting into the accounting system.",
+    clientNote: "Identity withheld under NDA",
+    heroCaption: "Permanently blurred preview. Interface details withheld under NDA.",
+    tagline: "Full-stack development with ownership of backend application work.",
+    summary: "Full-stack engineering contributions to a confidential team project, focused on backend development and data handling.",
+    description: "Client identities, product features, and interface details are withheld under NDA. This entry describes my general engineering contributions only.",
+    contribution: "Took ownership of a defined application module within a team-built product, working across backend logic, database-backed data handling, and browser presentation.",
     highlights: [
-      "Built the Computer Accounting System module centered on invoicing.",
-      "Generated printable sales invoices and acknowledgment receipts.",
-      "Reported invoicing data into the accounting system as Sales and Receipt Journal Entries.",
-      "Added BIR-compliant accounting reports with Chart.js analytics and QR code support."
+      "Backend ownership: implemented the assigned module in PHP, taking responsibility for its application logic within the wider team codebase.",
+      "Data processing: worked with MySQL-backed application records to retrieve, organize, and prepare data for use by the application.",
+      "Full-stack implementation: connected backend processing with browser presentation using the existing jQuery and Bootstrap interface."
     ],
     stack: [
       { label: "Frontend", items: ["Bootstrap", "jQuery"] },
@@ -61,41 +48,28 @@ export const PROJECT_META = [
     tags: ["PHP", "jQuery", "Bootstrap", "MySQL"]
   },
   {
-    slug: "xolf",
-    title: "XOLF",
-    context: "Online Check-in System",
-    kind: "Serverless",
+    slug: "confidential-work-02",
+    title: "Project 2",
+    context: "Engineering contributions",
+    kind: "Web application",
     category: "work",
+    badge: "NDA",
     year: "2025",
     role: "Full-stack developer",
-    employer: "Servo IT Solutions OPC",
-    clientName: "XOLF",
-    clientNote: "Online check-in platform",
-    heroCaption: "Serverless check-in dashboard with booking management.",
-    tagline: "Serverless check-in platform with booking management.",
-    summary:
-      "A serverless online check-in platform, built on AWS Lambda and DynamoDB with a React front end.",
-    description:
-      "An online check-in system for XOLF, a company that provides online check-in services. Built with React, Node.js, AWS Lambda, and DynamoDB. Features include user authentication, booking management, and real-time updates.",
-    features: [
-      "User authentication",
-      "Booking and check-in management",
-      "Serverless architecture on AWS Lambda",
-      "Real-time updates"
-    ],
-    contribution:
-      "Built the React front end against a serverless Node.js backend, with DynamoDB as the data store.",
+    clientNote: "Identity withheld under NDA",
+    heroCaption: "Permanently blurred preview. Interface details withheld under NDA.",
+    tagline: "Frontend development and integration with backend services.",
+    summary: "Full-stack engineering contributions to a confidential team project, focused on React interfaces and backend integration.",
+    description: "Client identities, product features, and interface details are withheld under NDA. This entry describes my general engineering contributions only.",
+    contribution: "Built the React frontend for a team-developed application, connecting interface behavior to backend services and carrying that work across the client-service boundary.",
     highlights: [
-      "Built the React front end against a serverless Node.js backend.",
-      "Implemented authentication, booking management, and check-in flows.",
-      "Used AWS Lambda and DynamoDB for a fully serverless data layer."
+      "Frontend development: translated assigned application requirements into React interfaces within an existing team project.",
+      "Service integration: connected the React frontend to Node.js backend services so interface interactions could exchange application data.",
+      "Implementation coordination: aligned frontend behavior with backend integration requirements, contributing across the interface and service layers without exposing the underlying product workflows."
     ],
     stack: [
       { label: "Frontend", items: ["React"] },
-      {
-        label: "Backend & infrastructure",
-        items: ["Node.js", "AWS Lambda", "DynamoDB"]
-      }
+      { label: "Technologies", items: ["Node.js", "AWS Lambda", "DynamoDB"] }
     ],
     tags: ["React", "Node.js", "AWS Lambda", "DynamoDB"]
   },
