@@ -11,9 +11,9 @@ function AboutCard() {
             <br />
             <br /> Bachelor's degree in Information Technology from Pampanga State Agricultural University.
             <br />
-            <br /> Currently, I am a junior developer at a mid-level company specializing in Property Management System (PMS) solutions for the hospitality industry. I work collaboratively with my team, contributing to various projects, particularly in the banquet system.
+            <br /> Currently, I am a junior developer contributing to web applications with my team. My contributions include backend development, data handling and reporting, React interfaces, and integration with backend services. Product and client details are withheld under NDA.
             <br />
-            <br /> My core tech stack includes HTML, CSS, JavaScript, PHP, jQuery, AJAX, and Bootstrap. I’ve also contributed to an online check-in project using a serverless architecture—leveraging AWS Lambda, DynamoDB, Node.js, and React.
+            <br /> My core tech stack includes HTML, CSS, JavaScript, PHP, jQuery, AJAX, and Bootstrap. I also work with AWS Lambda, DynamoDB, Node.js, and React.
             <br />
             <br /> I am passionate about delivering clean, maintainable, and scalable code. I bring a strong foundation in software engineering, full-stack development, database design, and cloud computing.
             <br />
