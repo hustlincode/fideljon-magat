@@ -1,5 +1,5 @@
-import salesportal from "../Assets/Projects/Salesportal.png";
-import onlinecheckin from "../Assets/Projects/XOLF.png";
+import confidentialWork01 from "../Assets/Projects/confidential-work-01.png";
+import confidentialWork02 from "../Assets/Projects/confidential-work-02.png";
 import slfreemed from "../Assets/Projects/slfreemed.png";
 import aetherDentalHome from "../Assets/Projects/Aether-dental-homepage.png";
 import aetherDentalBooking from "../Assets/Projects/Aether-dental-booking.png";
@@ -19,12 +19,12 @@ import { PROJECT_META, getProjectMeta, projectPath } from "./projectMeta.js";
 // the hero screenshot. Aether Dental has a full set; the other projects keep a
 // single image until more shots exist.
 const SCREENSHOTS = {
-  salesportal: {
-    img: salesportal,
+  "confidential-work-01": {
+    img: confidentialWork01,
     gallery: []
   },
-  xolf: {
-    img: onlinecheckin,
+  "confidential-work-02": {
+    img: confidentialWork02,
     gallery: []
   },
   "aether-dental": {
