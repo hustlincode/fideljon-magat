@@ -1374,7 +1374,8 @@ html.shell-collapsed .shell-expand {
 }
 
 .project-row-thumb {
-  display: block;
+  display: grid;
+  place-items: center;
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
@@ -1388,6 +1389,10 @@ html.shell-collapsed .shell-expand {
   height: 100%;
   object-fit: cover;
   object-position: top center;
+}
+
+.project-row-service-icon {
+  color: var(--text-secondary);
 }
 
 .project-row-body {
