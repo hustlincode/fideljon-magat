@@ -96,26 +96,28 @@ function ProjectDetail() {
             </div>
           </Reveal>
 
-          <Reveal delay={90}>
-            {isWork ? (
-              <figure className="project-confidential-figure">
-                <img
-                  src={project.img}
-                  alt="Permanently blurred confidential project preview"
+          {project.img ? (
+            <Reveal delay={90}>
+              {isWork ? (
+                <figure className="project-confidential-figure">
+                  <img
+                    src={project.img}
+                    alt="Permanently blurred confidential project preview"
+                  />
+                  <figcaption className="project-nda-notice">
+                    <span className="project-row-badge">NDA</span>{" "}
+                    {project.heroCaption}
+                  </figcaption>
+                </figure>
+              ) : (
+                <ProjectCarousel
+                  slides={slides}
+                  title={project.title}
+                  canSharedTransition={canSharedTransition}
                 />
-                <figcaption className="project-nda-notice">
-                  <span className="project-row-badge">NDA</span>{" "}
-                  {project.heroCaption}
-                </figcaption>
-              </figure>
-            ) : (
-              <ProjectCarousel
-                slides={slides}
-                title={project.title}
-                canSharedTransition={canSharedTransition}
-              />
-            )}
-          </Reveal>
+              )}
+            </Reveal>
+          ) : null}
 
           <Reveal delay={120}>
             <article className="project-case">
