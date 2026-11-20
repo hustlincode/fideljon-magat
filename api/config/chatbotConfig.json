@@ -216,6 +216,43 @@
       "confidentiality": "Client identity, product features, business workflows, and internal architecture are withheld under NDA."
     },
     {
+      "name": "Project 3",
+      "role": "Backend Developer — Windows Services",
+      "year": "2026",
+      "stack": [
+        "C#",
+        ".NET Framework 4.7.2",
+        "Windows Services",
+        "MySQL",
+        "Amazon DynamoDB",
+        "AWS Lambda",
+        "Amazon S3",
+        "REST/JSON",
+        "Microsoft Graph",
+        "SMTP",
+        "JWT authentication",
+        "MailKit",
+        "MySqlConnector",
+        "Newtonsoft.Json",
+        "NLog",
+        "QRCoder",
+        "BouncyCastle",
+        "PowerShell",
+        "Inno Setup",
+        "Visual Studio/MSBuild"
+      ],
+      "contributions": [
+        "Developed the Windows Service from initial implementation and code organization through system integration, beta validation, and deployment preparation.",
+        "End-to-end ownership: developed the Windows Service from scratch, carrying the assigned backend work from initial implementation through integration and beta validation.",
+        "Code organization: established a clear C# code structure to support maintainability, testing, and ongoing development.",
+        "Backend integration: implemented database and API integrations within the service’s responsibilities, while withholding proprietary workflows and data flows.",
+        "Reliability: added error handling and diagnostic logging to support investigation and maintenance during beta validation.",
+        "Deployment preparation: built installation and upgrade tooling for service registration and configuration preservation. Production deployment has not occurred."
+      ],
+      "confidentiality": "Client identity, product features, business workflows, and internal architecture are withheld under NDA.",
+      "status": "Ongoing beta; not deployed to production."
+    },
+    {
       "name": "SLFreemed | Medicine Inventory (Capstone Project)",
       "stack": ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
       "features": [
