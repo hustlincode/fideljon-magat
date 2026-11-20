@@ -1,6 +1,6 @@
 import React from "react";
 import { afterEach, describe, expect, test } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
 import Projects from "./Projects";
@@ -47,10 +47,22 @@ describe("Projects index", () => {
     expect(screen.getByRole("link", { name: /View Project 1/ })).toHaveAttribute(
       "href", "/project/confidential-work-01"
     );
-    expect(screen.getAllByText("NDA")).toHaveLength(2);
+    expect(screen.getAllByText("NDA")).toHaveLength(3);
     expect(screen.getByText(/Client identities, product features/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/Salesportal|XOLF|banquet|check-in/i);
     expect(screen.getByRole("link", { name: /View Project 2/ })).toBeInTheDocument();
+    const work = screen.getByRole("region", { name: "Work projects" });
+    expect(within(work).getAllByRole("link").map((link) => link.getAttribute("href"))).toEqual([
+      "/project/confidential-work-01",
+      "/project/confidential-work-02",
+      "/project/confidential-work-03"
+    ]);
+    const service = within(work).getByRole("link", { name: "View Project 3 contributions" });
+    expect(service.querySelector("img")).toBeNull();
+    expect(service.querySelector(".project-row-service-icon")).not.toBeNull();
+    expect(within(service).getByText("2026")).toBeInTheDocument();
+    expect(within(service).getByText(/ongoing beta/)).toBeInTheDocument();
+    expect(document.querySelector(".work-count")).toHaveTextContent("(06)");
     expect(screen.getByRole("link", { name: /View Aether Dental/ })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /View Code Review Assistant/ })
@@ -61,6 +73,7 @@ describe("Projects index", () => {
   test("home keeps personal projects collapsed behind the more button", () => {
     renderProjects();
 
+    expect(screen.getByRole("link", { name: "View Project 3 contributions" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /View SLFreemed/ })).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "+ 1 more" }));
@@ -70,6 +83,20 @@ describe("Projects index", () => {
 });
 
 describe("Projects hover preview", () => {
+  test.each(["mouseEnter", "focus"])("%s on Project 3 closes the previous preview and preserves its link", (event) => {
+    supportHover();
+    renderProjects({ asPage: true });
+
+    fireEvent[event](screen.getByRole("link", { name: /View Project 2/ }));
+    expect(document.querySelector(".project-preview")).toHaveAttribute("data-active", "true");
+
+    const service = screen.getByRole("link", { name: "View Project 3 contributions" });
+    fireEvent[event](service);
+    expect(document.querySelector(".project-preview")).toBeNull();
+    expect(service).toHaveAttribute("href", "/project/confidential-work-03");
+    expect(service.querySelector("img")).toBeNull();
+  });
+
   test("parks a large screenshot beside the list when a row is hovered", () => {
     supportHover();
     renderProjects({ asPage: true });
