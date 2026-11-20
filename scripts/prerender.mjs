@@ -173,6 +173,7 @@ const ROUTE_MARKERS = {
   "/project": "Personal projects",
   "/project/confidential-work-01": "My contributions",
   "/project/confidential-work-02": "My contributions",
+  "/project/confidential-work-03": "My contributions",
   "/project/aether-dental": "Aether Dental",
   "/project/code-review-assistant": "Code Review Assistant",
   "/project/slfreemed": "SLFreemed",
