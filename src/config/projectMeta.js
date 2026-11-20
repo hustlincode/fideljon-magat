@@ -74,6 +74,37 @@ export const PROJECT_META = [
     tags: ["React", "Node.js", "AWS Lambda", "DynamoDB"]
   },
   {
+    slug: "confidential-work-03",
+    title: "Project 3",
+    context: "Engineering contributions",
+    kind: "Windows Service",
+    category: "work",
+    badge: "NDA",
+    year: "2026",
+    role: "Backend Developer — Windows Services",
+    clientNote: "Identity withheld under NDA",
+    tagline: "Windows Service development, integration, and deployment tooling — ongoing beta.",
+    summary: "Backend engineering contributions to a confidential Windows Service project, covering initial development, integration, and deployment preparation. Ongoing beta; not deployed to production.",
+    description: "Client identities, proprietary workflows, and implementation details are withheld under NDA. This entry describes general backend engineering capabilities and contributions only. The project is an ongoing beta in 2026 and has not been deployed to production.",
+    contribution: "Developed the Windows Service from initial implementation and code organization through system integration, beta validation, and deployment preparation.",
+    highlights: [
+      "End-to-end ownership: developed the Windows Service from scratch, carrying the assigned backend work from initial implementation through integration and beta validation.",
+      "Code organization: established a clear C# code structure to support maintainability, testing, and ongoing development.",
+      "Backend integration: implemented database and API integrations within the service’s responsibilities, while withholding proprietary workflows and data flows.",
+      "Reliability: added error handling and diagnostic logging to support investigation and maintenance during beta validation.",
+      "Deployment preparation: built installation and upgrade tooling for service registration and configuration preservation. Production deployment has not occurred."
+    ],
+    stack: [
+      { label: "Backend", items: ["C#", ".NET Framework 4.7.2", "Windows Services"] },
+      { label: "Database", items: ["MySQL", "Amazon DynamoDB"] },
+      { label: "Cloud", items: ["AWS Lambda", "Amazon S3"] },
+      { label: "Integrations", items: ["REST/JSON", "Microsoft Graph", "SMTP", "JWT authentication"] },
+      { label: "Libraries", items: ["MailKit", "MySqlConnector", "Newtonsoft.Json", "NLog", "QRCoder", "BouncyCastle"] },
+      { label: "Development & deployment", items: ["PowerShell", "Inno Setup", "Visual Studio/MSBuild"] }
+    ],
+    tags: ["C#", ".NET Framework 4.7.2", "Windows Services", "MySQL", "AWS Lambda", "Amazon DynamoDB", "Amazon S3"]
+  },
+  {
     slug: "aether-dental",
     title: "Aether Dental",
     context: "Clinic Booking & Management",
