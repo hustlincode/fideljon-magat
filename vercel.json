@@ -13,6 +13,7 @@
     { "source": "/project", "destination": "/project/index.html" },
     { "source": "/project/confidential-work-01", "destination": "/project/confidential-work-01/index.html" },
     { "source": "/project/confidential-work-02", "destination": "/project/confidential-work-02/index.html" },
+    { "source": "/project/confidential-work-03", "destination": "/project/confidential-work-03/index.html" },
     { "source": "/project/aether-dental", "destination": "/project/aether-dental/index.html" },
     { "source": "/project/code-review-assistant", "destination": "/project/code-review-assistant/index.html" },
     { "source": "/project/slfreemed", "destination": "/project/slfreemed/index.html" },
