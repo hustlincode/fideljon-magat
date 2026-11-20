@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { flushSync } from "react-dom";
+import { FiServer } from "react-icons/fi";
 import Reveal from "../Reveal";
 import ProjectPreview from "./ProjectPreview";
 import {
@@ -35,7 +36,11 @@ function ProjectRow({ project, onOpen, onPreview }) {
       data-haptic="light"
     >
       <span className="project-row-thumb" aria-hidden="true">
-        <img src={project.img} alt="" loading="lazy" />
+        {project.img ? (
+          <img src={project.img} alt="" loading="lazy" />
+        ) : (
+          <FiServer className="project-row-service-icon" size={24} />
+        )}
       </span>
 
       <span className="project-row-body">
@@ -149,6 +154,11 @@ function Projects({ asPage = false }) {
   }, []);
 
   const handlePreview = (project, element) => {
+    if (!project.img) {
+      setPreviewOpen(false);
+      setPreviewProject(null);
+      return;
+    }
     if (!canPreview) return;
     previewAnchorRef.current = element;
     setPreviewProject(project);
