@@ -31,7 +31,7 @@ const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
 const THINKING = { type: "disabled" };
 
 const MAX_MESSAGES = 16;
-const MAX_CHARS_PER_MESSAGE = 500;
+const MAX_USER_MESSAGE_CHARS = 500;
 const MAX_BODY_BYTES = 64 * 1024;
 
 const RATE_WINDOW_MS = 60 * 60 * 1000;
@@ -154,7 +154,7 @@ Traits: ${JSON.stringify(chatbotData.personal_traits)}
 //
 // The client still sends Gemini-style { role, parts:[{text}] } entries. That
 // shape is accepted and normalised here rather than changed in the browser, so
-// the wire contract with the client stays put. Validation rules are unchanged.
+// the wire contract with the client stays put.
 const normalizeContents = (input) => {
   if (!Array.isArray(input) || input.length === 0) {
     return { error: "No conversation supplied.", status: 400 };
@@ -173,7 +173,8 @@ const normalizeContents = (input) => {
       .join("");
 
     if (!text.trim()) continue;
-    if (text.length > MAX_CHARS_PER_MESSAGE) {
+    // Assistant replies are bounded by the request size, not the input limit.
+    if (entry.role === "user" && text.length > MAX_USER_MESSAGE_CHARS) {
       return { error: "Message is too long.", status: 413 };
     }
 
@@ -215,7 +216,7 @@ export default async function handler(req, res) {
   let payload = req.body;
 
   if (typeof payload === "string") {
-    if (payload.length > MAX_BODY_BYTES) {
+    if (Buffer.byteLength(payload, "utf8") > MAX_BODY_BYTES) {
       return res.status(413).json({ error: "Request is too large." });
     }
     try {
@@ -227,6 +228,10 @@ export default async function handler(req, res) {
 
   if (!payload || typeof payload !== "object") {
     return res.status(400).json({ error: "Malformed request body." });
+  }
+
+  if (Buffer.byteLength(JSON.stringify(payload), "utf8") > MAX_BODY_BYTES) {
+    return res.status(413).json({ error: "Request is too large." });
   }
 
   const { messages, error, status } = normalizeContents(payload.contents);
